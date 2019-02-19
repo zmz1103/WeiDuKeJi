@@ -41,9 +41,11 @@ dependencies {
     //recycle依赖
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     //fresco依赖
-    implementation 'com.facebook.fresco:fresco:1.11.0'
+    implementation 'com.facebook.fresco:fresco:0.14.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     // add library
     //xrecyclerview
     implementation 'com.jcodecraeer:xrecyclerview:1.2.0'
+    //Textview展开收缩
+    implementation 'com.jaydenxiao:ExpandableTextView:1.0.0'
 }

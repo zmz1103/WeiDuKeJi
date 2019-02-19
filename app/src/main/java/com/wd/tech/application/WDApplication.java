@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 /**
  * date:2019/2/18 18:32
  * author:赵明珠(啊哈)
@@ -26,6 +28,7 @@ public class WDApplication extends Application {
     public void onCreate() {
         super.onCreate();
         wdApplication = this;
+        Fresco.initialize(this);
     }
 
     public static Context getAppContext(){
