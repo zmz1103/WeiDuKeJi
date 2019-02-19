@@ -12,6 +12,9 @@ import butterknife.ButterKnife;
  * function:
  */
 public abstract class WDActivity extends AppCompatActivity {
+
+    private static WDActivity mForegroundActivity = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,5 +45,13 @@ public abstract class WDActivity extends AppCompatActivity {
         super.onDestroy();
         destoryData();
 
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mForegroundActivity = this;
+    }
+    public static WDActivity getForegroundActivity() {
+        return mForegroundActivity;
     }
 }
