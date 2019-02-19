@@ -49,7 +49,6 @@ public abstract class WDActivity extends SwipeBackActivity {
                     break;
                 }
             }
-
         }
 
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {

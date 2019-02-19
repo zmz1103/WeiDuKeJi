@@ -117,7 +117,7 @@ public class MainActivity extends WDActivity {
                 List<User> users = userDao.loadAll();
                 Toast.makeText(MainActivity.this, ""+users.size(), Toast.LENGTH_SHORT).show();
                 finish();
-                
+
             }
         }
 
