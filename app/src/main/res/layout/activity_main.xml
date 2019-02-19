@@ -1,19 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/login_bg_i"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
+
+    <ImageView
+        android:id="@+id/pjpp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="170dp"
+        android:src="@mipmap/login_icon_phonei" />
+
+    <EditText
+        android:id="@+id/et_tel_number"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginRight="36dp"
+        android:layout_toRightOf="@id/pjpp"
+        android:background="@null"
+        android:hint="手机号"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textColor="#fff"
+        android:textColorHint="#eee"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/vvv1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/et_tel_number"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:background="#fff" />
+
+    <LinearLayout
+        android:id="@+id/l_lineaaa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vvv1"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/login_icon_locki" />
+
+        <EditText
+            android:id="@+id/et_pwd_number"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="登录密码"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/eye"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/login_icon_eyei" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vvvv"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/l_lineaaa"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="40dp"
+        android:background="#fff" />
+
     <TextView
-        android:id="@+id/ceshi"
+        android:id="@+id/toReagist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@id/vvvv"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="40dp"
+        android:text="快速注册"
+        android:textColor="#fff" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/l_lineaaa"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/login_btn_bg"
+        android:text="登录"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/l_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_btn"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="93dp"
+            android:layout_height="2dp"
+            android:background="#fff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="第三方账号快速登录"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+
+        <View
+            android:id="@+id/vv"
+            android:layout_width="93dp"
+            android:layout_height="2dp"
+            android:background="#fff" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/weixinLogin"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/l_linear"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="12dp"
+        android:background="@mipmap/common_icon_weixin" />
+
+    <ImageView
+        android:id="@+id/faseIdLogin"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/l_linear"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="120dp"
+        android:src="@mipmap/login_icon_artifii" />
+
+</RelativeLayout>
