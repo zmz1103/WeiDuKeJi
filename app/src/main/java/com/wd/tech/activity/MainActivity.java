@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
@@ -20,6 +21,8 @@ import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RegUtils;
 import com.wd.tech.util.RsaCoder;
 import com.wd.tech.view.DataCall;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -100,13 +103,21 @@ public class MainActivity extends WDActivity {
         super.onBackPressed();
     }
 
-    private class loginCall implements DataCall<Result> {
+    private class loginCall implements DataCall<Result<User>> {
         @Override
-        public void success(Result result) {
+        public void success(Result<User> result) {
             if (result.getStatus().equals("0000")) {
                 Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
 
-
+                userDao.deleteAll();
+                User user = new User();
+                user = result.getResult();
+                user.setSole(1);
+                userDao.insertOrReplace(user);
+                List<User> users = userDao.loadAll();
+                Toast.makeText(MainActivity.this, ""+users.size(), Toast.LENGTH_SHORT).show();
+                finish();
+                
             }
         }
 

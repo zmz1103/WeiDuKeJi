@@ -72,6 +72,12 @@
         android:background="@android:color/white"
         android:layout_gravity="start">
 
+        <Button
+            android:id="@+id/goLoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="去登录"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

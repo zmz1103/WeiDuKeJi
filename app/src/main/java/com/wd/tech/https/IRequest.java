@@ -1,6 +1,7 @@
 package com.wd.tech.https;
 
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -25,7 +26,7 @@ public interface IRequest {
     // 登录
     @POST("user/v1/login")
     @FormUrlEncoded
-    Observable<Result> login(
+    Observable<Result<User>> login(
             @Field("phone") String phone,
             @Field("pwd") String pwd);
 }

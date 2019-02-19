@@ -29,7 +29,7 @@ public class StartActivity extends WDActivity {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (time <= 0) {
-                    startActivity(new Intent(StartActivity.this, MainActivity.class));
+                    startActivity(new Intent(StartActivity.this, HomeActivity.class));
                     finish();
                     return;
                 }

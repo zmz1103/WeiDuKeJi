@@ -27,6 +27,7 @@ public abstract class WDActivity extends SwipeBackActivity {
     private static WDActivity mForegroundActivity = null;
     private SwipeBackLayout mSwipeBackLayout;
     public User user;
+    public UserDao userDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public abstract class WDActivity extends SwipeBackActivity {
         initSwipeBack();
 
         DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
-        UserDao userDao = daoSession.getUserDao();
+        userDao = daoSession.getUserDao();
         List<User> users = userDao.loadAll();
         if (users.size()>0) {
             for (int i = 0; i < users.size(); i++) {
