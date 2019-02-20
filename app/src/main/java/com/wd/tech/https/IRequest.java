@@ -1,7 +1,9 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
+import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -64,4 +66,29 @@ public interface IRequest {
                                                              @Query("fromUid")int fromUid,
                                                              @Query("page")int page,
                                                              @Query("count")int count);
+
+    /**
+     * Banner轮播图
+     * @return
+     */
+    @GET("information/v1/bannerShow")
+    Observable<Result<List<BannnerBean>>> ShowBannner();
+
+
+    /**
+     * 资讯页面展示
+     * @return
+     */
+    @GET("information/v1/infoRecommendList")
+    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
+                                                                      @Header("sessionId")String sessionId,
+                                                                      @Query("plateId") int plateId,
+                                                                      @Query("page")int page,
+                                                                      @Query("count")int count);
+
+
+    // 微信登录
+    @POST("user/v1/weChatLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
 }

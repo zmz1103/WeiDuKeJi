@@ -155,6 +155,9 @@ public class PublishActivity extends WDActivity implements View.OnClickListener 
     @Override
     protected void destoryData() {
 
+import me.jessyan.autosize.internal.CustomAdapt;
+
+public class PublishActivity extends AppCompatActivity implements CustomAdapt {
 
     }
 
@@ -269,5 +272,15 @@ public class PublishActivity extends WDActivity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         mCommunityPublishPresenter.unBind();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }

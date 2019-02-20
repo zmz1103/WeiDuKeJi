@@ -14,6 +14,7 @@ import com.wd.tech.view.DataCall;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * 作者: Wang on 2019/2/19 15:48
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  */
 
 
-public class RegisterActivity extends WDActivity {
+public class RegisterActivity extends WDActivity   {
 
     private RegisterPresenter registerPresenter;
 
@@ -48,16 +49,29 @@ public class RegisterActivity extends WDActivity {
             case R.id.register_btn:
                 boolean mobile = RegUtils.isMobile(mEphone.getText().toString());
                 boolean b = RegUtils.rexCheckPassword(mEpwd.getText().toString());
-                if (b && mobile && mEname.length() > 0) {
-                    try {
-                        String s = RsaCoder.encryptByPublicKey(mEpwd.getText().toString());
 
-                        registerPresenter.reqeust(mEphone.getText().toString(), mEname.getText().toString(), s);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                if ( mobile) {
+
+                    if (b&&mEpwd.length()>=8) {
+                        try {
+                            if (mEname.getText().toString().length()>=1) {
+                                String s = RsaCoder.encryptByPublicKey(mEpwd.getText().toString());
+
+                                registerPresenter.reqeust(mEphone.getText().toString(),mEname.getText().toString(),s );
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        Toast.makeText(this, "密码必须大于8位", Toast.LENGTH_SHORT).show();
                     }
+                }else{
+                    Toast.makeText(this, "手机号不正确", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
+                default:
+                    break;
         }
     }
 
@@ -66,11 +80,14 @@ public class RegisterActivity extends WDActivity {
         registerPresenter.unBind();
     }
 
+
+
     private class registerCall implements DataCall<Result> {
         @Override
         public void success(Result result) {
+            Toast.makeText(RegisterActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                Toast.makeText(RegisterActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
 
