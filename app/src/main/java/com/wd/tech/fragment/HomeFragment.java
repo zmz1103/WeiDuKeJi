@@ -40,13 +40,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * date:2019/2/19 13:49
  * author:李阔(Hypoc7isy语涩)
  * function:
  */
-public class HomeFragment extends WDFragment {
+public class HomeFragment extends WDFragment implements CustomAdapt {
 
     @BindView(R.id.banner)
     MZBannerView banner;
@@ -116,6 +117,16 @@ public class HomeFragment extends WDFragment {
         mBannerPresenter.reqeust();
         mInformationListPresenter = new InformationListPresenter(new showListCall());
         mInformationListPresenter.reqeust(40,"155064093774940",1,page,10);
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
 

@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/my_image_vip"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@+id/my_signature"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="81dp"
@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/reeeee"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="-18dp"
         android:background="@drawable/h_c_bg_fff"
         android:orientation="vertical">
 

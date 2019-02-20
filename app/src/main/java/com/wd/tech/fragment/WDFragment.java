@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * date:2019/2/19 10:31

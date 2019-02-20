@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.wd.tech.R;
 
+import me.jessyan.autosize.internal.CustomAdapt;
+
 
 /**
  * 作者: Wang on 2019/2/20 14:53
@@ -11,7 +13,7 @@ import com.wd.tech.R;
  */
 
 
-public class HaveUserFragment extends WDFragment {
+public class HaveUserFragment extends WDFragment implements CustomAdapt {
     @Override
     public int getContent() {
         return R.layout.fragment_have_user;
@@ -22,4 +24,13 @@ public class HaveUserFragment extends WDFragment {
 
     }
 
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
 }
