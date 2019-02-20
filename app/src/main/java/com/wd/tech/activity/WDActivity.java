@@ -1,6 +1,11 @@
 package com.wd.tech.activity;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -23,6 +28,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * function:
  */
 public abstract class WDActivity extends SwipeBackActivity {
+    public final static int PHOTO = 0;// 相册选取
+    public final static int CAMERA = 1;// 拍照
 
     private static WDActivity mForegroundActivity = null;
     private SwipeBackLayout mSwipeBackLayout;
@@ -99,5 +106,34 @@ public abstract class WDActivity extends SwipeBackActivity {
 
     public static WDActivity getForegroundActivity() {
         return mForegroundActivity;
+    }
+
+    /**
+     * 得到图片的路径
+     *
+     * @param fileName
+     * @param requestCode
+     * @param data
+     * @return
+     */
+
+    public String getFilePath(String fileName, int requestCode, Intent data) {
+        if (requestCode == CAMERA) {
+            return fileName;
+        } else if (requestCode == PHOTO) {
+            Uri uri = data.getData();
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
+            int actual_image_column_index = actualimagecursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            String img_path = actualimagecursor
+                    .getString(actual_image_column_index);
+            // 4.0以上平台会自动关闭cursor,所以加上版本判断,OK
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                actualimagecursor.close();
+            return img_path;
+        }
+        return null;
     }
 }

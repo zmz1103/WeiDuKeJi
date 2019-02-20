@@ -1,11 +1,14 @@
 package com.wd.tech.https;
 
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -24,6 +27,7 @@ import retrofit2.http.POST;
  * function:
  */
 public interface IRequest {
+    //社区列表展示
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunitylistData>>> getCommunitylist(@Header("userId") int userId,
                                                                  @Header("sessionId") String sessionId,
@@ -45,4 +49,19 @@ public interface IRequest {
     Observable<Result<User>> login(
             @Field("phone") String phone,
             @Field("pwd") String pwd);
+
+    //发布帖子
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> getPublish(@Header("userId") int userId,
+                                  @Header("sessionId") String sessionId,
+                                  @Body MultipartBody multipartBody);
+
+    //用户发布的贴子
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<FriendsPostData>>> getFriendsPost(@Header("userId") int userId,
+                                                             @Header("sessionId") String sessionId,
+                                                             @Query("fromUid")int fromUid,
+                                                             @Query("page")int page,
+                                                             @Query("count")int count);
 }

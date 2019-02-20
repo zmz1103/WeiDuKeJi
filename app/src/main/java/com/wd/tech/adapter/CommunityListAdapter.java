@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,7 +44,9 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
     //接口回调
     public interface onCommunityListClickListener{
-        void onCommunityListClick(int id);
+        void onmHeadPicClick(int id,String HeadPic,String NickName,String Signature);
+        void onmCommentClick(int id);
+        void onmPraiseClick(int id);
     }
     public onCommunityListClickListener mOnCommunityListClickListener;
 
@@ -53,7 +56,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(context, R.layout.community_recy_adapter, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.community_recy_adapter, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -90,12 +93,21 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             viewHolder.mGridView.setNumColumns(colNum);
             viewHolder.imageAdapter.notifyDataSetChanged();
         }
+        //头像监听
+        viewHolder.mHeadPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnCommunityListClickListener !=null){
+                    mOnCommunityListClickListener.onmHeadPicClick(data.getId(),data.getHeadPic(),data.getNickName(),data.getSignature());
+                }
+            }
+        });
         //点赞监听
         viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onCommunityListClick(data.getId());
+                    mOnCommunityListClickListener.onmCommentClick(data.getId());
                 }
             }
         });
@@ -104,7 +116,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onCommunityListClick(data.getId());
+                    mOnCommunityListClickListener.onmPraiseClick(data.getId());
                 }
             }
         });
@@ -146,7 +158,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mPraiseNum = itemView.findViewById(R.id.community_list_praise_num);
             imageAdapter = new ImageAdapter();
 //            int space = context.getResources().getDimensionPixelSize(10);;//图片间距
-            mGridView.setHorizontalSpacing(10);
+//            mGridView.setHorizontalSpacing(10);
             mGridView.setVerticalSpacing(10);
             mGridView.setAdapter(imageAdapter);
         }
