@@ -6,18 +6,27 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.InformationAdapter;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
@@ -48,6 +57,10 @@ public class HomeFragment extends WDFragment {
     private BannerPresenter mBannerPresenter;
     private InformationListPresenter mInformationListPresenter;
     private InformationAdapter mInformationAdapter;
+    private long mUserid;
+    private String mSessionid;
+    private int page = 1;
+
 
     @Override
     public int getContent() {
@@ -56,15 +69,53 @@ public class HomeFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
-        mBannerPresenter = new BannerPresenter(new showBannerCall());
-        mBannerPresenter.reqeust();
+
         recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(),OrientationHelper.VERTICAL,false));
         mInformationAdapter = new InformationAdapter(getContext());
         recyclerlist.setAdapter(mInformationAdapter);
+
+
+
+        //设置 Header 为 贝塞尔雷达 样式
+        refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
+//设置 Footer 为 球脉冲 样式
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+
+        requestt(page);
+        refreshLayout.setEnableRefresh(true);//启用刷新
+        refreshLayout.setEnableLoadmore(true);//启用加载
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                requestt(page);
+                mInformationAdapter.clear();
+                refreshlayout.finishRefresh();
+
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                requestt(page);
+                mInformationAdapter.notifyDataSetChanged();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
+
+
+    }
+
+    private void requestt(int page) {
+        /*mUserid = user.getUserid();
+        mSessionid = user.getSessionid();*/
+        mBannerPresenter = new BannerPresenter(new showBannerCall());
+        mBannerPresenter.reqeust();
         mInformationListPresenter = new InformationListPresenter(new showListCall());
-        mInformationListPresenter.reqeust(0,"",1,1,10);
-
-
+        mInformationListPresenter.reqeust(40,"155064093774940",1,page,10);
     }
 
 
@@ -129,8 +180,10 @@ public class HomeFragment extends WDFragment {
         @Override
         public void success(Result<List<InformationListBean>> result) {
             mResult = result.getResult();
-            mInformationAdapter.reset(mResult);
-
+            Log.e("lk","lk"+result.getStatus());
+            if (result.getStatus().equals("0000")){
+                mInformationAdapter.reset(mResult);
+            }
         }
 
         @Override

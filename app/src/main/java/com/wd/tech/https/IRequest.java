@@ -68,12 +68,16 @@ public interface IRequest {
     @GET("information/v1/bannerShow")
     Observable<Result<List<BannnerBean>>> ShowBannner();
 
-    @POST("information/v1/infoRecommendList")
-    @FormUrlEncoded
+
+    /**
+     * 资讯页面展示
+     * @return
+     */
+    @GET("information/v1/infoRecommendList")
     Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
                                                                       @Header("sessionId")String sessionId,
-                                                                      @Field("plateId")int plateId,
-                                                                      @Field("page")int page,
-                                                                      @Field("count")int count);
+                                                                      @Query("plateId") int plateId,
+                                                                      @Query("page")int page,
+                                                                      @Query("count")int count);
 
 }

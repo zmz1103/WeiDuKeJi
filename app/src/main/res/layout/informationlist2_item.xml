@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textwenben"
+        android:textSize="12sp"
+        android:textColor="#333333"
+        android:text="滋滋滋滋滋滋我自知自我自知自我滋滋滋滋滋滋滋我自我姊姊"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
+
+    <TextView
+        android:id="@+id/guangagao"
+        android:layout_width="40dp"
+        android:layout_height="18dp"
+        android:layout_below="@id/textwenben"
+        android:layout_alignStart="@+id/textwenben"
+        android:background="#ff00"
+        android:gravity="center"
+        android:text="广告"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_below="@id/textwenben"
+        android:id="@+id/simpleview"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        fresco:roundedCornerRadius="8dp"/>
+
+</RelativeLayout>
