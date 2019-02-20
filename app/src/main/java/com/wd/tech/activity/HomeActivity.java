@@ -11,6 +11,7 @@ import com.wd.tech.R;
 import com.wd.tech.fragment.CommunityFragment;
 import com.wd.tech.fragment.HomeFragment;
 import com.wd.tech.fragment.MessageFragment;
+import com.wd.tech.util.SlidingMenu;
 
 import butterknife.BindView;
 
@@ -31,7 +32,6 @@ public class HomeActivity extends WDActivity{
     RadioButton information;
     @BindView(R.id.community)
     RadioButton community;
-
 
     private HomeFragment homeFragment;
     private MessageFragment messageFragment;
@@ -55,7 +55,6 @@ public class HomeActivity extends WDActivity{
         transaction.add(R.id.frame, homeFragment);
         transaction.commit();
         information.setTextColor(getResources().getColorStateList(R.color.color_Text));
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint("ResourceAsColor")
             @Override
