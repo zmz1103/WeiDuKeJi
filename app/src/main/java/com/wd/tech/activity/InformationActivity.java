@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import com.wd.tech.R;
 
-public class InformationActivity extends WDActivity {
+import me.jessyan.autosize.internal.CustomAdapt;
+
+public class InformationActivity extends WDActivity implements CustomAdapt {
 
 
     @Override
@@ -21,5 +23,15 @@ public class InformationActivity extends WDActivity {
     @Override
     protected void destoryData() {
 
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }

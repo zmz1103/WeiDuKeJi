@@ -45,4 +45,9 @@ public interface IRequest {
     Observable<Result<User>> login(
             @Field("phone") String phone,
             @Field("pwd") String pwd);
+
+    // 微信登录
+    @POST("user/v1/weChatLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
 }

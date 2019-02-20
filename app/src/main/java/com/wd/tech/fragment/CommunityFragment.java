@@ -41,7 +41,7 @@ public class CommunityFragment extends WDFragment implements XRecyclerView.Loadi
     private CommunityListPresenter mCommunityListPresenter;
 
     @Override
-    public int getContent() {
+    public int getLayoutId() {
         return R.layout.activity_community_fragment;
     }
 

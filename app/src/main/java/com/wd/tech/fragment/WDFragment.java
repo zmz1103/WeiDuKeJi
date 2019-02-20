@@ -37,7 +37,7 @@ public abstract class WDFragment extends Fragment {
         View view = inflater.inflate(getContent(), container, false);
 
         unbinder = ButterKnife.bind(this, view);
-        initView(view);
+
         DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getAppContext(), UserDao.TABLENAME);
         userDao = daoSession.getUserDao();
         List<User> users = userDao.loadAll();
@@ -55,6 +55,7 @@ public abstract class WDFragment extends Fragment {
         } else {
             Toast.makeText(WDApplication.getAppContext(), "请检查网络", Toast.LENGTH_SHORT).show();
         }
+        initView(view);
         return view;
     }
 

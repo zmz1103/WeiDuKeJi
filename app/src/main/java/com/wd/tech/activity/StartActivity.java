@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.wd.tech.R;
 
 import butterknife.BindView;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * 作者: Wang on 2019/2/19 15:58
@@ -17,7 +18,7 @@ import butterknife.BindView;
  */
 
 
-public class StartActivity extends WDActivity {
+public class StartActivity extends WDActivity   {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_start;
@@ -55,4 +56,5 @@ public class StartActivity extends WDActivity {
     protected void destoryData() {
 
     }
+
 }
