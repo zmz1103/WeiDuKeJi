@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -42,13 +43,15 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
+
 
 /**
  * 王思敏
  * 2019/2/20
  * 发布帖子页
  */
-public class PublishActivity extends WDActivity implements View.OnClickListener {
+public class PublishActivity extends WDActivity implements View.OnClickListener,CustomAdapt {
 
     @BindView(R.id.txt_cancel)
     TextView txtCancel;
@@ -155,9 +158,6 @@ public class PublishActivity extends WDActivity implements View.OnClickListener 
     @Override
     protected void destoryData() {
 
-import me.jessyan.autosize.internal.CustomAdapt;
-
-public class PublishActivity extends AppCompatActivity implements CustomAdapt {
 
     }
 
@@ -165,6 +165,8 @@ public class PublishActivity extends AppCompatActivity implements CustomAdapt {
     public void onClick(View view) {
 
     }
+
+
 
     class CommunityPublish implements DataCall<Result>{
 
@@ -206,8 +208,8 @@ public class PublishActivity extends AppCompatActivity implements CustomAdapt {
                     mCommunityPublishPresenter.reqeust((int)user.getUserid(), user.getSessionid(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
                 }
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
     }
 
@@ -273,7 +275,6 @@ public class PublishActivity extends AppCompatActivity implements CustomAdapt {
         super.onDestroy();
         mCommunityPublishPresenter.unBind();
     }
-
     @Override
     public boolean isBaseOnWidth() {
         return false;
