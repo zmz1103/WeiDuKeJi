@@ -46,6 +46,22 @@ public interface IRequest {
             @Field("phone") String phone,
             @Field("pwd") String pwd);
 
+    /**
+     * Banner轮播图
+     * @return
+     */
+    @GET("information/v1/bannerShow")
+    Observable<Result<List<BannnerBean>>> ShowBannner();
+
+    @POST("information/v1/infoRecommendList")
+    @FormUrlEncoded
+    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
+                                                                      @Header("sessionId")String sessionId,
+                                                                      @Field("plateId")int plateId,
+                                                                      @Field("page")int page,
+                                                                      @Field("count")int count);
+
+
     // 微信登录
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded

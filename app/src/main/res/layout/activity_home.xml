@@ -7,67 +7,63 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <RadioGroup
             android:id="@+id/home_radio"
             android:layout_width="match_parent"
             android:layout_height="62dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
 
             <RadioButton
                 android:id="@+id/Information"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:button="@null"
-                android:checked="true"
-                android:drawableTop="@drawable/rbtn_sele_information"
                 android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:drawableTop="@drawable/rbtn_sele_information"
                 android:text="资讯"
                 android:textColor="@color/colorText"
-                android:textSize="12sp" />
-
+                android:textSize="12sp"
+                android:checked="true"
+                android:button="@null" />
             <RadioButton
                 android:id="@+id/Message"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/rbtn_sele_message"
                 android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:drawableTop="@drawable/rbtn_sele_message"
                 android:text="消息"
                 android:textColor="@color/colorText"
-                android:textSize="12sp" />
-
+                android:textSize="12sp"
+                android:button="@null"/>
             <RadioButton
                 android:id="@+id/community"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/rbtn_sele_mine"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
+                android:drawableTop="@drawable/rbtn_sele_mine"
                 android:text="我的"
                 android:textColor="@color/colorText"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:button="@null"/>
         </RadioGroup>
-
         <FrameLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/home_radio"
-            android:background="@android:color/white"></FrameLayout>
-
+            android:background="@android:color/white">
+        </FrameLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@id/home_radio"
-            android:background="#55CCCCCC" />
+            android:background="#55CCCCCC"/>
     </RelativeLayout>
 
     <FrameLayout
