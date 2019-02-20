@@ -1,6 +1,8 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
