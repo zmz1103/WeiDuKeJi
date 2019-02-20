@@ -1,21 +1,8 @@
 package com.wd.tech.https;
 
 import com.wd.tech.bean.BannnerBean;
-import com.wd.tech.bean.InformationListBean;
-import com.wd.tech.bean.Result;
-
-import java.util.List;
-
-import io.reactivex.Observable;
-import okhttp3.MultipartBody;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
-
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -80,4 +67,9 @@ public interface IRequest {
                                                                       @Query("page")int page,
                                                                       @Query("count")int count);
 
+
+    // 微信登录
+    @POST("user/v1/weChatLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
 }

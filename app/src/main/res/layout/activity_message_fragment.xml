@@ -2,7 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#9932cc">
+    android:background="#11c1c1c1">
+    
+    <RelativeLayout
+        android:id="@+id/rela"
+        android:layout_width="match_parent"
+        android:layout_marginTop="38dp"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:id="@+id/message_radio"
+            android:layout_width="188dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/message_btn"
+            android:orientation="horizontal">
 
+            <RadioButton
+                android:id="@+id/my_message"
+                android:layout_width="94dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="消息"
+                android:textColor="@color/white"
+                android:checked="true"
+                android:textSize="15sp"
+                android:background="@drawable/message_isbtn"
+                android:button="@null"/>
+            <RadioButton
+                android:id="@+id/contacts"
+                android:layout_width="94dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="联系人"
+                android:background="@drawable/message_isbtn"
+                android:textColor="@color/blue_btn"
+                android:textSize="15sp"
+                android:button="@null"/>
+        </RadioGroup>
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/common_nav_btn_add_n"/>
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/messageViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/rela"
+        android:background="@android:color/white">
+
+    </android.support.v4.view.ViewPager>
 
 </RelativeLayout>

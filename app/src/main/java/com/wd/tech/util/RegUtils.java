@@ -27,7 +27,7 @@ public class RegUtils {
     public static boolean rexCheckPassword(String input) {
         // 6-20 位，字母、数字、字符
         //String reg = "^([A-Z]|[a-z]|[0-9]|[`-=[];,./~!@#$%^*()_+}{:?]){6,20}$";
-        String regStr = "^(?!^\\\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{6,15}$";
+        String regStr = "^(?!^\\\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{8,15}$";
         return input.matches(regStr);
     }
 
