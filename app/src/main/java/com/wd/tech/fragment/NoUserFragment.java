@@ -17,7 +17,7 @@ import butterknife.OnClick;
 
 public class NoUserFragment extends WDFragment {
     @Override
-    public int getLayoutId() {
+    public int getContent() {
         return R.layout.fragment_no_user;
     }
 
