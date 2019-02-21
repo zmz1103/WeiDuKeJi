@@ -1,5 +1,6 @@
 package com.wd.tech.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.wd.tech.activity.NoNetWorkActivity;
+import com.wd.tech.activity.WDActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
@@ -54,7 +57,9 @@ public abstract class WDFragment extends Fragment {
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
 
         } else {
-            Toast.makeText(WDApplication.getAppContext(), "请检查网络", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+
+
         }
         initView(view);
         return view;

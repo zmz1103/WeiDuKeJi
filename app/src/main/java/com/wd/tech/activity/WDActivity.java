@@ -40,31 +40,35 @@ public abstract class WDActivity extends SwipeBackActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        mForegroundActivity=this;
+        mForegroundActivity = this;
         ButterKnife.bind(this);
         initView();
-        //初始化右滑退出
+        //  初始化右滑退出
         initSwipeBack();
 
         DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
         userDao = daoSession.getUserDao();
         List<User> users = userDao.loadAll();
-        if (users.size()>0) {
+        if (users != null && users.size() > 0) {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getSole() == 1) {
                     user = users.get(i);
+
                     break;
                 }
             }
+        } else {
         }
 
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
+          } else {
+            Toast.makeText(WDApplication.getAppContext(), "aaaa请检查网络", Toast.LENGTH_SHORT).show();
 
-        }else{
-            Toast.makeText(WDApplication.getAppContext(), "请检查网络", Toast.LENGTH_SHORT).show();
+
         }
 
     }
+
     private void initSwipeBack() {
         // 可以调用该方法，设置是否允许滑动退出
         setSwipeBackEnable(true);

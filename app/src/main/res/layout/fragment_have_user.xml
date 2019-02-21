@@ -41,6 +41,9 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/my_icon"
             android:text="我最好看看"
+            android:singleLine="true"
+            android:maxEms="10"
+            android:ellipsize="end"
             android:textColor="#fff"
             android:textSize="12sp" />
 
@@ -106,8 +109,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -135,8 +138,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -163,8 +166,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -191,8 +194,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -219,8 +222,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -247,8 +250,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
@@ -275,8 +278,8 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="15dp"
 
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>

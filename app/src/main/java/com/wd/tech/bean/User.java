@@ -12,53 +12,57 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity()
 public class User {
-    private String nickname;
+    private String nickName;
     private String phone;
     private String pwd;
-    private String sessionid;
+    private String sessionId;
     @Id
-    private long userid;
-    private String username;
-    private int whethervip;
-    private int whetherfaceid;
+    private long userId;
+    private String userName;
+    private int whetherVip;
+    private int whetherFaceId;
 
-    private int sole;
+    private int sole=0;
+    private String headPic;
 
-    @Generated(hash = 714595372)
-    public User(String nickname, String phone, String pwd, String sessionid,
-            long userid, String username, int whethervip, int whetherfaceid,
-            int sole) {
-        this.nickname = nickname;
+
+
+    @Generated(hash = 1952789088)
+    public User(String nickName, String phone, String pwd, String sessionId,
+            long userId, String userName, int whetherVip, int whetherFaceId,
+            int sole, String headPic) {
+        this.nickName = nickName;
         this.phone = phone;
         this.pwd = pwd;
-        this.sessionid = sessionid;
-        this.userid = userid;
-        this.username = username;
-        this.whethervip = whethervip;
-        this.whetherfaceid = whetherfaceid;
+        this.sessionId = sessionId;
+        this.userId = userId;
+        this.userName = userName;
+        this.whetherVip = whetherVip;
+        this.whetherFaceId = whetherFaceId;
         this.sole = sole;
+        this.headPic = headPic;
     }
 
     @Generated(hash = 586692638)
     public User() {
     }
 
-    public void setSole(int sole) {
-        this.sole = sole;
+
+
+    public void setHeadPic(String headPic) {
+        this.headPic = headPic;
     }
 
-    public int getSole() {
-        return sole;
+    public String getHeadPic() {
+        return headPic;
     }
 
-
-
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getPhone() {
@@ -77,43 +81,67 @@ public class User {
         this.pwd = pwd;
     }
 
-    public String getSessionid() {
-        return sessionid;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setSessionid(String sessionid) {
-        this.sessionid = sessionid;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public long getUserid() {
-        return userid;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserid(long userid) {
-        this.userid = userid;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getWhethervip() {
-        return whethervip;
+    public int getWhetherVip() {
+        return whetherVip;
     }
 
-    public void setWhethervip(int whethervip) {
-        this.whethervip = whethervip;
+    public void setWhetherVip(int whetherVip) {
+        this.whetherVip = whetherVip;
     }
 
-    public int getWhetherfaceid() {
-        return whetherfaceid;
+    public int getWhetherFaceId() {
+        return whetherFaceId;
     }
 
-    public void setWhetherfaceid(int whetherfaceid) {
-        this.whetherfaceid = whetherfaceid;
+    public void setWhetherFaceId(int whetherFaceId) {
+        this.whetherFaceId = whetherFaceId;
+    }
+
+    public int getSole() {
+        return sole;
+    }
+
+    public void setSole(int sole) {
+        this.sole = sole;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nickName='" + nickName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", whetherVip=" + whetherVip +
+                ", whetherFaceId=" + whetherFaceId +
+                ", sole=" + sole +
+                ", headPic='" + headPic + '\'' +
+                '}';
     }
 }

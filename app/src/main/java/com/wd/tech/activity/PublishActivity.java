@@ -167,7 +167,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     }
 
 
-    //数据请求
+
     class CommunityPublish implements DataCall<Result>{
 
         @Override
@@ -183,7 +183,6 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
             Toast.makeText(PublishActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

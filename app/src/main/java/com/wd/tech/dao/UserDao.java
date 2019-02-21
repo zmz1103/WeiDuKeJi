@@ -24,15 +24,16 @@ public class UserDao extends AbstractDao<User, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Nickname = new Property(0, String.class, "nickname", false, "NICKNAME");
+        public final static Property NickName = new Property(0, String.class, "nickName", false, "NICK_NAME");
         public final static Property Phone = new Property(1, String.class, "phone", false, "PHONE");
         public final static Property Pwd = new Property(2, String.class, "pwd", false, "PWD");
-        public final static Property Sessionid = new Property(3, String.class, "sessionid", false, "SESSIONID");
-        public final static Property Userid = new Property(4, long.class, "userid", true, "_id");
-        public final static Property Username = new Property(5, String.class, "username", false, "USERNAME");
-        public final static Property Whethervip = new Property(6, int.class, "whethervip", false, "WHETHERVIP");
-        public final static Property Whetherfaceid = new Property(7, int.class, "whetherfaceid", false, "WHETHERFACEID");
+        public final static Property SessionId = new Property(3, String.class, "sessionId", false, "SESSION_ID");
+        public final static Property UserId = new Property(4, long.class, "userId", true, "_id");
+        public final static Property UserName = new Property(5, String.class, "userName", false, "USER_NAME");
+        public final static Property WhetherVip = new Property(6, int.class, "whetherVip", false, "WHETHER_VIP");
+        public final static Property WhetherFaceId = new Property(7, int.class, "whetherFaceId", false, "WHETHER_FACE_ID");
         public final static Property Sole = new Property(8, int.class, "sole", false, "SOLE");
+        public final static Property HeadPic = new Property(9, String.class, "headPic", false, "HEAD_PIC");
     }
 
 
@@ -48,15 +49,16 @@ public class UserDao extends AbstractDao<User, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
-                "\"NICKNAME\" TEXT," + // 0: nickname
+                "\"NICK_NAME\" TEXT," + // 0: nickName
                 "\"PHONE\" TEXT," + // 1: phone
                 "\"PWD\" TEXT," + // 2: pwd
-                "\"SESSIONID\" TEXT," + // 3: sessionid
-                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 4: userid
-                "\"USERNAME\" TEXT," + // 5: username
-                "\"WHETHERVIP\" INTEGER NOT NULL ," + // 6: whethervip
-                "\"WHETHERFACEID\" INTEGER NOT NULL ," + // 7: whetherfaceid
-                "\"SOLE\" INTEGER NOT NULL );"); // 8: sole
+                "\"SESSION_ID\" TEXT," + // 3: sessionId
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 4: userId
+                "\"USER_NAME\" TEXT," + // 5: userName
+                "\"WHETHER_VIP\" INTEGER NOT NULL ," + // 6: whetherVip
+                "\"WHETHER_FACE_ID\" INTEGER NOT NULL ," + // 7: whetherFaceId
+                "\"SOLE\" INTEGER NOT NULL ," + // 8: sole
+                "\"HEAD_PIC\" TEXT);"); // 9: headPic
     }
 
     /** Drops the underlying database table. */
@@ -69,9 +71,9 @@ public class UserDao extends AbstractDao<User, Long> {
     protected final void bindValues(DatabaseStatement stmt, User entity) {
         stmt.clearBindings();
  
-        String nickname = entity.getNickname();
-        if (nickname != null) {
-            stmt.bindString(1, nickname);
+        String nickName = entity.getNickName();
+        if (nickName != null) {
+            stmt.bindString(1, nickName);
         }
  
         String phone = entity.getPhone();
@@ -84,28 +86,33 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(3, pwd);
         }
  
-        String sessionid = entity.getSessionid();
-        if (sessionid != null) {
-            stmt.bindString(4, sessionid);
+        String sessionId = entity.getSessionId();
+        if (sessionId != null) {
+            stmt.bindString(4, sessionId);
         }
-        stmt.bindLong(5, entity.getUserid());
+        stmt.bindLong(5, entity.getUserId());
  
-        String username = entity.getUsername();
-        if (username != null) {
-            stmt.bindString(6, username);
+        String userName = entity.getUserName();
+        if (userName != null) {
+            stmt.bindString(6, userName);
         }
-        stmt.bindLong(7, entity.getWhethervip());
-        stmt.bindLong(8, entity.getWhetherfaceid());
+        stmt.bindLong(7, entity.getWhetherVip());
+        stmt.bindLong(8, entity.getWhetherFaceId());
         stmt.bindLong(9, entity.getSole());
+ 
+        String headPic = entity.getHeadPic();
+        if (headPic != null) {
+            stmt.bindString(10, headPic);
+        }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, User entity) {
         stmt.clearBindings();
  
-        String nickname = entity.getNickname();
-        if (nickname != null) {
-            stmt.bindString(1, nickname);
+        String nickName = entity.getNickName();
+        if (nickName != null) {
+            stmt.bindString(1, nickName);
         }
  
         String phone = entity.getPhone();
@@ -118,19 +125,24 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(3, pwd);
         }
  
-        String sessionid = entity.getSessionid();
-        if (sessionid != null) {
-            stmt.bindString(4, sessionid);
+        String sessionId = entity.getSessionId();
+        if (sessionId != null) {
+            stmt.bindString(4, sessionId);
         }
-        stmt.bindLong(5, entity.getUserid());
+        stmt.bindLong(5, entity.getUserId());
  
-        String username = entity.getUsername();
-        if (username != null) {
-            stmt.bindString(6, username);
+        String userName = entity.getUserName();
+        if (userName != null) {
+            stmt.bindString(6, userName);
         }
-        stmt.bindLong(7, entity.getWhethervip());
-        stmt.bindLong(8, entity.getWhetherfaceid());
+        stmt.bindLong(7, entity.getWhetherVip());
+        stmt.bindLong(8, entity.getWhetherFaceId());
         stmt.bindLong(9, entity.getSole());
+ 
+        String headPic = entity.getHeadPic();
+        if (headPic != null) {
+            stmt.bindString(10, headPic);
+        }
     }
 
     @Override
@@ -141,42 +153,44 @@ public class UserDao extends AbstractDao<User, Long> {
     @Override
     public User readEntity(Cursor cursor, int offset) {
         User entity = new User( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // nickname
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // nickName
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // phone
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pwd
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // sessionid
-            cursor.getLong(offset + 4), // userid
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // username
-            cursor.getInt(offset + 6), // whethervip
-            cursor.getInt(offset + 7), // whetherfaceid
-            cursor.getInt(offset + 8) // sole
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // sessionId
+            cursor.getLong(offset + 4), // userId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // userName
+            cursor.getInt(offset + 6), // whetherVip
+            cursor.getInt(offset + 7), // whetherFaceId
+            cursor.getInt(offset + 8), // sole
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // headPic
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, User entity, int offset) {
-        entity.setNickname(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setNickName(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setPhone(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPwd(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setSessionid(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setUserid(cursor.getLong(offset + 4));
-        entity.setUsername(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setWhethervip(cursor.getInt(offset + 6));
-        entity.setWhetherfaceid(cursor.getInt(offset + 7));
+        entity.setSessionId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUserId(cursor.getLong(offset + 4));
+        entity.setUserName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setWhetherVip(cursor.getInt(offset + 6));
+        entity.setWhetherFaceId(cursor.getInt(offset + 7));
         entity.setSole(cursor.getInt(offset + 8));
+        entity.setHeadPic(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override
     protected final Long updateKeyAfterInsert(User entity, long rowId) {
-        entity.setUserid(rowId);
+        entity.setUserId(rowId);
         return rowId;
     }
     
     @Override
     public Long getKey(User entity) {
         if(entity != null) {
-            return entity.getUserid();
+            return entity.getUserId();
         } else {
             return null;
         }

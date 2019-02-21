@@ -29,12 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.InformationActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.PublishActivity" />
         <activity android:name=".activity.FriendsPostActivity" />
+        <activity android:name=".activity.NoNetWorkActivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,11 +49,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onResume() {
         super.onResume();
-        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
-        if (userDao.loadAll().size() > 0) {
-            finish();
-            return;
-        }
+
     }
 
     @Override
@@ -160,15 +157,15 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         public void success(Result<User> result) {
             Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
+                UserDao userDao = DaoMaster.newDevSession(MainActivity.this, UserDao.TABLENAME).getUserDao();
                 userDao.deleteAll();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
                 userDao.insertOrReplace(user);
-                List<User> users = userDao.loadAll();
-
+                Toast.makeText(MainActivity.this, ""+userDao.loadAll().get(0).getUserId(), Toast.LENGTH_SHORT).show();
                 finish();
-
+                Log.v("数据库---",""+userDao.loadAll().get(0).toString());
             }
         }
 

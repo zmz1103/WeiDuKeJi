@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/i_no_net"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:src="@mipmap/no_network" />
+
+    <TextView
+        android:id="@+id/t_noworl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/i_no_net"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="网络不可用，请检查你的网络连接" />
+
+    <Button
+        android:id="@+id/no_net_Btn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/t_noworl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/login_btn_bg"
+        android:text="连接网络"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+</RelativeLayout>
