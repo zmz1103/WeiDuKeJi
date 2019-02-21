@@ -11,6 +11,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -91,4 +92,18 @@ public interface IRequest {
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded
     Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
+
+
+    //社区点赞
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> getLike(@Header("userId") int userId,
+                               @Header("sessionId") String sessionId,
+                               @Field("communityId") int communityId);
+
+    //社区取消点赞
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> getcancelLike(@Header("userId") int userId,
+                               @Header("sessionId") String sessionId,
+                               @Field("communityId") int communityId);
 }

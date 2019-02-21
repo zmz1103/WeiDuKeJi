@@ -105,9 +105,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 refreshlayout.finishLoadmore();
             }
         });
-
-
-
     }
 
     private void requestt(int page) {

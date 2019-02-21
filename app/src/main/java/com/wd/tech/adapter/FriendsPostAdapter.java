@@ -40,6 +40,11 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
         }
     }
 
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     public interface OnFriendsPostClickListener{
         void onCommentClick(int id);
         void onPraiseClick(int id);

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -85,7 +86,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private void initData() {
         mCommunityPublishPresenter = new CommunityPublishPresenter(new CommunityPublish());
         mPictureAdapter = new PictureAdapter(this);
-        mPictureAdapter.setSign(0);
+//        mPictureAdapter.setSign(0);
         mPictureAdapter.add(R.drawable.xc);
         communityImage.setLayoutManager(new GridLayoutManager(this, 3));
         communityImage.setAdapter(mPictureAdapter);
@@ -99,14 +100,13 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 popupWindow = new PopupWindow(view1);
                 //设置充满父窗体
                 popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                popupWindow.setHeight(330);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setAnimationStyle(R.style.StyleNetChangedDialog_Animation);
                 //点击外部关闭弹框
                 popupWindow.setBackgroundDrawable(new ColorDrawable());
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setTouchable(true);
                 popupWindow.showAtLocation(view1, Gravity.BOTTOM, 0, 0);
-//                popupWindow.showAsDropDown(mPictureAdapter);
                 mOpenCamera = view1.findViewById(R.id.open_camera);
                 mOpenPicture = view1.findViewById(R.id.open_picture);
                 mBtnCancel = view1.findViewById(R.id.btn_cancel);
@@ -167,7 +167,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     }
 
 
-
+    //数据请求
     class CommunityPublish implements DataCall<Result>{
 
         @Override
@@ -183,6 +183,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
             Toast.makeText(PublishActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -202,11 +203,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.txt_publish:
-                if (user == null){
-                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
                     mCommunityPublishPresenter.reqeust((int)user.getUserid(), user.getSessionid(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
-                }
                 break;
             default:
                 break;
@@ -268,12 +265,6 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
             }
         };
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCommunityPublishPresenter.unBind();
     }
     @Override
     public boolean isBaseOnWidth() {
