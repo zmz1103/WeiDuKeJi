@@ -202,7 +202,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.txt_publish:
-                    mCommunityPublishPresenter.reqeust((int)user.getUserid(), user.getSessionid(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
+                    mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
                 break;
             default:
                 break;

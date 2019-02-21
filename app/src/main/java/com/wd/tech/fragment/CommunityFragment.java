@@ -97,8 +97,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
     }
 
     private void requestt(int page) {
-        long userid = user.getUserid();
-        String sessionid = user.getSessionid();
+        long userid = user.getUserId();
+        String sessionid = user.getSessionId();
         mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
         mCommunityListPresenter.reqeust((int)userid, sessionid, page, 5);
 

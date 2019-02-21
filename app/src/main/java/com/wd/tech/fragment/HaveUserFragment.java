@@ -20,6 +20,7 @@ import com.wd.tech.dao.UserDao;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
@@ -40,6 +41,7 @@ public class HaveUserFragment extends WDFragment {
     ImageView my_image_sign;
     @BindView(R.id.my_signature)
     TextView my_signature;
+
     @Override
     public int getContent() {
         return R.layout.fragment_have_user;
@@ -47,10 +49,33 @@ public class HaveUserFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
-       my_icon.setImageURI(user.getHeadPic());
-       my_name.setText(user.getNickName());
-       my_signature.setText("快来发表新签名吧！111111111111111111111111111111111111111111111");
+        my_icon.setImageURI(user.getHeadPic());
+        my_name.setText(user.getNickName());
+        my_signature.setText("快来发表新签名吧！");
     }
 
+    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting})
+    void dian(View view) {
+        switch (view.getId()) {
+            case R.id.linear_my_attention:
+                // 关注
+                break;
+            case R.id.linear_my_collect:
+                // 收藏
+                break;
+            case R.id.linear_my_card:
+                // 我的帖子
+                break;
+            case R.id.linear_my_notice:
+                // 通知
+                break;
+            case R.id.linear_my_integral:
+                // 我的积分
+                break;
+            case R.id.linear_my_task:
+                // 任务
+                break;
+        }
+    }
 
 }
