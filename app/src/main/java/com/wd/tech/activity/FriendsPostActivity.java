@@ -75,7 +75,7 @@ public class FriendsPostActivity extends WDActivity implements XRecyclerView.Loa
         if (user == null){
             mFriendsPostPresenter.reqeust(0,"",mId,page,10);
         }else {
-            mFriendsPostPresenter.reqeust(user.getUserid(),user.getSessionid(),mId,page,10);
+            mFriendsPostPresenter.reqeust(user.getUserId(),user.getSessionId(),mId,page,10);
         }
         friendsRecy.setLoadingListener(this);
     }

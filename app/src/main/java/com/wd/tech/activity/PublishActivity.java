@@ -205,7 +205,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 if (user == null){
                     Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
-                    mCommunityPublishPresenter.reqeust((int)user.getUserid(), user.getSessionid(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
+                    mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
                 }
                 break;
             default:
