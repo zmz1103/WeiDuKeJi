@@ -2,6 +2,7 @@ package com.wd.tech.fragment;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -97,10 +98,12 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
     }
 
     private void requestt(int page) {
-        long userid = user.getUserId();
-        String sessionid = user.getSessionId();
         mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
-        mCommunityListPresenter.reqeust((int)userid, sessionid, page, 5);
+        if (user == null){
+            mCommunityListPresenter.reqeust(0, "", page, 5);
+        }else {
+            mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 5);
+        }
 
     }
 
@@ -110,15 +113,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
         communityRecy.setAdapter(mCommunityListAdapter);
     }
 
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
 
-    @Override
-    public float getSizeInDp() {
-        return 720;
-    }
 
     class CommunityCall implements DataCall<Result<List<CommunitylistData>>> {
 
@@ -136,12 +131,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
             Toast.makeText(getActivity(), "失败", Toast.LENGTH_SHORT).show();
         }
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        mCommunityListPresenter.unBind();
-    }
+
 
     @OnClick(R.id.btn_publish_the_news)
     public void onViewClicked() {
@@ -156,15 +146,12 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
     private void initListener() {
         mCommunityListAdapter.setOnCommunityListClickListener(new CommunityListAdapter.onCommunityListClickListener() {
             @Override
-            public void onmHeadPicClick(int id, String HeadPic, String NickName, String Signature) {
+            public void onmHeadPicClick(int userid) {
                 if (user==null){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(getActivity(), FriendsPostActivity.class);
-                    intent.putExtra("id", id);
-                    intent.putExtra("HeadPic", HeadPic);
-                    intent.putExtra("NickName", NickName);
-                    intent.putExtra("Signature", Signature);
+                    intent.putExtra("userid", userid);
                     startActivity(intent);
                 }
             }
@@ -187,5 +174,20 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
                 }
             }
         });
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        mCommunityListPresenter.unBind();
+    }
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }

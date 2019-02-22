@@ -16,6 +16,8 @@ public class CommunityUserVoBean {
 
     private String headPic;
     private String nickName;
+    private String signature;
+
     private int userId;
     private int whetherFollow;
     private int whetherMyFriend;
@@ -34,6 +36,14 @@ public class CommunityUserVoBean {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     public int getUserId() {

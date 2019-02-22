@@ -1,14 +1,9 @@
 package com.wd.tech.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +19,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.FriendsPostAdapter;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
+import com.wd.tech.bean.CommunityUserVoBean;
 import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
@@ -37,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class FriendsPostActivity extends WDActivity implements CustomAdapt {
+public class FriendsPostActivity extends WDActivity implements CustomAdapt{
 
     @BindView(R.id.friends_image_bg)
     SimpleDraweeView friendsImageBg;
@@ -53,10 +49,16 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt {
     XRecyclerView friendsRecy;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    private int mId;
+    @BindView(R.id.txt_friend)
+    TextView txtFriend;
+    @BindView(R.id.txt_attention)
+    TextView txtAttention;
     private String mHeadPic;
     private String mNickName;
     private String mSignature;
+    private int mUserid;
+    private int mWhetherFollow;
+    private int mWhetherMyFriend;
     private FriendsPostPresenter mFriendsPostPresenter;
     private FriendsPostAdapter mFriendsPostAdapter;
     private int page = 1;
@@ -80,7 +82,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt {
 
         //设置 Header 为 贝塞尔雷达 样式
         refreshLayout.setRefreshHeader(new BezierRadarHeader(FriendsPostActivity.this).setEnableHorizontalDrag(true));
-//设置 Footer 为 球脉冲 样式
+        //设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(FriendsPostActivity.this).setSpinnerStyle(SpinnerStyle.Scale));
         request(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
@@ -93,7 +95,6 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt {
                 request(page);
                 mFriendsPostAdapter.clear();
                 refreshlayout.finishRefresh();
-
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -108,89 +109,65 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt {
     }
 
     private void request(int page) {
-        mFriendsPostPresenter = new FriendsPostPresenter(new FriendsPost());
-        if (user == null) {
-            mFriendsPostPresenter.reqeust(0, "", mId, page, 10);
-        } else {
-            mFriendsPostPresenter.reqeust(user.getUserId(), user.getSessionId(), mId, page, 10);
-        }
-
-    }
-
-
-    private void initData() {
         Intent intent = getIntent();
-        mId = intent.getExtras().getInt("id");
-        mHeadPic = intent.getExtras().getString("HeadPic");
-        mNickName = intent.getExtras().getString("NickName");
-        mSignature = intent.getExtras().getString("Signature");
-        friendsImageBg.setImageURI(mHeadPic);
+        mUserid = intent.getExtras().getInt("userid");
+        mFriendsPostPresenter = new FriendsPostPresenter(new FriendsPost());
+        if (user == null){
+            mFriendsPostPresenter.reqeust(0, "", mUserid, page, 10);
+        }else {
+            mFriendsPostPresenter.reqeust((int)user.getUserId(), user.getSessionId(), mUserid, page, 10);
+        }
         friendsImageHeadPic.setImageURI(mHeadPic);
         friendsTxtNickName.setText(mNickName);
         friendsTxtSignature.setText(mSignature);
-
+        friendsImageBg.setImageURI(mHeadPic);
+    }
+    private void initData() {
         mFriendsPostAdapter = new FriendsPostAdapter(this);
         friendsRecy.setAdapter(mFriendsPostAdapter);
         friendsRecy.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
 
-    @Override
-    public float getSizeInDp() {
-        return 720;
-    }
-
-    @OnClick({R.id.friends_more, R.id.friends_image_headPic})
+    @OnClick({R.id.friends_more, R.id.friends_image_headPic,R.id.txt_friend,R.id.txt_attention})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.friends_more:
-                View view1 = View.inflate(FriendsPostActivity.this, R.layout.pop_more, null);
-                PopupWindow popupWindow = new PopupWindow(view1);
-                //设置充满父窗体
-                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setAnimationStyle(R.style.StyleNetChangedDialog_Animation);
-                //点击外部关闭弹框
-                popupWindow.setBackgroundDrawable(new ColorDrawable());
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setTouchable(true);
-                popupWindow.showAtLocation(view1, Gravity.RIGHT, 0,0);
 
-                mTxtFriend = view1.findViewById(R.id.txt_friend);
-                mTxtAttention = view1.findViewById(R.id.txt_attention);
-                mTxtFriend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(FriendsPostActivity.this, "加好友", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                mTxtAttention.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(FriendsPostActivity.this, "关注", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 break;
             case R.id.friends_image_headPic:
                 Intent intent = new Intent(FriendsPostActivity.this,PictureDisplayActivity.class);
                 intent.putExtra("mHeadPic",mHeadPic);
                 startActivity(intent);
                 break;
-                default:
-                    break;
+            case R.id.txt_friend:
+                Toast.makeText(this, "好友", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.txt_attention:
+                Toast.makeText(this, "关注", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
     }
 
+
+
     class FriendsPost implements DataCall<Result<List<FriendsPostData>>> {
+
+
 
         @Override
         public void success(Result<List<FriendsPostData>> result) {
             if (result.getStatus().equals("0000")) {
+                List<FriendsPostData> result1 = result.getResult();
+                CommunityUserVoBean userVo = result1.get(0).getCommunityUserVo();
+                mHeadPic = userVo.getHeadPic();
+                mNickName = userVo.getNickName();
+                mSignature = userVo.getSignature();
+                mWhetherFollow = userVo.getWhetherFollow();
+                mWhetherMyFriend = userVo.getWhetherMyFriend();
                 Toast.makeText(FriendsPostActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
                 List<CommunityUserPostVoListBean> postVoList = result.getResult().get(0).getCommunityUserPostVoList();
                 mFriendsPostAdapter.setAll(postVoList);
@@ -214,4 +191,15 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt {
         super.onDestroy();
         mFriendsPostPresenter.unBind();
     }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
+
 }

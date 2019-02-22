@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
 import com.wd.tech.util.StringUtils;
@@ -23,11 +24,13 @@ import jaydenxiao.com.expandabletextview.ExpandableTextView;
 /**
  * date: 2019/2/20.
  * Created 王思敏
- * function:
+ * function:好友帖子页
  */
 public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.ViewHolder> {
     private Context context;
     private List<CommunityUserPostVoListBean> list;
+    private String mThumbnail;
+    private String[] mTu;
 
     public FriendsPostAdapter(Context context) {
         this.context = context;
@@ -67,26 +70,9 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
         viewHolder.mFriendspostContent.setText(listBean.getContent());
         viewHolder.mFriendspostCommentNum.setText(""+listBean.getComment());
         viewHolder.mFriendspostPraiseNum.setText(""+listBean.getPraise());
-        if (StringUtils.isEmpty(listBean.getFile())){
-            viewHolder.mFriendspostGridView.setVisibility(View.GONE);
-        }else{
-            viewHolder.mFriendspostGridView.setVisibility(View.VISIBLE);
-            String[] images = listBean.getFile().split(",");
-            int imageCount = images.length;
-
-            int colNum;//列数
-            if (imageCount == 1){
-                colNum = 1;
-            }else if (imageCount == 2||imageCount == 4){
-                colNum = 2;
-            }else {
-                colNum = 3;
-            }
-            viewHolder.mImageAdapter.clear();
-            viewHolder.mImageAdapter.addAll(Arrays.asList(images));
-            viewHolder.mFriendspostGridView.setNumColumns(colNum);
-            viewHolder.mImageAdapter.notifyDataSetChanged();
-        }
+        mThumbnail = listBean.getFile();
+        mTu = mThumbnail.split("\\?");
+        viewHolder.mFriendspostGridView.setImageURI(mTu[0]);
         //评论
         viewHolder.mFriendspostComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,12 +101,11 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ExpandableTextView mFriendspostContent;
-        private final RecyclerGridView mFriendspostGridView;
+        private final SimpleDraweeView mFriendspostGridView;
         private final ImageView mFriendspostComment;
         private final TextView mFriendspostCommentNum;
         private final ImageView mFriendspostpraise;
         private final TextView mFriendspostPraiseNum;
-        private final ImageAdapter mImageAdapter;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -131,7 +116,6 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             mFriendspostCommentNum = itemView.findViewById(R.id.friendspost_comment_num);
             mFriendspostpraise = itemView.findViewById(R.id.friendspost_praise);
             mFriendspostPraiseNum = itemView.findViewById(R.id.friendspost_praise_num);
-            mImageAdapter = new ImageAdapter();
         }
     }
 }

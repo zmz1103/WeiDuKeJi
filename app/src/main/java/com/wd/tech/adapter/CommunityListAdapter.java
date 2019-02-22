@@ -51,7 +51,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
     //接口回调
     public interface onCommunityListClickListener{
-        void onmHeadPicClick(int id,String HeadPic,String NickName,String Signature);
+        void onmHeadPicClick(int userid);
         void onmCommentClick(int i, int Id, CommunitylistData communitylistData);
         void onmPraiseClick(int i, int Id, CommunitylistData communitylistData);
     }
@@ -118,7 +118,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onmHeadPicClick(data.getId(),data.getHeadPic(),data.getNickName(),data.getSignature());
+                    mOnCommunityListClickListener.onmHeadPicClick(data.getUserId());
                 }
             }
         });

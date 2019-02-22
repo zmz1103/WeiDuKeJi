@@ -10,6 +10,11 @@ import com.wd.tech.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 王思敏
+ * 2019/2/21
+ * 头像放大页
+ */
 public class PictureDisplayActivity extends AppCompatActivity {
 
     @BindView(R.id.picture_display_image)
