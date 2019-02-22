@@ -3,6 +3,7 @@ package com.wd.tech.https;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.InformationListBean;
+import com.wd.tech.bean.InterestListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -72,4 +73,11 @@ public interface IRequest {
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded
     Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
+
+
+    /**
+     * 板块兴趣(lk)
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<InterestListBean>>> showinterestlist();
 }

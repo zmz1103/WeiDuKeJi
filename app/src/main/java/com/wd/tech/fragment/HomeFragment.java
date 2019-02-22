@@ -1,6 +1,7 @@
 package com.wd.tech.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,23 +11,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.activity.InterestActivity;
 import com.wd.tech.adapter.InformationAdapter;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
-import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
@@ -39,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -54,6 +58,10 @@ public class HomeFragment extends WDFragment {
     RecyclerView recyclerlist;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.search)
+    ImageView search;
+    @BindView(R.id.menu)
+    ImageView menu;
     private BannerPresenter mBannerPresenter;
     private InformationListPresenter mInformationListPresenter;
     private InformationAdapter mInformationAdapter;
@@ -70,14 +78,14 @@ public class HomeFragment extends WDFragment {
     @Override
     public void initView(View view) {
 
-        recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(),OrientationHelper.VERTICAL,false));
+        recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false));
         mInformationAdapter = new InformationAdapter(getContext());
         recyclerlist.setAdapter(mInformationAdapter);
 
 
-
         //设置 Header 为 贝塞尔雷达 样式
-        refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
+        //refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
+        //refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()).setEnableLastTime(true));
 //设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
 
@@ -106,7 +114,6 @@ public class HomeFragment extends WDFragment {
         });
 
 
-
     }
 
     private void requestt(int page) {
@@ -115,7 +122,23 @@ public class HomeFragment extends WDFragment {
         mBannerPresenter = new BannerPresenter(new showBannerCall());
         mBannerPresenter.reqeust();
         mInformationListPresenter = new InformationListPresenter(new showListCall());
-        mInformationListPresenter.reqeust(40,"155064093774940",1,page,10);
+        mInformationListPresenter.reqeust(40, "155064093774940", 1, page, 10);
+    }
+
+
+    @OnClick({R.id.search, R.id.menu})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.search:
+                break;
+            case R.id.menu:
+                menus();
+                break;
+        }
+    }
+
+    private void menus() {
+        startActivity(new Intent(getContext(),InterestActivity.class));
     }
 
 
@@ -135,6 +158,7 @@ public class HomeFragment extends WDFragment {
                         return new BannerViewHolder();
                     }
                 });
+                banner.start();
             }
 
         }
@@ -180,8 +204,8 @@ public class HomeFragment extends WDFragment {
         @Override
         public void success(Result<List<InformationListBean>> result) {
             mResult = result.getResult();
-            Log.e("lk","lk"+result.getStatus());
-            if (result.getStatus().equals("0000")){
+            Log.e("lk", "lk" + result.getStatus());
+            if (result.getStatus().equals("0000")) {
                 mInformationAdapter.reset(mResult);
             }
         }
