@@ -39,6 +39,8 @@ public abstract class WDActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
+        userDao = daoSession.getUserDao();
         setContentView(getLayoutId());
         mForegroundActivity = this;
         ButterKnife.bind(this);
@@ -46,8 +48,7 @@ public abstract class WDActivity extends SwipeBackActivity {
         //  初始化右滑退出
         initSwipeBack();
 
-        DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
-        userDao = daoSession.getUserDao();
+
         List<User> users = userDao.loadAll();
         if (users != null && users.size() > 0) {
             for (int i = 0; i < users.size(); i++) {

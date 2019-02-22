@@ -93,7 +93,7 @@ public class RegisterActivity extends WDActivity   {
 
         @Override
         public void fail(ApiException e) {
-
+            Toast.makeText(RegisterActivity.this, "失败", Toast.LENGTH_SHORT).show();
         }
     }
 }

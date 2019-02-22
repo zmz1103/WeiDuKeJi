@@ -46,6 +46,16 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="640" />
+        <activity android:name=".activity.myactivity.MyCollectActivity" />
+        <activity android:name=".activity.myactivity.MyAttentionActivity" />
+        <activity android:name=".activity.myactivity.MyCardActivity" />
+        <activity android:name=".activity.myactivity.MyNoticeActivity" />
+        <activity android:name=".activity.myactivity.MyInteGralActivity" />
+        <activity android:name=".activity.myactivity.MyTaskActivity" />
+        <activity android:name=".activity.myactivity.MySettingActivity" />
+        <activity android:name=".activity.myactivity.SignActivity"></activity>
+
+        <activity android:name=".activity.InterestActivity"></activity>
 
         <activity android:name=".activity.PictureDisplayActivity"></activity>
     </application>

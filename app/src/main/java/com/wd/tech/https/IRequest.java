@@ -4,6 +4,7 @@ import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.InformationListBean;
+import com.wd.tech.bean.InterestListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -106,4 +107,11 @@ public interface IRequest {
     Observable<Result> getcancelLike(@Header("userId") int userId,
                                @Header("sessionId") String sessionId,
                                @Field("communityId") int communityId);
+
+
+    /**
+     * 板块兴趣(lk)
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<InterestListBean>>> showinterestlist();
 }

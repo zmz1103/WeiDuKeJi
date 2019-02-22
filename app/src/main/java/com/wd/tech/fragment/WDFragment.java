@@ -59,7 +59,6 @@ public abstract class WDFragment extends Fragment {
         } else {
             Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
 
-
         }
         initView(view);
         return view;
