@@ -4,8 +4,21 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical">
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +26,9 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/community_list_headPic"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            app:roundAsCircle="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -33,7 +48,7 @@
                     android:text="球事"/>
                 <TextView
                     android:id="@+id/community_list_publishTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:textSize="10sp"
@@ -43,7 +58,7 @@
 
             <TextView
                 android:id="@+id/community_list_signature"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="我只关心足球篮球NBA"
                 android:gravity="bottom"
@@ -64,11 +79,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:collapseExpandGrarity="right"
         app:collapseExpandTextColor="#20affa"
         app:contentTextColor="#666666"
         app:contentTextSize="12sp"
-        app:maxCollapsedLines="3"
+        app:maxCollapsedLines="2"
         app:textCollapse="@string/collapse"
         app:textExpand="@string/expand"/>
     <com.wd.tech.view.RecyclerGridView
@@ -110,4 +124,16 @@
             android:layout_marginLeft="6dp"
             android:text="234"/>
     </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_recy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#e9e7e7"/>
+    </LinearLayout>
+
 </LinearLayout>

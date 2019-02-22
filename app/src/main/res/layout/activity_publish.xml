@@ -14,18 +14,53 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp">
         <TextView
-            android:id="@+id/publish_cancel"
+            android:id="@+id/txt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消"
+            android:textSize="16sp"
+            android:textColor="#666666"
             android:layout_alignParentLeft="true"/>
         <TextView
-            android:id="@+id/publish_finnish"
+            android:id="@+id/txt_publish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/publish_cancel"
-            android:text="完成"
-            android:layout_alignParentRight="true"/>
+            android:layout_toLeftOf="@id/txt_cancel"
+            android:text="发表"
+            android:textSize="16sp"
+            android:textColor="#20affa"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"/>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <EditText
+            android:id="@+id/community_publish_content"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:padding="5dp"
+            android:minLines="5"
+            android:gravity="top"
+            android:background="@drawable/community_edt_note_bg"
+            android:textColor="#181818"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/community_publish_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/community_publish_content"
+            android:layout_alignParentEnd="true"
+            android:text="0/300" />
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/community_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"/>
 
 </LinearLayout>

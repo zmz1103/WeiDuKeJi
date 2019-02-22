@@ -2,14 +2,18 @@ package com.wd.tech.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.wd.tech.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
@@ -18,11 +22,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
  */
 
 
-public class StartActivity extends WDActivity   {
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_start;
-    }
+public class StartActivity extends AppCompatActivity {
 
     int time = 2;
     Handler handler = new Handler(Looper.getMainLooper()) {
@@ -45,16 +45,15 @@ public class StartActivity extends WDActivity   {
     TextView tt;
 
     @Override
-    protected void initView() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
+        ButterKnife.bind(this);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/ziti.ttf");
         t.setTypeface(typeFace);
         tt.setTypeface(typeFace);
         handler.sendEmptyMessage(1);
     }
 
-    @Override
-    protected void destoryData() {
-
-    }
 
 }

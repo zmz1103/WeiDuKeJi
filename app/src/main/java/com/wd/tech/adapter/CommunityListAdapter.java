@@ -3,7 +3,9 @@ package com.wd.tech.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.communityCommentVoList;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.RecyclerGridView;
 
@@ -41,9 +44,16 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         }
     }
 
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     //接口回调
     public interface onCommunityListClickListener{
-        void onCommunityListClick(int id);
+        void onmHeadPicClick(int id,String HeadPic,String NickName,String Signature);
+        void onmCommentClick(int i, int Id, CommunitylistData communitylistData);
+        void onmPraiseClick(int i, int Id, CommunitylistData communitylistData);
     }
     public onCommunityListClickListener mOnCommunityListClickListener;
 
@@ -53,13 +63,13 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(context, R.layout.community_recy_adapter, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.community_recy_adapter, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         final CommunitylistData data = list.get(i);
         viewHolder.mHeadPic.setImageURI(Uri.parse(data.getHeadPic()));
         viewHolder.mNickName.setText(data.getNickName());
@@ -70,6 +80,19 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         viewHolder.mPraiseNum.setText(""+data.getPraise());
         viewHolder.mContent.setText(data.getContent());
 
+        //设置布局管理器
+        viewHolder.mCommentRecy.setLayoutManager(new LinearLayoutManager(context));
+        List<communityCommentVoList> communitylist = list.get(0).getCommunityCommentVoList();
+        CommentAdapter commentAdapter = new CommentAdapter(context,communitylist);
+        viewHolder.mCommentRecy.setAdapter(commentAdapter);
+        //登录用户是否点过赞
+        if (list.get(i).getWhetherGreat()==1){
+            viewHolder.mPraise.setImageResource(R.mipmap.common_icon_praise_s);
+        }else {
+            viewHolder.mPraise.setImageResource(R.mipmap.common_icon_prise_n);
+        }
+
+        //图片
         if (StringUtils.isEmpty(data.getFile())){
             viewHolder.mGridView.setVisibility(View.GONE);
         }else{
@@ -90,21 +113,30 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             viewHolder.mGridView.setNumColumns(colNum);
             viewHolder.imageAdapter.notifyDataSetChanged();
         }
-        //点赞监听
-        viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
+        //头像监听
+        viewHolder.mHeadPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onCommunityListClick(data.getId());
+                    mOnCommunityListClickListener.onmHeadPicClick(data.getId(),data.getHeadPic(),data.getNickName(),data.getSignature());
                 }
             }
         });
         //评论监听
+        viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnCommunityListClickListener !=null){
+                    mOnCommunityListClickListener.onmCommentClick(i,data.getId(),data);
+                }
+            }
+        });
+        //点赞监听
         viewHolder.mPraise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onCommunityListClick(data.getId());
+                    mOnCommunityListClickListener.onmPraiseClick(i,data.getId(),data);
                 }
             }
         });
@@ -130,6 +162,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final ImageView mPraise;
         private final TextView mPraiseNum;
         private final ImageAdapter imageAdapter;
+        private final RecyclerView mCommentRecy;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -144,9 +177,8 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mCommentNum = itemView.findViewById(R.id.community_list_comment_num);
             mPraise = itemView.findViewById(R.id.community_list_praise);
             mPraiseNum = itemView.findViewById(R.id.community_list_praise_num);
+            mCommentRecy = itemView.findViewById(R.id.comment_recy);
             imageAdapter = new ImageAdapter();
-//            int space = context.getResources().getDimensionPixelSize(10);;//图片间距
-            mGridView.setHorizontalSpacing(10);
             mGridView.setVerticalSpacing(10);
             mGridView.setAdapter(imageAdapter);
         }

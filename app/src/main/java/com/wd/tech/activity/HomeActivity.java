@@ -36,7 +36,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
  * author:赵明珠(啊哈)
  * function:
  */
-public class HomeActivity extends AppCompatActivity implements CustomAdapt {
+public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.frame)
     FrameLayout frame;
@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements CustomAdapt {
         List<User> users = userDao.loadAll();
         if (users.size() == 0) {
             noUserLogin();
-        }else{
+        } else {
             haveUserLogin();
         }
     }
@@ -121,10 +121,10 @@ public class HomeActivity extends AppCompatActivity implements CustomAdapt {
     @Override
     protected void onResume() {
         super.onResume();
-          UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
+        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
         if (userDao.loadAll().size() == 0) {
             noUserLogin();
-        }else{
+        } else {
             haveUserLogin();
         }
 
@@ -133,26 +133,16 @@ public class HomeActivity extends AppCompatActivity implements CustomAdapt {
     private void haveUserLogin() {
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         haveUserFragment = new HaveUserFragment();
-        fragmentTransaction.replace(R.id.c_frame,haveUserFragment);
+        fragmentTransaction.replace(R.id.c_frame, haveUserFragment);
         fragmentTransaction.commit();
     }
 
     private void noUserLogin() {
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         noUserFragment = new NoUserFragment();
-        fragmentTransaction.replace(R.id.c_frame,noUserFragment);
+        fragmentTransaction.replace(R.id.c_frame, noUserFragment);
         fragmentTransaction.commit();
-
     }
 
 
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 720;
-    }
 }
