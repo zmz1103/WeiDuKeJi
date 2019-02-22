@@ -100,8 +100,8 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }else{
                 ((InformationListMessage)viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_n);
             }
-            //((InformationListMessage)viewHolder).fenxiangshu.setText(mInformationListBeans.get(i).getShare());
-            //((InformationListMessage)viewHolder).shoucangshu.setText(mInformationListBeans.get(i).getCollection());
+            ((InformationListMessage)viewHolder).fenxiangshu.setText(mInformationListBeans.get(i).getShare()+"");
+            ((InformationListMessage)viewHolder).shoucangshu.setText(mInformationListBeans.get(i).getCollection()+"");
 
 
         }

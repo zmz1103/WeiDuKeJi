@@ -54,6 +54,9 @@
         <activity android:name=".activity.myactivity.MyTaskActivity" />
         <activity android:name=".activity.myactivity.MySettingActivity" />
         <activity android:name=".activity.myactivity.SignActivity"></activity>
+
+        <activity android:name=".activity.InterestActivity"></activity>
+
         <activity android:name=".activity.PictureDisplayActivity"></activity>
     </application>
 
