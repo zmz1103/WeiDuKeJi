@@ -188,4 +188,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
             }
         });
     }
+
+    public static void main(String[] a){
+        
+    }
 }

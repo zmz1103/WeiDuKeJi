@@ -1,5 +1,6 @@
 package com.wd.tech.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +14,20 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.NoNetWorkActivity;
+import com.wd.tech.activity.myactivity.MyAttentionActivity;
+import com.wd.tech.activity.myactivity.MyCardActivity;
+import com.wd.tech.activity.myactivity.MyCollectActivity;
+import com.wd.tech.activity.myactivity.MyInteGralActivity;
+import com.wd.tech.activity.myactivity.MyNoticeActivity;
+import com.wd.tech.activity.myactivity.MySettingActivity;
+import com.wd.tech.activity.myactivity.MyTaskActivity;
+import com.wd.tech.activity.myactivity.SignActivity;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.UserDao;
+import com.wd.tech.util.NetWorkUtils;
 
 import java.util.List;
 
@@ -54,27 +66,53 @@ public class HaveUserFragment extends WDFragment {
         my_signature.setText("快来发表新签名吧！");
     }
 
-    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting})
+    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext})
     void dian(View view) {
-        switch (view.getId()) {
-            case R.id.linear_my_attention:
-                // 关注
-                break;
-            case R.id.linear_my_collect:
-                // 收藏
-                break;
-            case R.id.linear_my_card:
-                // 我的帖子
-                break;
-            case R.id.linear_my_notice:
-                // 通知
-                break;
-            case R.id.linear_my_integral:
-                // 我的积分
-                break;
-            case R.id.linear_my_task:
-                // 任务
-                break;
+        // 判断是否有网
+        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
+            switch (view.getId()) {
+                case R.id.my_image_sign:
+                    // 签到
+                    startActivity(new Intent(WDApplication.getAppContext(), SignActivity.class));
+                    break;
+                case R.id.qdtext:
+                    // 签到
+                    startActivity(new Intent(WDApplication.getAppContext(), SignActivity.class));
+                    break;
+                case R.id.linear_my_attention:
+                    // 关注
+                    startActivity(new Intent(WDApplication.getAppContext(), MyAttentionActivity.class));
+                    break;
+                case R.id.linear_my_collect:
+                    // 收藏
+                    startActivity(new Intent(WDApplication.getAppContext(), MyCollectActivity.class));
+                    break;
+                case R.id.linear_my_card:
+                    // 我的帖子
+                    startActivity(new Intent(WDApplication.getAppContext(), MyCardActivity.class));
+                    break;
+                case R.id.linear_my_notice:
+                    // 通知
+                    startActivity(new Intent(WDApplication.getAppContext(), MyNoticeActivity.class));
+                    break;
+                case R.id.linear_my_integral:
+                    // 我的积分
+                    startActivity(new Intent(WDApplication.getAppContext(), MyInteGralActivity.class));
+                    break;
+                case R.id.linear_my_task:
+                    // 任务
+                    startActivity(new Intent(WDApplication.getAppContext(), MyTaskActivity.class));
+                    break;
+                case R.id.linear_my_setting:
+                    // 设置
+                    startActivity(new Intent(WDApplication.getAppContext(), MySettingActivity.class));
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(WDApplication.getAppContext(), NoNetWorkActivity.class));
         }
     }
 

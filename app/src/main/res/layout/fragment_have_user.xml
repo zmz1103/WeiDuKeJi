@@ -67,6 +67,7 @@
             android:src="@mipmap/my_icon_sign" />
 
         <TextView
+            android:id="@+id/qdtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/my_image_sign"

@@ -36,25 +36,40 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
     private LoginPresenter loginPresenter;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
-        if (userDao.loadAll().size() > 0) {
+        if (userDao.loadAll().size()>0) {
             finish();
-            return;
+            return ;
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return ;
+        }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return ;
+        }
     }
 
     @Override
     protected int getLayoutId() {
-
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return R.layout.activity_main;
+        }
         return R.layout.activity_main;
     }
 
