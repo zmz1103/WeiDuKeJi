@@ -49,11 +49,15 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         notifyDataSetChanged();
     }
 
+    public CommunitylistData getItem(int position) {
+        return list.get(position);
+    }
+
     //接口回调
     public interface onCommunityListClickListener{
         void onmHeadPicClick(int userid);
-        void onmCommentClick(int i, int Id, CommunitylistData communitylistData);
-        void onmPraiseClick(int i, int Id, CommunitylistData communitylistData);
+        void onmCommentClick(int id,CommunitylistData communitylistData);
+        void onmPraiseClick(int id,CommunitylistData communitylistData);
     }
     public onCommunityListClickListener mOnCommunityListClickListener;
 
@@ -127,7 +131,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onmCommentClick(i,data.getId(),data);
+                    mOnCommunityListClickListener.onmCommentClick(data.getId(),list.get(i));
                 }
             }
         });
@@ -136,7 +140,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onmPraiseClick(i,data.getId(),data);
+                    mOnCommunityListClickListener.onmPraiseClick(data.getId(),list.get(i));
                 }
             }
         });

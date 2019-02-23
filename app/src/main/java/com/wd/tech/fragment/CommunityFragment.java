@@ -23,6 +23,7 @@ import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.CommunityListPresenter;
+import com.wd.tech.presenter.LikePresenter;
 import com.wd.tech.view.DataCall;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
     private CommunityListPresenter mCommunityListPresenter;
     Unbinder unbinder;
     private int page = 1;
+    private LikePresenter mLikePresenter;
 
     @Override
     public int getContent() {
@@ -99,6 +101,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
 
     private void requestt(int page) {
         mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
+        mLikePresenter = new LikePresenter(new LikeCall());
         if (user == null){
             mCommunityListPresenter.reqeust(0, "", page, 5);
         }else {
@@ -113,24 +116,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
         communityRecy.setAdapter(mCommunityListAdapter);
     }
 
-
-
-    class CommunityCall implements DataCall<Result<List<CommunitylistData>>> {
-
-        @Override
-        public void success(Result<List<CommunitylistData>> result) {
-
-            if (result.getStatus().equals("0000")) {
-                mCommunityListAdapter.addAll(result.getResult());
-                mCommunityListAdapter.notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        public void fail(ApiException e) {
-            Toast.makeText(getActivity(), "失败", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
     @OnClick(R.id.btn_publish_the_news)
@@ -157,24 +142,63 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
             }
 
             @Override
-            public void onmCommentClick(int i, int Id, CommunitylistData communitylistData) {
+            public void onmCommentClick(int id,CommunitylistData communitylistData) {
                 if (user==null){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
-
                 }
             }
 
             @Override
-            public void onmPraiseClick(int i, int Id, CommunitylistData communitylistData) {
+            public void onmPraiseClick(int id,CommunitylistData communitylistData) {
                 if (user==null){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
-
+                    if (communitylistData.getWhetherGreat() == 1) {
+                    } else {
+                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
+                    }
                 }
             }
         });
     }
+    //请求展示列表数据
+    class CommunityCall implements DataCall<Result<List<CommunitylistData>>> {
+
+        @Override
+        public void success(Result<List<CommunitylistData>> result) {
+
+            if (result.getStatus().equals("0000")) {
+                mCommunityListAdapter.addAll(result.getResult());
+                mCommunityListAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getActivity(), "请检查网络连接", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //评论点赞
+    class LikeCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                int o = (int) data.getArgs()[1];
+                CommunitylistData item = mCommunityListAdapter.getItem(o);
+                item.setWhetherGreat(1);
+                item.setPraise(item.getPraise()+1);
+                mCommunityListAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void fail(ApiException a) {
+            Toast.makeText(getActivity(), "请检查网络连接", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

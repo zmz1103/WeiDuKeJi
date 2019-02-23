@@ -10,6 +10,15 @@ public class Result<T> {
     private String status;
     private String message;
     private T result;
+    private Object[] args;
+
+    public Object[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
 
     public String getStatus() {
         return status;

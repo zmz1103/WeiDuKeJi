@@ -29,8 +29,7 @@ import jaydenxiao.com.expandabletextview.ExpandableTextView;
 public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.ViewHolder> {
     private Context context;
     private List<CommunityUserPostVoListBean> list;
-    private String mThumbnail;
-    private String[] mTu;
+
 
     public FriendsPostAdapter(Context context) {
         this.context = context;
@@ -70,9 +69,33 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
         viewHolder.mFriendspostContent.setText(listBean.getContent());
         viewHolder.mFriendspostCommentNum.setText(""+listBean.getComment());
         viewHolder.mFriendspostPraiseNum.setText(""+listBean.getPraise());
-        mThumbnail = listBean.getFile();
-        mTu = mThumbnail.split("\\?");
-        viewHolder.mFriendspostGridView.setImageURI(mTu[0]);
+        if (listBean.getWhetherGreat()==1){
+            viewHolder.mFriendspostpraise.setImageResource(R.mipmap.common_icon_praise_s);
+        } else {
+            viewHolder.mFriendspostpraise.setImageResource(R.mipmap.common_icon_prise_n);
+        }
+        //图片
+        if (StringUtils.isEmpty(listBean.getFile())){
+            viewHolder.mFriendspostGridView.setVisibility(View.GONE);
+        }else{
+            viewHolder.mFriendspostGridView.setVisibility(View.VISIBLE);
+            String[] images = listBean.getFile().split(",");
+            int imageCount = images.length;
+
+            int colNum;//列数
+            if (imageCount == 1){
+                colNum = 1;
+            }else if (imageCount == 2||imageCount == 4){
+                colNum = 2;
+            }else {
+                colNum = 3;
+            }
+            viewHolder.imageAdapter.clear();
+            viewHolder.imageAdapter.addAll(Arrays.asList(images));
+            viewHolder.mFriendspostGridView.setNumColumns(colNum);
+            viewHolder.imageAdapter.notifyDataSetChanged();
+        }
+
         //评论
         viewHolder.mFriendspostComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,11 +124,12 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ExpandableTextView mFriendspostContent;
-        private final SimpleDraweeView mFriendspostGridView;
+        private final RecyclerGridView mFriendspostGridView;
         private final ImageView mFriendspostComment;
         private final TextView mFriendspostCommentNum;
         private final ImageView mFriendspostpraise;
         private final TextView mFriendspostPraiseNum;
+        private final ImageAdapter imageAdapter;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -116,6 +140,9 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             mFriendspostCommentNum = itemView.findViewById(R.id.friendspost_comment_num);
             mFriendspostpraise = itemView.findViewById(R.id.friendspost_praise);
             mFriendspostPraiseNum = itemView.findViewById(R.id.friendspost_praise_num);
+            imageAdapter = new ImageAdapter();
+            mFriendspostGridView.setVerticalSpacing(10);
+            mFriendspostGridView.setAdapter(imageAdapter);
         }
     }
 }

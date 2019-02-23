@@ -21,10 +21,10 @@
             app:maxCollapsedLines="2"
             app:textCollapse="@string/collapse"
             app:textExpand="@string/expand"/>
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.wd.tech.view.RecyclerGridView
             android:id="@+id/friendspost_grid_view"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"/>
         <LinearLayout
             android:layout_width="match_parent"
