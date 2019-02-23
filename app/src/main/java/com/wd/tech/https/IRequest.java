@@ -1,6 +1,7 @@
 package com.wd.tech.https;
 
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.Group;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 
@@ -75,5 +76,12 @@ public interface IRequest {
                                                                       @Field("plateId")int plateId,
                                                                       @Field("page")int page,
                                                                       @Field("count")int count);
-
+    /**
+     * @作者 啊哈
+     * @date 2019/2/20
+     * @method：分组
+     */
+    @GET("chat/verify/v1/initFriendList")
+    Observable<Result<List<Group>>> group(@Header("userId") int userId,
+                                          @Header("sessionId")String sessionId);
 }

@@ -1,5 +1,7 @@
 package com.wd.tech.presenter;
 
+import com.wd.tech.https.IRequest;
+import com.wd.tech.https.NetWorkManager;
 import com.wd.tech.view.DataCall;
 
 import io.reactivex.Observable;
@@ -16,6 +18,8 @@ public class QueryGroupPresenter extends WDPresenter{
 
     @Override
     protected Observable observable(Object... args) {
-        return null;
+        IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
+
+        return iRequest.group((int)args[0],(String)args[1]);
     }
 }

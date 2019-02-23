@@ -1,5 +1,7 @@
 package com.wd.tech.bean;
 
+import java.util.List;
+
 /**
  * date:2019/2/20 15:10
  * author:赵明珠(啊哈)
@@ -11,6 +13,24 @@ public class Group {
     private int customize;
     private int groupId;
     private String groupName;
+    private int black;
+    private List<FriendInfoList>friendInfoList;
+
+    public int getBlack() {
+        return black;
+    }
+
+    public void setBlack(int black) {
+        this.black = black;
+    }
+
+    public List<FriendInfoList> getFriendInfoList() {
+        return friendInfoList;
+    }
+
+    public void setFriendInfoList(List<FriendInfoList> friendInfoList) {
+        this.friendInfoList = friendInfoList;
+    }
 
     public int getCurrentNumber() {
         return currentNumber;
