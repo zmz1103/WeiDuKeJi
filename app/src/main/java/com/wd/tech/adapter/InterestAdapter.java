@@ -71,6 +71,12 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.ViewHo
         }else if (mlist.getName().equals("社交通讯")){
             viewHolder.textEnglish.setText("Social IM");
         }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterestClick.success(mlist.getId(),mlist.getName());
+            }
+        });
 
 
     }
@@ -91,5 +97,14 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.ViewHo
             text = itemView.findViewById(R.id.text);
             textEnglish = itemView.findViewById(R.id.textEnglish);
         }
+    }
+
+    public interface InterestClick{
+        void success(int id,String name);
+    }
+    private InterestClick mInterestClick;
+
+    public void setInterestClick(InterestClick interestClick) {
+        mInterestClick = interestClick;
     }
 }

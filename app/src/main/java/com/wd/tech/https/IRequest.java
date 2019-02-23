@@ -82,7 +82,7 @@ public interface IRequest {
      * @return
      */
     @GET("information/v1/infoRecommendList")
-    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
+    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") long userId,
                                                                       @Header("sessionId")String sessionId,
                                                                       @Query("plateId") int plateId,
                                                                       @Query("page")int page,

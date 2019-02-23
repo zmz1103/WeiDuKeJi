@@ -15,6 +15,18 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"/>
 
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_below="@id/textwenben"
+        android:id="@+id/simpleview"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        fresco:roundedCornerRadius="8dp"/>
+
     <TextView
         android:id="@+id/guangagao"
         android:layout_width="40dp"
@@ -27,14 +39,10 @@
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_below="@id/textwenben"
-        android:id="@+id/simpleview"
+    <View
+        android:layout_below="@id/simpleview"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        fresco:roundedCornerRadius="8dp"/>
+        android:layout_height="1dp"
+        android:background="#e6e3e3" />
 
 </RelativeLayout>

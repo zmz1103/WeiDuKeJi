@@ -3,6 +3,7 @@ package com.wd.tech.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -58,7 +59,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        if (TYPE_RIGHT_IMAGE == getItemViewType(i)) {
+        if (i == TYPE_RIGHT_IMAGE) {
             View view = View.inflate(context, R.layout.informationlist1_item, null);
             return new InformationListMessage(view);
         } else {
@@ -70,22 +71,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        /*mItemViewType = getItemViewType(i);
-        switch (mItemViewType){
-            case TYPE_RIGHT_IMAGE:
-                InformationListMessage holderA=(InformationListMessage)viewHolder;
-                String[] split = mInformationListBeans.get(i).getThumbnail().split("\\?");
-                holderA.simpleview.setImageURI(split[0]);
-                holderA.title.setText(mInformationListBeans.get(i).getTitle());
-                holderA.details.setText(mInformationListBeans.get(i).getSummary());
-                holderA.zuozhe.setText(mInformationListBeans.get(i).getSource());
-                break;
-
-
-
-
-        }*/
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         if (viewHolder instanceof InformationListMessage) {
             mThumbnail = mInformationListBeans.get(i).getThumbnail();
             mTu = mThumbnail.split("\\?");
@@ -105,17 +91,26 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
         }
+
+
         if (viewHolder instanceof InformationListGuangGao){
-            /*if (mInformationListBeans.get(i).getInfoAdvertisingVo().getPic().equals("")){
+            if (mInformationListBeans.get(i).getInfoAdvertisingVo().getPic().equals("")){
                 ((InformationListGuangGao)viewHolder).simpleview.setImageURI("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550659913819&di=3fb9f9de20a37a9bf1a101983656298f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F05%2F20170805134053_HzALE.png");
                 ((InformationListGuangGao)viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
+
             }else {
-
-
                 mPic = mInformationListBeans.get(i).getInfoAdvertisingVo().getPic();
-                mPic2 = mPic.split("|");
+                mPic2 = mPic.split("\\?");
                 ((InformationListGuangGao)viewHolder).simpleview.setImageURI(mPic2[0]);
-            }*/
+                ((InformationListGuangGao)viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
+                ((InformationListGuangGao)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mGuangGaoClick.ggsuccess(mInformationListBeans.get(i).getInfoAdvertisingVo().getUrl());
+                    }
+                });
+
+            }
         }
 
 
@@ -133,9 +128,9 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //返回条目类型，可以根据需要返回条目类型，我这就随意返回了两种，
         mWhetherAdvertising = mListBean.getWhetherAdvertising();
         if (mWhetherAdvertising == 2){
-            return 1;
+            return TYPE_RIGHT_IMAGE;
         }else {
-            return 2;
+            return TYPE_THREE_IMAGE;
         }
 
     }
@@ -175,5 +170,14 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             textwenben = itemView.findViewById(R.id.textwenben);
             simpleview = itemView.findViewById(R.id.simpleview);
         }
+    }
+
+    public interface GuangGaoClick{
+        void ggsuccess(String url);
+    }
+    private GuangGaoClick mGuangGaoClick;
+
+    public void setGuangGaoClick(GuangGaoClick guangGaoClick) {
+        mGuangGaoClick = guangGaoClick;
     }
 }

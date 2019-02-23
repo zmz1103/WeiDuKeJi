@@ -26,10 +26,12 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.activity.InterestActivity;
+import com.wd.tech.activity.WebDetailsActivity;
 import com.wd.tech.adapter.InformationAdapter;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
@@ -69,6 +71,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private long mUserid;
     private String mSessionid;
     private int page = 1;
+    private Intent mIntent;
 
 
     @Override
@@ -78,6 +81,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
     @Override
     public void initView(View view) {
+        mIntent = new Intent(getContext(), WebDetailsActivity.class);
+
 
         recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false));
         mInformationAdapter = new InformationAdapter(getContext());
@@ -87,12 +92,14 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         //设置 Header 为 贝塞尔雷达 样式
         //refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
         //refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()).setEnableLastTime(true));
-//设置 Footer 为 球脉冲 样式
+        //设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-
+        mBannerPresenter = new BannerPresenter(new showBannerCall());
+        mInformationListPresenter = new InformationListPresenter(new showListCall());
         requestt(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
         refreshLayout.setEnableLoadmore(true);//启用加载
+
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -113,17 +120,40 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 refreshlayout.finishLoadmore();
             }
         });
+        mInformationAdapter.setGuangGaoClick(new InformationAdapter.GuangGaoClick() {
+            @Override
+            public void ggsuccess(String url) {
+
+                mIntent.putExtra("jumpUrl",url);
+                startActivity(mIntent);
+            }
+        });
 
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBannerPresenter = null;
+        mInformationListPresenter = null;
+    }
+
     private void requestt(int page) {
-        /*mUserid = user.getUserid();
-        mSessionid = user.getSessionid();*/
-        mBannerPresenter = new BannerPresenter(new showBannerCall());
-        mBannerPresenter.reqeust();
-        mInformationListPresenter = new InformationListPresenter(new showListCall());
-        mInformationListPresenter.reqeust(40, "155064093774940", 1, page, 10);
+        if (userDao.loadAll().size()>0){
+            Log.e("lk", "有 "+mUserid);
+            mUserid = user.getUserId();
+            mSessionid = user.getSessionId();
+            mBannerPresenter.reqeust();
+            mInformationListPresenter.reqeust(mUserid, mSessionid, 0, page, 10);
+
+        }else {
+            Log.e("lk", "无 ");
+            mBannerPresenter.reqeust();
+            mInformationListPresenter.reqeust(0, " ", 0, page, 10);
+
+        }
+
     }
 
     @Override
@@ -194,13 +224,15 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         }
 
         @Override
-        public void onBind(Context context, int i, BannnerBean bannnerBean) {
+        public void onBind(Context context, int i, final BannnerBean bannnerBean) {
             mImageView.setImageURI(Uri.parse(bannnerBean.getImageUrl()));
             mMessage.setText(bannnerBean.getTitle());
             mImageView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-
+                    mIntent.putExtra("jumpUrl",bannnerBean.getJumpUrl());
+                    startActivity(mIntent);
                 }
             });
         }
@@ -226,4 +258,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         }
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,11 +35,19 @@ public class InterestActivity extends WDActivity {
 
     @Override
     protected void initView() {
+        Intent intent = new Intent();
         mInterestAdapter = new InterestAdapter(this);
         mInterestListPresenter = new InterestListPresenter(new InterestCall());
         recyclerlist.setLayoutManager(new GridLayoutManager(this,2,OrientationHelper.VERTICAL,false));
         recyclerlist.setAdapter(mInterestAdapter);
         mInterestListPresenter.reqeust();
+
+        mInterestAdapter.setInterestClick(new InterestAdapter.InterestClick() {
+            @Override
+            public void success(int id,String name) {
+
+            }
+        });
 
 
     }
