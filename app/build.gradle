@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
+    signingConfigs {
+        tech {
+            keyAlias 'tech'
+            keyPassword '123456'
+            storeFile file('C:/SouGouDownload/tech.keystore')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.wd.tech"
@@ -10,12 +18,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.tech
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.tech
         }
+        debug {
+            signingConfig signingConfigs.tech
+        }
+    }
+    productFlavors {
     }
 }
 
@@ -51,6 +66,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
+
     //Textview展开收缩
     implementation 'com.jaydenxiao:ExpandableTextView:1.0.0'
     implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
@@ -58,6 +74,9 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     // add library
     implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    // 今日头条适配
+    implementation 'me.jessyan:autosize:0.9.5'
     implementation 'com.github.userswlwork:pull-to-refresh:1.0.0'
 }
 greendao {

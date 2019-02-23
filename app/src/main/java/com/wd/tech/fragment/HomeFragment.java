@@ -1,23 +1,37 @@
 package com.wd.tech.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.activity.InterestActivity;
+import com.wd.tech.activity.WebDetailsActivity;
 import com.wd.tech.adapter.InformationAdapter;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
@@ -30,14 +44,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * date:2019/2/19 13:49
  * author:李阔(Hypoc7isy语涩)
  * function:
  */
-public class HomeFragment extends WDFragment {
+public class HomeFragment extends WDFragment implements CustomAdapt {
 
     @BindView(R.id.banner)
     MZBannerView banner;
@@ -45,9 +61,18 @@ public class HomeFragment extends WDFragment {
     RecyclerView recyclerlist;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.search)
+    ImageView search;
+    @BindView(R.id.menu)
+    ImageView menu;
     private BannerPresenter mBannerPresenter;
     private InformationListPresenter mInformationListPresenter;
     private InformationAdapter mInformationAdapter;
+    private long mUserid;
+    private String mSessionid;
+    private int page = 1;
+    private Intent mIntent;
+
 
     @Override
     public int getContent() {
@@ -56,15 +81,105 @@ public class HomeFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
-        mBannerPresenter = new BannerPresenter(new showBannerCall());
-        mBannerPresenter.reqeust();
-        recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(),OrientationHelper.VERTICAL,false));
+        mIntent = new Intent(getContext(), WebDetailsActivity.class);
+
+
+        recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false));
         mInformationAdapter = new InformationAdapter(getContext());
         recyclerlist.setAdapter(mInformationAdapter);
+
+
+        //设置 Header 为 贝塞尔雷达 样式
+        //refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
+        //refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()).setEnableLastTime(true));
+        //设置 Footer 为 球脉冲 样式
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        mBannerPresenter = new BannerPresenter(new showBannerCall());
         mInformationListPresenter = new InformationListPresenter(new showListCall());
-        mInformationListPresenter.reqeust(0,"",1,1,10);
+        requestt(page);
+        refreshLayout.setEnableRefresh(true);//启用刷新
+        refreshLayout.setEnableLoadmore(true);//启用加载
 
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                requestt(page);
+                mInformationAdapter.clear();
+                refreshlayout.finishRefresh();
+
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                requestt(page);
+                mInformationAdapter.notifyDataSetChanged();
+                refreshlayout.finishLoadmore();
+            }
+        });
+        mInformationAdapter.setGuangGaoClick(new InformationAdapter.GuangGaoClick() {
+            @Override
+            public void ggsuccess(String url) {
+
+                mIntent.putExtra("jumpUrl",url);
+                startActivity(mIntent);
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBannerPresenter = null;
+        mInformationListPresenter = null;
+    }
+
+    private void requestt(int page) {
+        if (userDao.loadAll().size()>0){
+            Log.e("lk", "有 "+mUserid);
+            mUserid = user.getUserId();
+            mSessionid = user.getSessionId();
+            mBannerPresenter.reqeust();
+            mInformationListPresenter.reqeust(mUserid, mSessionid, 0, page, 10);
+
+        }else {
+            Log.e("lk", "无 ");
+            mBannerPresenter.reqeust();
+            mInformationListPresenter.reqeust(0, " ", 0, page, 10);
+
+        }
+
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
+
+
+    @OnClick({R.id.search, R.id.menu})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.search:
+                break;
+            case R.id.menu:
+                menus();
+                break;
+        }
+    }
+
+    private void menus() {
+        startActivity(new Intent(getContext(),InterestActivity.class));
     }
 
 
@@ -84,6 +199,7 @@ public class HomeFragment extends WDFragment {
                         return new BannerViewHolder();
                     }
                 });
+                banner.start();
             }
 
         }
@@ -108,13 +224,15 @@ public class HomeFragment extends WDFragment {
         }
 
         @Override
-        public void onBind(Context context, int i, BannnerBean bannnerBean) {
+        public void onBind(Context context, int i, final BannnerBean bannnerBean) {
             mImageView.setImageURI(Uri.parse(bannnerBean.getImageUrl()));
             mMessage.setText(bannnerBean.getTitle());
             mImageView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-
+                    mIntent.putExtra("jumpUrl",bannnerBean.getJumpUrl());
+                    startActivity(mIntent);
                 }
             });
         }
@@ -129,8 +247,10 @@ public class HomeFragment extends WDFragment {
         @Override
         public void success(Result<List<InformationListBean>> result) {
             mResult = result.getResult();
-            mInformationAdapter.reset(mResult);
-
+            Log.e("lk", "lk" + result.getStatus());
+            if (result.getStatus().equals("0000")) {
+                mInformationAdapter.reset(mResult);
+            }
         }
 
         @Override
@@ -138,4 +258,7 @@ public class HomeFragment extends WDFragment {
 
         }
     }
+
+
+
 }

@@ -12,7 +12,6 @@ import io.reactivex.Observable;
  * function:社区列表
  */
 public class CommunityListPresenter extends WDPresenter {
-    private int page = 1;
     public CommunityListPresenter(DataCall dataCall) {
         super(dataCall);
     }
@@ -20,12 +19,6 @@ public class CommunityListPresenter extends WDPresenter {
     @Override
     protected Observable observable(Object... args) {
         IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
-//        boolean refresh = (boolean)args[2];
-//        if (refresh){
-//            page = 1;
-//        }else{
-//            page++;
-//        }
         return iRequest.getCommunitylist((int)args[0],(String) args[1],(int)args[2],(int)args[3]);
     }
 }

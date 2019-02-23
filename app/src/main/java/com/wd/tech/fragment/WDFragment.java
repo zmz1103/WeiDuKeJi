@@ -1,5 +1,6 @@
 package com.wd.tech.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.wd.tech.activity.NoNetWorkActivity;
+import com.wd.tech.activity.WDActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * date:2019/2/19 10:31
@@ -37,7 +41,7 @@ public abstract class WDFragment extends Fragment {
         View view = inflater.inflate(getContent(), container, false);
 
         unbinder = ButterKnife.bind(this, view);
-        initView(view);
+
         DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getAppContext(), UserDao.TABLENAME);
         userDao = daoSession.getUserDao();
         List<User> users = userDao.loadAll();
@@ -53,8 +57,10 @@ public abstract class WDFragment extends Fragment {
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
 
         } else {
-            Toast.makeText(WDApplication.getAppContext(), "请检查网络", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+
         }
+        initView(view);
         return view;
     }
 

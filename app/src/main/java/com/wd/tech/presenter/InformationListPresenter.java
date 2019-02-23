@@ -22,6 +22,6 @@ public class InformationListPresenter extends WDPresenter{
     @Override
     protected Observable observable(Object... args) {
         mIRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return mIRequest.showinformationList((int)args[0],(String) args[1],(int)args[2],(int)args[3],(int)args[4]);
+        return mIRequest.showinformationList((long)args[0],(String) args[1],(int)args[2],(int)args[3],(int)args[4]);
     }
 }

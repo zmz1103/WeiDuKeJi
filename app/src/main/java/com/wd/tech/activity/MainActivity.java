@@ -3,13 +3,16 @@ package com.wd.tech.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -20,19 +23,53 @@ import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RegUtils;
 import com.wd.tech.util.RsaCoder;
+import com.wd.tech.util.WeiXinUtil;
 import com.wd.tech.view.DataCall;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MainActivity extends WDActivity {
+public class MainActivity extends WDActivity implements CustomAdapt {
 
     private LoginPresenter loginPresenter;
 
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return ;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return ;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return ;
+        }
+    }
+
     @Override
     protected int getLayoutId() {
+        if (userDao.loadAll().size()>0) {
+            finish();
+            return R.layout.activity_main;
+        }
         return R.layout.activity_main;
     }
 
@@ -59,12 +96,20 @@ public class MainActivity extends WDActivity {
                 String s1 = mEpwd.getText().toString();
                 boolean mobile = RegUtils.isMobile(s);
                 boolean b = RegUtils.rexCheckPassword(s1);
-                if (b && mobile) {
-                    try {
-                        loginPresenter.reqeust(mEtel.getText().toString(), RsaCoder.encryptByPublicKey(mEpwd.getText().toString()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                if (mobile) {
+
+                    if (b && mEpwd.length() >= 8) {
+                        try {
+                            loginPresenter.reqeust(mEtel.getText().toString(), RsaCoder.encryptByPublicKey(mEpwd.getText().toString()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(this, "密码必须大于8位", Toast.LENGTH_SHORT).show();
                     }
+
+                } else {
+                    Toast.makeText(this, "手机号不正确", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.eye:
@@ -84,6 +129,15 @@ public class MainActivity extends WDActivity {
                 break;
             case R.id.weixinLogin:
                 // 微信登录
+                if (!WeiXinUtil.success(this)) {
+                    Toast.makeText(this, "请先安装应用", Toast.LENGTH_SHORT).show();
+                } else {
+                    //  验证
+                    SendAuth.Req req = new SendAuth.Req();
+                    req.scope = "snsapi_userinfo";
+                    req.state = "wechat_sdk_demo_test";
+                    WeiXinUtil.reg(MainActivity.this).sendReq(req);
+                }
                 break;
             case R.id.faseIdLogin:
                 // 人脸登录
@@ -103,21 +157,30 @@ public class MainActivity extends WDActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
+
     private class loginCall implements DataCall<Result<User>> {
         @Override
         public void success(Result<User> result) {
+            Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
-
+                UserDao userDao = DaoMaster.newDevSession(MainActivity.this, UserDao.TABLENAME).getUserDao();
                 userDao.deleteAll();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
                 userDao.insertOrReplace(user);
-                List<User> users = userDao.loadAll();
-                Toast.makeText(MainActivity.this, ""+users.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, ""+userDao.loadAll().get(0).getUserId(), Toast.LENGTH_SHORT).show();
                 finish();
-
+                Log.v("数据库---",""+userDao.loadAll().get(0).toString());
             }
         }
 

@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import com.wd.tech.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,6 +59,10 @@ public class MessageFragment extends WDFragment {
         list.add(contactsFragment);
         list.add(myMessageFrament);
 
+
+        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+
+        HashSet<Object> objects = new HashSet<>();
 
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override

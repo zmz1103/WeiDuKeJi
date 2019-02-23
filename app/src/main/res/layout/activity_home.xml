@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|bottom"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:drawableTop="@drawable/rbtn_sele_information"
                 android:text="资讯"
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|bottom"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:drawableTop="@drawable/rbtn_sele_message"
                 android:text="消息"
@@ -45,9 +45,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginTop="10dp"
-                android:gravity="center|bottom"
+                android:gravity="center_horizontal"
                 android:drawableTop="@drawable/rbtn_sele_mine"
-                android:text="社区"
+                android:text="我的"
                 android:textColor="@color/colorText"
                 android:textSize="12sp"
                 android:button="@null"/>
@@ -66,18 +66,13 @@
             android:background="#55CCCCCC"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/c_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:background="@android:color/white">
 
-        <Button
-            android:id="@+id/goLoginBtn"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="去登录"
-            android:layout_height="wrap_content" />
 
-    </LinearLayout>
+    </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

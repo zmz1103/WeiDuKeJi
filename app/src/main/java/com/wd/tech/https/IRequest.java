@@ -2,7 +2,10 @@ package com.wd.tech.https;
 
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.Group;
+import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.InformationListBean;
+import com.wd.tech.bean.InterestListBean;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -10,18 +13,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
-
-import com.wd.tech.bean.CommunitylistData;
-import com.wd.tech.bean.Result;
-
-import java.util.List;
-
-import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -40,6 +32,7 @@ import retrofit2.http.POST;
  * function:
  */
 public interface IRequest {
+    //社区列表展示
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunitylistData>>> getCommunitylist(@Header("userId") int userId,
                                                                  @Header("sessionId") String sessionId,
@@ -62,6 +55,21 @@ public interface IRequest {
             @Field("phone") String phone,
             @Field("pwd") String pwd);
 
+    //发布帖子
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> getPublish(@Header("userId") int userId,
+                                  @Header("sessionId") String sessionId,
+                                  @Body MultipartBody multipartBody);
+
+    //用户发布的贴子
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<FriendsPostData>>> getFriendsPost(@Header("userId") int userId,
+                                                             @Header("sessionId") String sessionId,
+                                                             @Query("fromUid")int fromUid,
+                                                             @Query("page")int page,
+                                                             @Query("count")int count);
+
     /**
      * Banner轮播图
      * @return
@@ -69,8 +77,44 @@ public interface IRequest {
     @GET("information/v1/bannerShow")
     Observable<Result<List<BannnerBean>>> ShowBannner();
 
-    @POST("information/v1/infoRecommendList")
+
+    /**
+     * 资讯页面展示
+     * @return
+     */
+    @GET("information/v1/infoRecommendList")
+    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") long userId,
+                                                                      @Header("sessionId")String sessionId,
+                                                                      @Query("plateId") int plateId,
+                                                                      @Query("page")int page,
+                                                                      @Query("count")int count);
+
+
+    // 微信登录
+    @POST("user/v1/weChatLogin")
     @FormUrlEncoded
+    Observable<Result<User>> getWxlogin(@Header("ak") String ak,@Field("code") String code);
+
+
+    //社区点赞
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> getLike(@Header("userId") int userId,
+                               @Header("sessionId") String sessionId,
+                               @Field("communityId") int communityId);
+
+    //社区取消点赞
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> getcancelLike(@Header("userId") int userId,
+                               @Header("sessionId") String sessionId,
+                               @Field("communityId") int communityId);
+
+
+    /**
+     * 板块兴趣(lk)
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<InterestListBean>>> showinterestlist();
     Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
                                                                       @Header("sessionId")String sessionId,
                                                                       @Field("plateId")int plateId,

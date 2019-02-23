@@ -14,14 +14,22 @@ import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.application.WDApplication;
+import com.wd.tech.bean.User;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.fragment.CommunityFragment;
+import com.wd.tech.fragment.HaveUserFragment;
 import com.wd.tech.fragment.HomeFragment;
 import com.wd.tech.fragment.MessageFragment;
+import com.wd.tech.fragment.NoUserFragment;
 import com.wd.tech.util.NetWorkUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * date:2019/2/19 10:52
@@ -40,12 +48,15 @@ public class HomeActivity extends AppCompatActivity {
     RadioButton information;
     @BindView(R.id.community)
     RadioButton community;
-
+    @BindView(R.id.c_frame)
+    FrameLayout c_frame;
 
     private HomeFragment homeFragment;
     private MessageFragment messageFragment;
     private CommunityFragment communityFragment;
     private FragmentManager manager;
+    private NoUserFragment noUserFragment;
+    private HaveUserFragment haveUserFragment;
 
 
     @Override
@@ -95,11 +106,43 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // 侧拉出的页面
+
+        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
+        List<User> users = userDao.loadAll();
+        if (users.size() == 0) {
+            noUserLogin();
+        } else {
+            haveUserLogin();
+        }
     }
 
-    @OnClick(R.id.goLoginBtn)
-    void onclick() {
-        startActivity(new Intent(HomeActivity.this, MainActivity.class));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
+        if (userDao.loadAll().size() == 0) {
+            noUserLogin();
+        } else {
+            haveUserLogin();
+        }
+
     }
+
+    private void haveUserLogin() {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        haveUserFragment = new HaveUserFragment();
+        fragmentTransaction.replace(R.id.c_frame, haveUserFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void noUserLogin() {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        noUserFragment = new NoUserFragment();
+        fragmentTransaction.replace(R.id.c_frame, noUserFragment);
+        fragmentTransaction.commit();
+    }
+
 
 }

@@ -142,6 +142,15 @@ public class InformationListBean {
         private String content;
         private int idX;
         private String pic;
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
 
         public String getContent() {
             return content;
