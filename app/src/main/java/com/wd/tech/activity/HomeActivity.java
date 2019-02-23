@@ -103,6 +103,8 @@ public class HomeActivity extends AppCompatActivity {
                         transaction3.replace(R.id.frame, communityFragment);
                         transaction3.commit();
                         break;
+                    default:
+                        break;
                 }
             }
         });
