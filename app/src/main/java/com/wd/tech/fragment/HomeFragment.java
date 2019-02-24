@@ -150,7 +150,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         }else {
             Log.e("lk", "无 ");
             mBannerPresenter.reqeust();
-            mInformationListPresenter.reqeust(0, " ", 0, page, 10);
+            mInformationListPresenter.reqeust(0L, " ", 0, page, 10);
 
         }
 
