@@ -44,9 +44,7 @@ public abstract class WDActivity extends SwipeBackActivity {
         setContentView(getLayoutId());
         mForegroundActivity = this;
         ButterKnife.bind(this);
-        initView();
-        //  初始化右滑退出
-        initSwipeBack();
+
 
 
         List<User> users = userDao.loadAll();
@@ -67,7 +65,9 @@ public abstract class WDActivity extends SwipeBackActivity {
 
 
         }
-
+        initView();
+        //  初始化右滑退出
+        initSwipeBack();
     }
 
     private void initSwipeBack() {

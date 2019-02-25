@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="-10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/new_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="用户昵称:"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/newname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/new_name"
+                android:background="@android:color/transparent"
+                android:hint="请输入新昵称……"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginRight="10dp"
+            android:background="#ededed" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/new_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="用户性别："
+                android:textSize="14sp" />
+
+            <RadioGroup
+                android:id="@+id/sex_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/new_sex"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="男"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="女"
+                    android:textSize="15sp" />
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginRight="10dp"
+            android:background="#ededed" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/new_box"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="邮         箱:"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/newbox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/new_box"
+                android:background="@android:color/transparent"
+                android:hint="请输入新邮箱……"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginRight="10dp"
+            android:background="#ededed" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/new_qianming"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="签         名:"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/new_qianming_t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/new_qianming"
+                android:background="@android:color/transparent"
+                android:hint="请输入签名……"
+                android:gravity="top"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginRight="10dp"
+            android:background="#ededed" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/rq"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="出生日期:"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/new_riqi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/rq"
+                android:background="@android:color/transparent"
+                android:hint="请选择日期···"
+                android:inputType="text"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+

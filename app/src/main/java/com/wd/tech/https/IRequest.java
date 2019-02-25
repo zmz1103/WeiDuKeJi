@@ -1,11 +1,15 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InterestListBean;
+import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -128,4 +132,48 @@ public interface IRequest {
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<Group>>> group(@Header("userId") int userId,
                                           @Header("sessionId")String sessionId);
+
+
+    // 查询用户信息 user/verify/v1/getUserInfoByUserId
+    @GET("user/verify/v1/getUserInfoByUserId")
+    Observable<Result<GetUserBean>> getUserInfoByUserId(@Header("userId") long userId,
+                                                        @Header("sessionId") String sessionId);
+
+    // 完善用户信息 user/verify/v1/perfectUserInfo
+    @POST("user/verify/v1/perfectUserInfo")
+    @FormUrlEncoded
+    Observable<Result> perfectUserInfo(@Header("userId") long userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("nickName") String nickName,
+                                       @Field("sex") int sex,
+                                       @Field("signature") String signature,
+                                       @Field("birthday") String birthday,
+                                       @Field("email") String email);
+
+    // 查询收藏列表user/verify/v1/findAllInfoCollection
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectDataList>>> findAllInfoCollection(@Header("userId") long userId,
+                                                                    @Header("sessionId") String sessionId,
+                                                                    @Query("page") int page,
+                                                                    @Query("count") int count);
+
+    // 用户关注列表  user/verify/v1/findFollowUserList
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<AttentionListData>>> findFollowUserList(@Header("userId") long userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page") int page,
+                                                                   @Query("count") int count);
+    // 用户通知  tool/verify/v1/findSysNoticeList
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<NoticeListDAta>>> findSysNoticeList(@Header("userId") long userId,
+                                                               @Header("sessionId") String sessionId,
+                                                               @Query("page") int page,
+                                                               @Query("count") int count);
+
+    // 我的帖子community/verify/v1/findMyPostById
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 }
