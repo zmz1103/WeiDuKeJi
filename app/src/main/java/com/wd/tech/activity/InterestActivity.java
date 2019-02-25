@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.wd.tech.R;
 import com.wd.tech.adapter.InterestAdapter;
@@ -35,7 +36,7 @@ public class InterestActivity extends WDActivity {
 
     @Override
     protected void initView() {
-        Intent intent = new Intent();
+
         mInterestAdapter = new InterestAdapter(this);
         mInterestListPresenter = new InterestListPresenter(new InterestCall());
         recyclerlist.setLayoutManager(new GridLayoutManager(this,2,OrientationHelper.VERTICAL,false));
@@ -45,6 +46,11 @@ public class InterestActivity extends WDActivity {
         mInterestAdapter.setInterestClick(new InterestAdapter.InterestClick() {
             @Override
             public void success(int id,String name) {
+                Log.e("lk","id"+id+"name"+name);
+                Intent intent = new Intent(InterestActivity.this,InterestDetailsActivity.class);
+                intent.putExtra("title",name+"");
+                intent.putExtra("id",id+"");
+                startActivity(intent);
 
             }
         });

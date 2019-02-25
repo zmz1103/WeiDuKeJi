@@ -8,6 +8,7 @@ import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.InformationListBean;
+import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
 import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
@@ -89,7 +90,7 @@ public interface IRequest {
     @GET("information/v1/infoRecommendList")
     Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") long userId,
                                                                       @Header("sessionId")String sessionId,
-                                                                      @Query("plateId") int plateId,
+                                                                      @Query("plateId") String plateId,
                                                                       @Query("page")int page,
                                                                       @Query("count")int count);
 
@@ -119,11 +120,11 @@ public interface IRequest {
      */
     @GET("information/v1/findAllInfoPlate")
     Observable<Result<List<InterestListBean>>> showinterestlist();
-    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
+    /*Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
                                                                       @Header("sessionId")String sessionId,
                                                                       @Field("plateId")int plateId,
                                                                       @Field("page")int page,
-                                                                      @Field("count")int count);
+                                                                      @Field("count")int count);*/
     /**
      * @作者 啊哈
      * @date 2019/2/20
@@ -176,4 +177,36 @@ public interface IRequest {
                                                             @Header("sessionId") String sessionId,
                                                             @Query("page") int page,
                                                             @Query("count") int count);
+
+
+    /**
+     * 按标题搜索(lk)
+     */
+    @GET("information/v1/findInformationByTitle")
+    Observable<Result<List<InformationSearchByTitleBean>>> SearchByTitle(@Query("title") String title,
+                                                                         @Query("page") int page,
+                                                                         @Query("count") int count);
+
+    /**
+     * 资讯点赞（lk）
+     */
+    @POST("information/verify/v1/addGreatRecord")
+    @FormUrlEncoded
+    Observable<Result> addgreat(@Header("userId") long userId,
+                                @Header("sessionId")String sessionId,
+                                @Field("infoId")int infoId);
+
+    /**
+     * 资讯收藏（lk)
+     */
+    @POST("user/verify/v1/addCollection")
+    @FormUrlEncoded
+    Observable<Result> addcollection(@Header("userId") long userId,
+                                @Header("sessionId")String sessionId,
+                                @Field("infoId")int infoId);
+
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelcollection(@Header("userId") long userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Query("infoId") String infoId);
 }

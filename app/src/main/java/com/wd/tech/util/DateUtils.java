@@ -387,6 +387,18 @@ public class DateUtils {
         /*System.out.println(dateFormat(maxDateOfMonth(dateParse("2016-02", "yyyy-MM")), null));
         System.out.println(dateFormat(minDateOfMonth(dateParse("2016-03-31", null)), null));*/
     }
+
+    /**
+     *
+     * @param timeMillis
+     * @return long型时间戳转换string
+     */
+
+    public static String stampToDate(long timeMillis){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(timeMillis);
+        return simpleDateFormat.format(date);
+    }
     
     
 }

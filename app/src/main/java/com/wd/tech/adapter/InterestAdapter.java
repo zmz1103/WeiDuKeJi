@@ -46,35 +46,35 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        mlist = mListBeans.get(i);
-        viewHolder.pic.setImageURI(mlist.getPic());
-        viewHolder.text.setText(mlist.getName());
-        if (mlist.getName().equals("电商消费")){
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+
+        viewHolder.pic.setImageURI(mListBeans.get(i).getPic());
+        viewHolder.text.setText(mListBeans.get(i).getName());
+        if (mListBeans.get(i).getName().equals("电商消费")){
             viewHolder.textEnglish.setText("Electricity consumption");
-        }else if (mlist.getName().equals("区块链")){
+        }else if (mListBeans.get(i).getName().equals("区块链")){
             viewHolder.textEnglish.setText("Block chain");
-        }else if (mlist.getName().equals("AI世界")){
+        }else if (mListBeans.get(i).getName().equals("AI世界")){
             viewHolder.textEnglish.setText("AI world");
-        }else if (mlist.getName().equals("人工智能")){
+        }else if (mListBeans.get(i).getName().equals("人工智能")){
             viewHolder.textEnglish.setText("Artificial intelligence");
-        }else if (mlist.getName().equals("车与出行")){
+        }else if (mListBeans.get(i).getName().equals("车与出行")){
             viewHolder.textEnglish.setText("Car and travel");
-        }else if (mlist.getName().equals("智能终端")){
+        }else if (mListBeans.get(i).getName().equals("智能终端")){
             viewHolder.textEnglish.setText("Intelligent terminal");
-        }else if (mlist.getName().equals("金融地产")){
+        }else if (mListBeans.get(i).getName().equals("金融地产")){
             viewHolder.textEnglish.setText("Financial property");
-        }else if (mlist.getName().equals("大数据")){
+        }else if (mListBeans.get(i).getName().equals("大数据")){
             viewHolder.textEnglish.setText("Big Data");
-        }else if (mlist.getName().equals("全球热点")){
+        }else if (mListBeans.get(i).getName().equals("全球热点")){
             viewHolder.textEnglish.setText("Global hot spot");
-        }else if (mlist.getName().equals("社交通讯")){
+        }else if (mListBeans.get(i).getName().equals("社交通讯")){
             viewHolder.textEnglish.setText("Social IM");
         }
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterestClick.success(mlist.getId(),mlist.getName());
+                mInterestClick.success(mListBeans.get(i).getId(),mListBeans.get(i).getName());
             }
         });
 
