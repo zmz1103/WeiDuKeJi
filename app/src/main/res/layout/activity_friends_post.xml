@@ -3,24 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/relat"
     android:layout_height="match_parent"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.FriendsPostActivity">
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlAccentColor="#00000000"
-        app:srlEnablePreviewInEditMode="true"
-        app:srlPrimaryColor="#00000000">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/friends_image_bg"
             android:layout_width="match_parent"
             android:layout_height="1250dp"/>
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="200dp"
@@ -74,14 +69,22 @@
                 android:layout_height="4dp"
                 android:layout_marginTop="10dp"
                 android:background="#eae8e8"/>
-
-            <com.jcodecraeer.xrecyclerview.XRecyclerView
-                android:id="@+id/friends_recy"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"/>
+                app:srlAccentColor="#00000000"
+                app:srlEnablePreviewInEditMode="true"
+                app:srlPrimaryColor="#00000000">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/friends_recy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
         </LinearLayout>
         <com.facebook.drawee.view.SimpleDraweeView
@@ -121,7 +124,6 @@
                 android:gravity="center"
                 android:text="+关注"/>
         </LinearLayout>
-        </RelativeLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

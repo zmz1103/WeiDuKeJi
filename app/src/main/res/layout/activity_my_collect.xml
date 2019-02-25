@@ -1,9 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.myactivity.MyCollectActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/settting_linea1"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#f2f2f2"
+        android:gravity="center_vertical"
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/my_back_sc"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="15dp"
+            android:padding="4dp"
+            android:src="@mipmap/common_nav_btn_back_n" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="我的收藏"
+            android:textColor="#666656"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/cancel_image_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12sp"
+            android:padding="3dp"
+            android:src="@mipmap/common_nav_delete_n" />
+
+        <TextView
+            android:id="@+id/cancel_text_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12sp"
+            android:text="完成" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_01"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/settting_linea1"
+        android:background="#ececec" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/collect_xrec_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/co_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

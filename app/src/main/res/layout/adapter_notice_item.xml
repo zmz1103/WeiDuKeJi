@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/notice_item_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="111"
+        android:textColor="#999"
+        android:textSize="12sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/notice_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="11"
+        android:background="@drawable/community_edt_note_bg"
+        android:layout_marginLeft="12sp"
+        android:layout_marginRight="12sp"
+        android:textSize="14sp"
+        android:textColor="#333"
+        android:gravity="center"/>
+
+
+</LinearLayout>

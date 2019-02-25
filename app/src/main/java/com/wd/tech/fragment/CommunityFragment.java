@@ -1,10 +1,17 @@
 package com.wd.tech.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -21,10 +28,15 @@ import com.wd.tech.activity.PublishActivity;
 import com.wd.tech.adapter.CommunityListAdapter;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.Result;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.AddCommunityPresenter;
+import com.wd.tech.presenter.CancelLikePresenter;
 import com.wd.tech.presenter.CommunityListPresenter;
 import com.wd.tech.presenter.LikePresenter;
 import com.wd.tech.view.DataCall;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,7 +51,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
  * author:王思敏
  * function:社区列表展示
  */
-public class CommunityFragment extends WDFragment implements CustomAdapt {
+public class CommunityFragment extends WDFragment implements CustomAdapt{
     @BindView(R.id.community_recy)
     XRecyclerView communityRecy;
     @BindView(R.id.btn_publish_the_news)
@@ -48,9 +60,12 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
     SmartRefreshLayout refreshLayout;
     private CommunityListAdapter mCommunityListAdapter;
     private CommunityListPresenter mCommunityListPresenter;
-    Unbinder unbinder;
     private int page = 1;
     private LikePresenter mLikePresenter;
+    private CancelLikePresenter mCancelLikePresenter;
+    private TextView mSend;
+    private EditText mEtContent;
+    private AddCommunityPresenter mAddCommunityPresenter;
 
     @Override
     public int getContent() {
@@ -59,22 +74,26 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
 
     @Override
     public void initView(View view) {
-        unbinder = ButterKnife.bind(this, view);
-        //刷新加载
-        initRefresh();
         //请求数据
         initData();
+    }
+
+    private void initData() {
+        mCommunityListAdapter = new CommunityListAdapter(getActivity());
+        communityRecy.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        communityRecy.setAdapter(mCommunityListAdapter);
+        //刷新数据
+        initRefresh();
         //点击监听
         initListener();
     }
 
-
     private void initRefresh() {
-
-        //设置 Header 为 贝塞尔雷达 样式
-        refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
-//设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
+        mLikePresenter = new LikePresenter(new LikeCall());
+        mCancelLikePresenter = new CancelLikePresenter(new CancelLike());
+        mAddCommunityPresenter = new AddCommunityPresenter(new AddCommunity());
         requestt(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
         refreshLayout.setEnableLoadmore(true);//启用加载
@@ -97,23 +116,79 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
                 refreshlayout.finishLoadmore();
             }
         });
+
     }
 
     private void requestt(int page) {
-        mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
-        mLikePresenter = new LikePresenter(new LikeCall());
-        if (user == null){
-            mCommunityListPresenter.reqeust(0, "", page, 5);
+        if (user==null){
+            mCommunityListPresenter.reqeust(0, "", page, 10);
         }else {
-            mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 5);
+            mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 10);
+
         }
 
     }
 
-    private void initData() {
-        mCommunityListAdapter = new CommunityListAdapter(getActivity());
-        communityRecy.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        communityRecy.setAdapter(mCommunityListAdapter);
+    private void initListener() {
+        mCommunityListAdapter.setOnCommunityListClickListener(new CommunityListAdapter.onCommunityListClickListener() {
+
+            @Override
+            public void onmHeadPicClick(int userid) {
+                if (user==null){
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(getActivity(), FriendsPostActivity.class);
+                    intent.putExtra("userid", userid);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onmCommentClick(final int id, String name) {
+                if (user==null){
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }else {
+                    View inflate = View.inflate(getActivity(), R.layout.pop_comment, null);
+                   mEtContent= inflate.findViewById(R.id.et_content);
+                    mEtContent.setHint(name);
+                    final Dialog builder = new Dialog(getActivity(), R.style.BottomDialog);
+                    builder.setContentView(inflate);
+                    builder.setCanceledOnTouchOutside(true);
+                    ViewGroup.LayoutParams layoutParamsthreefilmreview = inflate.getLayoutParams();
+                    layoutParamsthreefilmreview.width = getResources().getDisplayMetrics().widthPixels;
+                    inflate.setLayoutParams(layoutParamsthreefilmreview);
+                    builder.getWindow().setGravity(Gravity.BOTTOM);
+                    builder.show();
+                   mSend =  inflate.findViewById(R.id.send);
+                    mSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String s = mEtContent.getText().toString().trim();
+
+                            if (s.isEmpty()) {
+                                Toast.makeText(getContext(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                            } else {
+                                mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
+                                builder.dismiss();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onmPraiseClick(int id,CommunitylistData communitylistData) {
+                if (user ==null){
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (communitylistData.getWhetherGreat() == 1) {
+                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
+                    } else {
+                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -128,39 +203,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
         }
     }
 
-    private void initListener() {
-        mCommunityListAdapter.setOnCommunityListClickListener(new CommunityListAdapter.onCommunityListClickListener() {
-            @Override
-            public void onmHeadPicClick(int userid) {
-                if (user==null){
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
-                    Intent intent = new Intent(getActivity(), FriendsPostActivity.class);
-                    intent.putExtra("userid", userid);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onmCommentClick(int id,CommunitylistData communitylistData) {
-                if (user==null){
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onmPraiseClick(int id,CommunitylistData communitylistData) {
-                if (user==null){
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
-                    if (communitylistData.getWhetherGreat() == 1) {
-                    } else {
-                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
-                    }
-                }
-            }
-        });
-    }
     //请求展示列表数据
     class CommunityCall implements DataCall<Result<List<CommunitylistData>>> {
 
@@ -184,7 +226,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                int o = (int) data.getArgs()[1];
+                int o = (int) data.getArgs()[3];
                 CommunitylistData item = mCommunityListAdapter.getItem(o);
                 item.setWhetherGreat(1);
                 item.setPraise(item.getPraise()+1);
@@ -194,16 +236,55 @@ public class CommunityFragment extends WDFragment implements CustomAdapt {
 
         @Override
         public void fail(ApiException a) {
-            Toast.makeText(getActivity(), "请检查网络连接", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //取消点赞
+    class CancelLike implements DataCall<Result>{
+
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")){
+                int o = (int) result.getArgs()[3];
+                CommunitylistData item = mCommunityListAdapter.getItem(o);
+                item.setWhetherGreat(2);
+                item.setPraise(item.getPraise()-1);
+                mCommunityListAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
         }
     }
 
+    class AddCommunity implements DataCall<Result>{
+
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")){
+                Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getActivity(), "失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
-        mCommunityListPresenter.unBind();
+        mCommunityListPresenter=null;
+        mLikePresenter=null;
+        mCancelLikePresenter=null;
+        mAddCommunityPresenter=null;
+
     }
     @Override
     public boolean isBaseOnWidth() {

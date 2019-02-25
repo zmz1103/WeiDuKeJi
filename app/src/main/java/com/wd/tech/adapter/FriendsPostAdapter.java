@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
+import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.RecyclerGridView;
 
@@ -47,9 +48,13 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
         notifyDataSetChanged();
     }
 
+    public CommunityUserPostVoListBean getItem(int position) {
+        return list.get(position);
+    }
+
     public interface OnFriendsPostClickListener{
         void onCommentClick(int id);
-        void onPraiseClick(int id);
+        void onPraiseClick(int id,CommunityUserPostVoListBean communityUserPostVoListBean);
     }
     public OnFriendsPostClickListener mOnFriendsPostClickListener;
     public void setOnFriendsPostClickListener(OnFriendsPostClickListener onFriendsPostClickListener){
@@ -64,7 +69,7 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         final CommunityUserPostVoListBean listBean = list.get(i);
         viewHolder.mFriendspostContent.setText(listBean.getContent());
         viewHolder.mFriendspostCommentNum.setText(""+listBean.getComment());
@@ -110,7 +115,7 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             @Override
             public void onClick(View view) {
                 if (mOnFriendsPostClickListener !=null){
-                    mOnFriendsPostClickListener.onPraiseClick(listBean.getId());
+                    mOnFriendsPostClickListener.onPraiseClick(listBean.getId(),list.get(i));
                 }
             }
         });

@@ -44,11 +44,6 @@ public abstract class WDActivity extends SwipeBackActivity {
         setContentView(getLayoutId());
         mForegroundActivity = this;
         ButterKnife.bind(this);
-        initView();
-        //  初始化右滑退出
-        initSwipeBack();
-
-
         List<User> users = userDao.loadAll();
         if (users != null && users.size() > 0) {
             for (int i = 0; i < users.size(); i++) {
@@ -62,11 +57,15 @@ public abstract class WDActivity extends SwipeBackActivity {
         }
 
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
-          } else {
+        } else {
             Toast.makeText(WDApplication.getAppContext(), "aaaa请检查网络", Toast.LENGTH_SHORT).show();
 
 
         }
+        initView();
+        //  初始化右滑退出
+        initSwipeBack();
+
 
     }
 

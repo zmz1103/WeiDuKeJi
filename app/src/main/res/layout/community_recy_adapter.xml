@@ -68,12 +68,6 @@
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/community_list_signatures"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="特里退役：我的心永远属于切尔西"/>
     <jaydenxiao.com.expandabletextview.ExpandableTextView
         android:id="@+id/community_list_content"
         android:layout_width="match_parent"

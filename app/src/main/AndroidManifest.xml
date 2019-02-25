@@ -13,7 +13,8 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_SMS" />
-
+    <!--获取设备唯一标识，用于SDK激活授权-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
         android:name=".application.WDApplication"
         android:allowBackup="true"
@@ -58,6 +59,9 @@
         <activity android:name=".activity.InterestActivity" />
         <activity android:name=".activity.PictureDisplayActivity" />
         <activity android:name=".activity.WebDetailsActivity" />
+        <activity android:name=".activity.InterestDetailsActivity" />
+        <activity android:name=".activity.AddFriendActivity" />
+        <activity android:name=".activity.AddFriendsActivity"></activity>
         <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.InformationDetailsActivity"></activity>

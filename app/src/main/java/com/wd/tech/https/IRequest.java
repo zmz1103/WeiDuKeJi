@@ -1,6 +1,9 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
@@ -8,6 +11,8 @@ import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
+import com.wd.tech.bean.QueryFriendList;
+import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -59,7 +64,6 @@ public interface IRequest {
 
     //发布帖子
     @POST("community/verify/v1/releasePost")
-    @FormUrlEncoded
     Observable<Result> getPublish(@Header("userId") int userId,
                                   @Header("sessionId") String sessionId,
                                   @Body MultipartBody multipartBody);
@@ -108,8 +112,8 @@ public interface IRequest {
     //社区取消点赞
     @DELETE("community/verify/v1/cancelCommunityGreat")
     Observable<Result> getcancelLike(@Header("userId") int userId,
-                               @Header("sessionId") String sessionId,
-                               @Field("communityId") int communityId);
+                                     @Header("sessionId") String sessionId,
+                                     @Query("communityId") int communityId);
 
 
     /**
@@ -130,6 +134,86 @@ public interface IRequest {
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<Group>>> group(@Header("userId") int userId,
                                           @Header("sessionId")String sessionId);
+
+    //关注用户
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> getAddFollow(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("focusId") int focusId);
+
+    //取消关注用户
+    @DELETE("user/verify/v1/cancelFollow")
+    Observable<Result> getCancelFollow(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("focusId") int focusId);
+
+    //添加好友
+    @POST("chat/verify/v1/addFriend")
+    @FormUrlEncoded
+    Observable<Result> getAddFriend(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("friendUid") int friendUid,
+                                    @Field("remark") String remark);
+
+    //查询好友信息
+    @GET("user/verify/v1/queryFriendInformation")
+    Observable<Result<QueryFriendList>> getQueryFriend(@Header("userId") int userId,
+                                                       @Header("sessionId")String sessionId,
+                                                       @Query("friend")int friend);
+
+    //社区评论
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> getAddCommunity(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("communityId") int communityId,
+                                    @Field("content") String content);
+
+
+
+    // 查询用户信息 user/verify/v1/getUserInfoByUserId
+    @GET("user/verify/v1/getUserInfoByUserId")
+    Observable<Result<GetUserBean>> getUserInfoByUserId(@Header("userId") long userId,
+                                                        @Header("sessionId") String sessionId);
+
+    // 完善用户信息 user/verify/v1/perfectUserInfo
+    @POST("user/verify/v1/perfectUserInfo")
+    @FormUrlEncoded
+    Observable<Result> perfectUserInfo(@Header("userId") long userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("nickName") String nickName,
+                                       @Field("sex") int sex,
+                                       @Field("signature") String signature,
+                                       @Field("birthday") String birthday,
+                                       @Field("email") String email);
+
+    // 查询收藏列表user/verify/v1/findAllInfoCollection
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectDataList>>> findAllInfoCollection(@Header("userId") long userId,
+                                                                    @Header("sessionId") String sessionId,
+                                                                    @Query("page") int page,
+                                                                    @Query("count") int count);
+
+    // 用户关注列表  user/verify/v1/findFollowUserList
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<AttentionListData>>> findFollowUserList(@Header("userId") long userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page") int page,
+                                                                   @Query("count") int count);
+    // 用户通知  tool/verify/v1/findSysNoticeList
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<NoticeListDAta>>> findSysNoticeList(@Header("userId") long userId,
+                                                               @Header("sessionId") String sessionId,
+                                                               @Query("page") int page,
+                                                               @Query("count") int count);
+
+    // 我的帖子community/verify/v1/findMyPostById
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
 
     /**

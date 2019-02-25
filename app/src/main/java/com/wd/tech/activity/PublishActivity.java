@@ -86,14 +86,11 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private void initData() {
         mCommunityPublishPresenter = new CommunityPublishPresenter(new CommunityPublish());
         mPictureAdapter = new PictureAdapter(this);
-//        mPictureAdapter.setSign(0);
+//        mPictureAdapter.setSign(1);
         mPictureAdapter.add(R.drawable.xc);
         communityImage.setLayoutManager(new GridLayoutManager(this, 3));
         communityImage.setAdapter(mPictureAdapter);
         mPictureAdapter.setOnImageClickListener(new PictureAdapter.OnImageClickListener() {
-
-
-
             @Override
             public void onImageClick(int position) {
                 View view1 = View.inflate(PublishActivity.this, R.layout.community_popwindow, null);
@@ -149,7 +146,6 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 });
             }
         });
-
         //输入框字数限制
         InputFilter[] filters={chineseFilter()};
         communityPublishContent.addTextChangedListener(passwordListener());
@@ -202,7 +198,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.txt_publish:
-                    mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
+                mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(), communityPublishContent.getText().toString().trim(), mPictureAdapter.getList());
                 break;
             default:
                 break;
@@ -265,6 +261,13 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         };
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCommunityPublishPresenter=null;
+    }
+
     @Override
     public boolean isBaseOnWidth() {
         return false;
