@@ -12,11 +12,9 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.InformationListBean;
-
-import java.text.SimpleDateFormat;
+import com.wd.tech.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * date:2019/2/19
@@ -36,8 +34,6 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int mWhetherAdvertising;
     private String mPic;
     private String[] mPic2;
-    private int mItemViewType;
-    private SimpleDateFormat mSimpleDateFormat;
 
 
     public InformationAdapter(Context context) {
@@ -79,8 +75,8 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((InformationListMessage)viewHolder).details.setText(mInformationListBeans.get(i).getSummary());
             ((InformationListMessage)viewHolder).simpleview.setImageURI(mTu[0]);
             ((InformationListMessage)viewHolder).zuozhe.setText(mInformationListBeans.get(i).getSource());
-            mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
-            ((InformationListMessage)viewHolder).time.setText(mSimpleDateFormat.format(mInformationListBeans.get(i).getReleaseTime()));
+            String date = DateUtils.stampToDate(mInformationListBeans.get(i).getReleaseTime());
+            ((InformationListMessage)viewHolder).time.setText(date);
             if (mInformationListBeans.get(i).getWhetherCollection() == 1){
                 ((InformationListMessage)viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_s);
             }else{
@@ -88,6 +84,23 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             ((InformationListMessage)viewHolder).fenxiangshu.setText(mInformationListBeans.get(i).getShare()+"");
             ((InformationListMessage)viewHolder).shoucangshu.setText(mInformationListBeans.get(i).getCollection()+"");
+            ((InformationListMessage)viewHolder).shoucang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int whetherCollection = mInformationListBeans.get(i).getWhetherCollection();
+                    mAddcollection.addsuccess(mInformationListBeans.get(i).getId(),whetherCollection);
+                    if (whetherCollection == 2){
+                        mInformationListBeans.get(i).setWhetherCollection(1);
+                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection()+1);
+                        notifyItemChanged(i);
+                    }else {
+                        mInformationListBeans.get(i).setWhetherCollection(2);
+                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection()-1);
+                        notifyItemChanged(i);
+                    }
+
+                }
+            });
 
 
         }
@@ -97,7 +110,6 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (mInformationListBeans.get(i).getInfoAdvertisingVo().getPic().equals("")){
                 ((InformationListGuangGao)viewHolder).simpleview.setImageURI("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550659913819&di=3fb9f9de20a37a9bf1a101983656298f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F05%2F20170805134053_HzALE.png");
                 ((InformationListGuangGao)viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
-
             }else {
                 mPic = mInformationListBeans.get(i).getInfoAdvertisingVo().getPic();
                 mPic2 = mPic.split("\\?");
@@ -179,5 +191,16 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setGuangGaoClick(GuangGaoClick guangGaoClick) {
         mGuangGaoClick = guangGaoClick;
+    }
+
+
+
+    public interface Addcollection{
+        void addsuccess(int id, int whetherCollection);
+    }
+    private Addcollection mAddcollection;
+
+    public void setAddgreat(Addcollection addcollection) {
+        mAddcollection = addcollection;
     }
 }

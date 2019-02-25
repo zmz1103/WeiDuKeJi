@@ -58,7 +58,8 @@
         <activity android:name=".activity.InterestActivity" />
         <activity android:name=".activity.PictureDisplayActivity" />
         <activity android:name=".activity.WebDetailsActivity" />
-        <activity android:name=".activity.InterestDetailsActivity"></activity>
+        <activity android:name=".activity.InterestDetailsActivity" />
+        <activity android:name=".activity.SearchActivity" />
     </application>
 
 </manifest>
