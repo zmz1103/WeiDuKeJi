@@ -192,7 +192,7 @@
             <RelativeLayout
                 android:id="@+id/set_r2"
                 android:layout_width="300dp"
-                android:layout_height="130dp"
+                android:layout_height="135dp"
                 android:layout_below="@id/set_r1"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
@@ -202,7 +202,6 @@
 
 
                 <TextView
-                    android:id="@+id/my_sr_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -212,6 +211,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/my_sr_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -232,7 +232,6 @@
                     android:background="#f4f4f4" />
 
                 <TextView
-                    android:id="@+id/my_dh_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_002"
@@ -243,6 +242,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/my_dh_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_002"
@@ -264,7 +264,6 @@
                     android:background="#f4f4f4" />
 
                 <TextView
-                    android:id="@+id/my_yx_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_003"
@@ -275,8 +274,9 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:id="@+id/my_setting_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_003"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"
@@ -301,7 +301,6 @@
 
 
                 <TextView
-                    android:id="@+id/my_jf_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -311,6 +310,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/my_jf_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -331,7 +331,6 @@
                     android:background="#f4f4f4" />
 
                 <TextView
-                    android:id="@+id/my_vip_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_0002"
@@ -342,6 +341,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/my_vip_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_0002"
@@ -375,8 +375,8 @@
 
                 <TextView
                     android:id="@+id/bind_faceId"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_0003"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"

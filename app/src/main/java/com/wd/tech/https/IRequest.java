@@ -1,12 +1,17 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
 import com.wd.tech.bean.InformationListBean;
+import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
 import com.wd.tech.bean.QueryFriendList;
+import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
 
 import java.util.List;
@@ -85,7 +90,7 @@ public interface IRequest {
     @GET("information/v1/infoRecommendList")
     Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") long userId,
                                                                       @Header("sessionId")String sessionId,
-                                                                      @Query("plateId") int plateId,
+                                                                      @Query("plateId") String plateId,
                                                                       @Query("page")int page,
                                                                       @Query("count")int count);
 
@@ -115,11 +120,11 @@ public interface IRequest {
      */
     @GET("information/v1/findAllInfoPlate")
     Observable<Result<List<InterestListBean>>> showinterestlist();
-    Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
+    /*Observable<Result<List<InformationListBean>>> showinformationList(@Header("userId") int userId,
                                                                       @Header("sessionId")String sessionId,
                                                                       @Field("plateId")int plateId,
                                                                       @Field("page")int page,
-                                                                      @Field("count")int count);
+                                                                      @Field("count")int count);*/
     /**
      * @作者 啊哈
      * @date 2019/2/20
@@ -164,4 +169,80 @@ public interface IRequest {
                                     @Field("communityId") int communityId,
                                     @Field("content") String content);
 
+
+
+    // 查询用户信息 user/verify/v1/getUserInfoByUserId
+    @GET("user/verify/v1/getUserInfoByUserId")
+    Observable<Result<GetUserBean>> getUserInfoByUserId(@Header("userId") long userId,
+                                                        @Header("sessionId") String sessionId);
+
+    // 完善用户信息 user/verify/v1/perfectUserInfo
+    @POST("user/verify/v1/perfectUserInfo")
+    @FormUrlEncoded
+    Observable<Result> perfectUserInfo(@Header("userId") long userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("nickName") String nickName,
+                                       @Field("sex") int sex,
+                                       @Field("signature") String signature,
+                                       @Field("birthday") String birthday,
+                                       @Field("email") String email);
+
+    // 查询收藏列表user/verify/v1/findAllInfoCollection
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectDataList>>> findAllInfoCollection(@Header("userId") long userId,
+                                                                    @Header("sessionId") String sessionId,
+                                                                    @Query("page") int page,
+                                                                    @Query("count") int count);
+
+    // 用户关注列表  user/verify/v1/findFollowUserList
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<AttentionListData>>> findFollowUserList(@Header("userId") long userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page") int page,
+                                                                   @Query("count") int count);
+    // 用户通知  tool/verify/v1/findSysNoticeList
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<NoticeListDAta>>> findSysNoticeList(@Header("userId") long userId,
+                                                               @Header("sessionId") String sessionId,
+                                                               @Query("page") int page,
+                                                               @Query("count") int count);
+
+    // 我的帖子community/verify/v1/findMyPostById
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
+
+
+    /**
+     * 按标题搜索(lk)
+     */
+    @GET("information/v1/findInformationByTitle")
+    Observable<Result<List<InformationSearchByTitleBean>>> SearchByTitle(@Query("title") String title,
+                                                                         @Query("page") int page,
+                                                                         @Query("count") int count);
+
+    /**
+     * 资讯点赞（lk）
+     */
+    @POST("information/verify/v1/addGreatRecord")
+    @FormUrlEncoded
+    Observable<Result> addgreat(@Header("userId") long userId,
+                                @Header("sessionId")String sessionId,
+                                @Field("infoId")int infoId);
+
+    /**
+     * 资讯收藏（lk)
+     */
+    @POST("user/verify/v1/addCollection")
+    @FormUrlEncoded
+    Observable<Result> addcollection(@Header("userId") long userId,
+                                @Header("sessionId")String sessionId,
+                                @Field("infoId")int infoId);
+
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelcollection(@Header("userId") long userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Query("infoId") String infoId);
 }

@@ -11,17 +11,17 @@ import io.reactivex.Observable;
  * author:李阔(淡意衬优柔)
  * function:
  */
-public class InformationListPresenter extends WDPresenter{
+public class FindAllInfoCillectionPresenter extends WDPresenter{
 
     private IRequest mIRequest;
 
-    public InformationListPresenter(DataCall dataCall) {
+    public FindAllInfoCillectionPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     protected Observable observable(Object... args) {
         mIRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return mIRequest.showinformationList((long)args[0],(String) args[1],(String) args[2],(int)args[3],(int)args[4]);
+        return mIRequest.findAllInfoCollection((long)args[0],(String) args[1],(int)args[2],(int)args[3] );
     }
 }

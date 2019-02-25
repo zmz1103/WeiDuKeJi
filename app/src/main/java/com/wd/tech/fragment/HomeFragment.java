@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.header.WaveSwipeHeader;
@@ -26,14 +27,19 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.activity.InterestActivity;
+import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.activity.WebDetailsActivity;
 import com.wd.tech.adapter.InformationAdapter;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.AddCollectionPresenter;
+import com.wd.tech.presenter.AddGreatPresenter;
 import com.wd.tech.presenter.BannerPresenter;
+import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
 import com.wd.tech.view.DataCall;
 import com.zhouwei.mzbanner.MZBannerView;
@@ -68,10 +74,13 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private BannerPresenter mBannerPresenter;
     private InformationListPresenter mInformationListPresenter;
     private InformationAdapter mInformationAdapter;
-    private long mUserid;
-    private String mSessionid;
+
+    private long userId;
+    private String sessionId;
     private int page = 1;
     private Intent mIntent;
+    private AddCollectionPresenter mAddCollectionPresenter;
+    private CancelCollectionPresenter mCancelCollectionPresenter;
 
 
     @Override
@@ -81,6 +90,12 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
     @Override
     public void initView(View view) {
+        if (userDao.loadAll().size()>0){
+            List<User> users = userDao.loadAll();
+            userId = users.get(0).getUserId();
+            sessionId = users.get(0).getSessionId();
+        }
+
         mIntent = new Intent(getContext(), WebDetailsActivity.class);
 
 
@@ -124,10 +139,33 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             @Override
             public void ggsuccess(String url) {
 
-                mIntent.putExtra("jumpUrl",url);
+                mIntent.putExtra("jumpUrl", url);
                 startActivity(mIntent);
             }
         });
+        mAddCollectionPresenter = new AddCollectionPresenter(new AddCollectionCall());
+        mCancelCollectionPresenter = new CancelCollectionPresenter(new CancelCollectionCall());
+
+        mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
+                @Override
+                public void addsuccess(int id, int whetherCollection) {
+                    if (userDao.loadAll().size()>0){
+                        if (whetherCollection == 2){
+
+                            mAddCollectionPresenter.reqeust(userId, sessionId, id);
+                        }else {
+                            String mid = String.valueOf(id);
+                            mCancelCollectionPresenter.reqeust(userId, sessionId, mid);
+                        }
+
+                    }else {
+                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+
 
 
     }
@@ -140,17 +178,19 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     }
 
     private void requestt(int page) {
-        if (userDao.loadAll().size()>0){
-            Log.e("lk", "有 "+mUserid);
-            mUserid = user.getUserId();
-            mSessionid = user.getSessionId();
-            mBannerPresenter.reqeust();
-            mInformationListPresenter.reqeust(mUserid, mSessionid, 0, page, 10);
+        if (userDao.loadAll().size() > 0) {
 
-        }else {
+            List<User> users = userDao.loadAll();
+            long userId = users.get(0).getUserId();
+            String sessionId = users.get(0).getSessionId();
+            mBannerPresenter.reqeust();
+            mInformationListPresenter.reqeust(userId, sessionId, "0", page, 10);
+
+
+        } else {
             Log.e("lk", "无 ");
             mBannerPresenter.reqeust();
-            mInformationListPresenter.reqeust(0L, " ", 0, page, 10);
+            mInformationListPresenter.reqeust(0L, " ", "0", page, 10);
 
         }
 
@@ -171,6 +211,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search:
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu:
                 menus();
@@ -179,7 +221,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     }
 
     private void menus() {
-        startActivity(new Intent(getContext(),InterestActivity.class));
+        startActivity(new Intent(getContext(), InterestActivity.class));
     }
 
 
@@ -231,7 +273,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
                 @Override
                 public void onClick(View v) {
-                    mIntent.putExtra("jumpUrl",bannnerBean.getJumpUrl());
+                    mIntent.putExtra("jumpUrl", bannnerBean.getJumpUrl());
                     startActivity(mIntent);
                 }
             });
@@ -260,5 +302,35 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     }
 
 
+    private class AddCollectionCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")) {
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class CancelCollectionCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")) {
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }
