@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -22,7 +23,9 @@ import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.AddCollectionPresenter;
 import com.wd.tech.presenter.BannerPresenter;
+import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.InformationListPresenter;
 import com.wd.tech.view.DataCall;
 
@@ -53,6 +56,8 @@ public class InterestDetailsActivity extends WDActivity {
     private String mName;
     private long mUserId;
     private String mSessionId;
+    private AddCollectionPresenter mAddCollectionPresenter;
+    private CancelCollectionPresenter mCancelCollectionPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -61,6 +66,11 @@ public class InterestDetailsActivity extends WDActivity {
 
     @Override
     protected void initView() {
+        if (userDao.loadAll().size() > 0) {
+            List<User> users = userDao.loadAll();
+            mUserId = users.get(0).getUserId();
+            mSessionId = users.get(0).getSessionId();
+        }
         mIntent = getIntent();
         mName = mIntent.getStringExtra("title");
         mId = mIntent.getStringExtra("id");
@@ -103,13 +113,37 @@ public class InterestDetailsActivity extends WDActivity {
                 startActivity(mIntent);
             }
         });
+        mAddCollectionPresenter = new AddCollectionPresenter(new AddCollectionCall());
+        mCancelCollectionPresenter = new CancelCollectionPresenter(new CancelCollectionCall());
+
+        mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
+            @Override
+            public void addsuccess(int id, int whetherCollection) {
+                if (userDao.loadAll().size() > 0) {
+                    if (whetherCollection == 2) {
+                        mAddCollectionPresenter.reqeust(mUserId, mSessionId, id);
+                    } else {
+                        String mid = String.valueOf(id);
+                        mCancelCollectionPresenter.reqeust(mUserId, mSessionId, mid);
+                    }
+
+                } else {
+                    Toast.makeText(InterestDetailsActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+
     }
     private void requestt(int page) {
         if (userDao.loadAll().size()>0){
-            Log.e("lk", "有 interid"+mUserId);
+
             List<User> users = userDao.loadAll();
             mSessionId = users.get(0).getSessionId();
             mUserId = users.get(0).getUserId();
+            Log.e("lk", "有 interid"+mUserId);
             mInformationListPresenter.reqeust(mUserId, mSessionId, mId, page, 10);
 
         }else {
@@ -122,7 +156,9 @@ public class InterestDetailsActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-
+        mAddCollectionPresenter = null;
+        mCancelCollectionPresenter = null;
+        mInformationListPresenter = null;
     }
 
 
@@ -147,6 +183,37 @@ public class InterestDetailsActivity extends WDActivity {
             Log.e("lk", "lk" + result.getStatus());
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.reset(mResult);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    private class AddCollectionCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")) {
+                Toast.makeText(InterestDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(InterestDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class CancelCollectionCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")) {
+                Toast.makeText(InterestDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(InterestDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -60,6 +60,7 @@
         <activity android:name=".activity.WebDetailsActivity" />
         <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.InformationDetailsActivity"></activity>
     </application>
 
 </manifest>
