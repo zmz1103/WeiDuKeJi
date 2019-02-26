@@ -59,7 +59,11 @@
         <activity android:name=".activity.PictureDisplayActivity" />
         <activity android:name=".activity.WebDetailsActivity" />
         <activity android:name=".activity.InterestDetailsActivity" />
+        <activity android:name=".activity.AddFriendActivity" />
+        <activity android:name=".activity.AddFriendsActivity"></activity>
+        <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.InformationDetailsActivity"></activity>
     </application>
 
 </manifest>

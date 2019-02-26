@@ -8,9 +8,11 @@ import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
+import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
+import com.wd.tech.bean.QueryFriendList;
 import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
 
@@ -63,7 +65,6 @@ public interface IRequest {
 
     //发布帖子
     @POST("community/verify/v1/releasePost")
-    @FormUrlEncoded
     Observable<Result> getPublish(@Header("userId") int userId,
                                   @Header("sessionId") String sessionId,
                                   @Body MultipartBody multipartBody);
@@ -112,8 +113,8 @@ public interface IRequest {
     //社区取消点赞
     @DELETE("community/verify/v1/cancelCommunityGreat")
     Observable<Result> getcancelLike(@Header("userId") int userId,
-                               @Header("sessionId") String sessionId,
-                               @Field("communityId") int communityId);
+                                     @Header("sessionId") String sessionId,
+                                     @Query("communityId") int communityId);
 
 
     /**
@@ -134,6 +135,42 @@ public interface IRequest {
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<Group>>> group(@Header("userId") int userId,
                                           @Header("sessionId")String sessionId);
+
+    //关注用户
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> getAddFollow(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("focusId") int focusId);
+
+    //取消关注用户
+    @DELETE("user/verify/v1/cancelFollow")
+    Observable<Result> getCancelFollow(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("focusId") int focusId);
+
+    //添加好友
+    @POST("chat/verify/v1/addFriend")
+    @FormUrlEncoded
+    Observable<Result> getAddFriend(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("friendUid") int friendUid,
+                                    @Field("remark") String remark);
+
+    //查询好友信息
+    @GET("user/verify/v1/queryFriendInformation")
+    Observable<Result<QueryFriendList>> getQueryFriend(@Header("userId") int userId,
+                                                       @Header("sessionId")String sessionId,
+                                                       @Query("friend")int friend);
+
+    //社区评论
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> getAddCommunity(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Field("communityId") int communityId,
+                                    @Field("content") String content);
+
 
 
     // 查询用户信息 user/verify/v1/getUserInfoByUserId
@@ -205,9 +242,20 @@ public interface IRequest {
     Observable<Result> addcollection(@Header("userId") long userId,
                                 @Header("sessionId")String sessionId,
                                 @Field("infoId")int infoId);
-
+    /**
+     * 资讯取消收藏（lk)
+     */
     @DELETE("user/verify/v1/cancelCollection")
     Observable<Result> cancelcollection(@Header("userId") long userId,
                                         @Header("sessionId")String sessionId,
                                         @Query("infoId") String infoId);
+
+
+    /**
+     * 资讯详情页（lk）
+     */
+    @GET("information/v1/findInformationDetails")
+    Observable<Result<InformationDetailsBean>> infordetails();
+
+
 }

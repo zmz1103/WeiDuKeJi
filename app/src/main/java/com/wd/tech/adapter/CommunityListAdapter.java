@@ -15,12 +15,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.communityCommentVoList;
+import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.RecyclerGridView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import jaydenxiao.com.expandabletextview.ExpandableTextView;
 
@@ -56,7 +59,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     //接口回调
     public interface onCommunityListClickListener{
         void onmHeadPicClick(int userid);
-        void onmCommentClick(int id,CommunitylistData communitylistData);
+        void onmCommentClick(int id,String name);
         void onmPraiseClick(int id,CommunitylistData communitylistData);
     }
     public onCommunityListClickListener mOnCommunityListClickListener;
@@ -77,9 +80,10 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         final CommunitylistData data = list.get(i);
         viewHolder.mHeadPic.setImageURI(Uri.parse(data.getHeadPic()));
         viewHolder.mNickName.setText(data.getNickName());
-        viewHolder.mPublishTime.setText(""+data.getPublishTime());
+        //转换成日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN,Locale.getDefault());
+        viewHolder.mPublishTime.setText(dateFormat.format(data.getPublishTime()));
         viewHolder.mSignature.setText(data.getSignature());
-        viewHolder.mSignatures.setText(data.getSignature());
         viewHolder.mCommentNum.setText(""+data.getComment());
         viewHolder.mPraiseNum.setText(""+data.getPraise());
         viewHolder.mContent.setText(data.getContent());
@@ -131,7 +135,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onmCommentClick(data.getId(),list.get(i));
+                    mOnCommunityListClickListener.onmCommentClick(data.getId(),"@"+list.get(i).getNickName()+"回复：");
                 }
             }
         });
@@ -158,7 +162,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final SimpleDraweeView mHeadPic;
         private final TextView mPublishTime;
         private final TextView mSignature;
-        private final TextView mSignatures;
         private final ExpandableTextView mContent;
         private final RecyclerGridView mGridView;
         private final ImageView mComment;
@@ -174,7 +177,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mNickName = itemView.findViewById(R.id.community_list_nickName);
             mPublishTime = itemView.findViewById(R.id.community_list_publishTime);
             mSignature = itemView.findViewById(R.id.community_list_signature);
-            mSignatures = itemView.findViewById(R.id.community_list_signatures);
             mContent = itemView.findViewById(R.id.community_list_content);
             mGridView = itemView.findViewById(R.id.community_list_grid_view);
             mComment = itemView.findViewById(R.id.community_list_comment);
@@ -183,7 +185,9 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mPraiseNum = itemView.findViewById(R.id.community_list_praise_num);
             mCommentRecy = itemView.findViewById(R.id.comment_recy);
             imageAdapter = new ImageAdapter();
-            mGridView.setVerticalSpacing(10);
+            int space =10;
+            mGridView.setHorizontalSpacing(space);
+            mGridView.setVerticalSpacing(space);
             mGridView.setAdapter(imageAdapter);
         }
     }
