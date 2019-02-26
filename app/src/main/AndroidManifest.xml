@@ -64,6 +64,8 @@
         <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.InformationDetailsActivity"></activity>
+        <activity android:name=".activity.FridendAddActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.CreateGroupActivity"></activity>
     </application>
 
 </manifest>
