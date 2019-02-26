@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/aaa">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/infophoto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/infoname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/infophoto"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:text="嘿嘿嘿嘿嘿"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:layout_below="@id/infoname"
+            android:layout_toRightOf="@id/infophoto"
+            android:text="09:33"
+            android:layout_marginLeft="10dp"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/infomessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aaa"
+        android:layout_marginLeft="50dp"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:layout_marginTop="10dp"
+        android:text="看见了"/>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/infomessage"
+        android:background="#f2f2f2"/>
+
+
+
+
+</RelativeLayout>

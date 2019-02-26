@@ -1,5 +1,6 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.AllInfoCommentListBean;
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CollectDataList;
@@ -234,6 +235,14 @@ public interface IRequest {
                                 @Field("infoId")int infoId);
 
     /**
+     * 资讯取消点赞（lk）
+     */
+    @DELETE("information/verify/v1/cancelGreat")
+    Observable<Result> cancelGreat(@Header("userId") long userId,
+                                @Header("sessionId")String sessionId,
+                                @Query("infoId") String infoId);
+
+    /**
      * 资讯收藏（lk)
      */
     @POST("user/verify/v1/addCollection")
@@ -254,7 +263,21 @@ public interface IRequest {
      * 资讯详情页（lk）
      */
     @GET("information/v1/findInformationDetails")
-    Observable<Result<InformationDetailsBean>> infordetails();
+    Observable<Result<InformationDetailsBean>> infordetails(@Header("userId") long userId,
+                                                            @Header("sessionId")String sessionId,
+                                                            @Query("id") String id);
+
+
+    /**
+     * 资讯详情页评论查询（lk）
+     */
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<AllInfoCommentListBean>>> infoCommentList(@Header("userId") long userId,
+                                                                     @Header("sessionId")String sessionId,
+                                                                     @Query("infoId") String infoId,
+                                                                     @Query("page") int page,
+                                                                     @Query("count") int count);
+
 
 
 }
