@@ -2,6 +2,7 @@ package com.wd.tech.https;
 
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
@@ -173,10 +174,10 @@ public interface IRequest {
 
     // 我的帖子community/verify/v1/findMyPostById
     @GET("community/verify/v1/findMyPostById")
-    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
-                                                            @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
+    Observable<Result<List<CardListData>>> findMyPostById(@Header("userId") long userId,
+                                                          @Header("sessionId") String sessionId,
+                                                          @Query("page") int page,
+                                                          @Query("count") int count);
 
 
     /**

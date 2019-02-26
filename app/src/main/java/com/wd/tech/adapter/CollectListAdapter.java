@@ -31,7 +31,9 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
     }
 
     public void setLists(List<CollectDataList> lists) {
-        this.lists = lists;
+        if (lists != null) {
+            this.lists.addAll(lists);
+        }
     }
 
     @NonNull
@@ -47,7 +49,7 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
         String thumbnail = collectDataList.getThumbnail();
         String[] split = thumbnail.split("？");
         vh.sim.setImageURI(split[0]);
-        
+
         vh.title.setText(collectDataList.getTitle());
         vh.zuozhe.setText(ToDate.timedate(collectDataList.getCreateTime()));
     }

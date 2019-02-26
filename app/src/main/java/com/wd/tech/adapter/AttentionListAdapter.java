@@ -49,7 +49,9 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     }
 
     public void setListData(List<AttentionListData> listData) {
-        this.listData = listData;
+        if (listData != null) {
+            this.listData.addAll(listData);
+        }
     }
 
     public void clear() {

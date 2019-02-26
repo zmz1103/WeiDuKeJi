@@ -31,6 +31,9 @@ import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.GetUserBeanPresenter;
 import com.wd.tech.presenter.PerFectUserInfoPresenter;
@@ -137,7 +140,7 @@ public class MySettingActivity extends WDActivity {
                 break;
             case R.id.my_tc_t:
                 // 退出登录 通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
-                AlertDialog.Builder builder = new AlertDialog.Builder(MySettingActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MySettingActivity.this);
                 //    设置Title的内容
                 builder.setTitle("温馨提示");
                 //    设置Content来显示一个信息
@@ -146,7 +149,10 @@ public class MySettingActivity extends WDActivity {
                 builder.setPositiveButton("确认退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userDao.deleteAll();
+                        DaoSession daoSession = DaoMaster.newDevSession(MySettingActivity.this, UserDao.TABLENAME);
+                        daoSession.clear();
+                        daoSession = null;
+                        daoSession.getUserDao().deleteAll();
                         finish();
                     }
                 });
@@ -154,6 +160,7 @@ public class MySettingActivity extends WDActivity {
                 builder.setNegativeButton("暂不退出", null);
                 //    显示出该对话框
                 builder.show();
+
                 break;
             case R.id.my_setting_icon:
                 View inflate = View.inflate(MySettingActivity.this, R.layout.community_popwindow, null);
@@ -166,13 +173,63 @@ public class MySettingActivity extends WDActivity {
                 inflate.setLayoutParams(layoutParamsthreefilmreview);
                 mDialog.getWindow().setGravity(Gravity.BOTTOM);
                 mDialog.show();
-
                 mCamera = inflate.findViewById(R.id.open_camera);
 
-                mPhoto = inflate.findViewById(R.id.open_album);
+                mPhoto = inflate.findViewById(R.id.open_picture);
 
-                mCancel = inflate.findViewById(R.id.open_cancel);
-                initPop(inflate);
+                mCancel = inflate.findViewById(R.id.btn_cancel);
+                mCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //取消弹框
+                        mDialog.cancel();
+                    }
+                });
+                //相册
+                mPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (ContextCompat.checkSelfPermission(MySettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            //权限还没有授予，需要在这里写申请权限的代码
+                            ActivityCompat.requestPermissions(MySettingActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 122);
+                        } else {
+                            Intent openAlbumIntent = new Intent(
+                                    Intent.ACTION_PICK);
+                            openAlbumIntent.setType("image/*");
+                            //用startActivityForResult方法，待会儿重写onActivityResult()方法，拿到图片做裁剪操作
+                            startActivityForResult(openAlbumIntent, 1);
+                        }
+                    }
+                });
+                //相机
+                mCamera.setOnClickListener(new View.OnClickListener() {
+                    private Uri tempUri;
+
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MySettingActivity.this, "xj", Toast.LENGTH_SHORT).show();
+                        if (ContextCompat.checkSelfPermission(MySettingActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(MySettingActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE}, 10);
+                            Toast.makeText(MySettingActivity.this, "if", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(MySettingActivity.this, "else", Toast.LENGTH_SHORT).show();
+                            Intent openCameraIntent = new Intent(
+                                    MediaStore.ACTION_IMAGE_CAPTURE);
+
+                            tempUri = Uri.parse(FileUtils.getDir("/image/bimap") + "1.jpg");
+                            Log.e("zmz", "=====" + tempUri);
+
+                            //启动相机程序
+                            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                            startActivityForResult(openCameraIntent, 0);
+                        }
+
+                    }
+                });
                 break;
             case R.id.go_up_sign:
                 //去发布签名页面
@@ -311,7 +368,7 @@ public class MySettingActivity extends WDActivity {
         switch (requestCode) {
             case 0:
 
-
+                Log.v("xjjjj",data.getData().getPath());
                 mDialog.cancel();
                 if (data == null || data.equals("")) {
                     return;
@@ -322,6 +379,7 @@ public class MySettingActivity extends WDActivity {
 
                 break;
             case 1:
+                Log.v("xcccc",data.getData().getPath());
                 mDialog.cancel();
                 if (data == null || data.equals("")) {
                     return;
@@ -348,61 +406,6 @@ public class MySettingActivity extends WDActivity {
             default:
                 break;
         }
-    }
-
-    private void initPop(View popView) {
-
-        mCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //取消弹框
-                mDialog.cancel();
-            }
-        });
-        //相册
-        mPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (ContextCompat.checkSelfPermission(MySettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //权限还没有授予，需要在这里写申请权限的代码
-                    ActivityCompat.requestPermissions(MySettingActivity.this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 122);
-                } else {
-                    Intent openAlbumIntent = new Intent(
-                            Intent.ACTION_PICK);
-                    openAlbumIntent.setType("image/*");
-                    //用startActivityForResult方法，待会儿重写onActivityResult()方法，拿到图片做裁剪操作
-                    startActivityForResult(openAlbumIntent, 1);
-                }
-            }
-        });
-        //相机
-        mCamera.setOnClickListener(new View.OnClickListener() {
-            private Uri tempUri;
-
-            @Override
-            public void onClick(View v) {
-
-                if (ContextCompat.checkSelfPermission(MySettingActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MySettingActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
-
-                } else {
-                    Intent openCameraIntent = new Intent(
-                            MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    tempUri = Uri.parse(FileUtils.getDir("/image/bimap") + "1.jpg");
-                    Log.e("zmz", "=====" + tempUri);
-
-                    //启动相机程序
-                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                    startActivityForResult(intent, 0);
-                }
-
-            }
-        });
     }
 
     private class getUserById implements DataCall<Result<GetUserBean>> {

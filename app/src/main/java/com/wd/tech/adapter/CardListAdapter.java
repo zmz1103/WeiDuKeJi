@@ -29,7 +29,9 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.Vh> {
     }
 
     public void setListData(List<CardListData> listData) {
-        this.listData = listData;
+        if (listData!= null) {
+            this.listData.addAll(listData);
+        }
     }
 
     @NonNull
@@ -46,6 +48,10 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.Vh> {
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    public void clear() {
+        listData.clear();
     }
 
     public class Vh extends RecyclerView.ViewHolder{

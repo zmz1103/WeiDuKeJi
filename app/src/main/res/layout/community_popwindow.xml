@@ -49,13 +49,17 @@
 
 
     </LinearLayout>
-
+    <View
+        android:id="@+id/my_view_04"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f4f4f4" />
     <LinearLayout
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@android:color/white"
-        android:layout_marginTop="10dp"
+
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
