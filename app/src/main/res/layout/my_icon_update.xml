@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/open_camera"
+        android:id="@+id/open_camera111"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_gravity="center_horizontal"

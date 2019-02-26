@@ -31,7 +31,9 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vh
     }
 
     public void setListDAta(List<NoticeListDAta> listDAta) {
-        this.listDAta = listDAta;
+        if (listDAta != null) {
+            this.listDAta.addAll(listDAta);
+        }
     }
 
 

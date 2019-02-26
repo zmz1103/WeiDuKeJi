@@ -89,6 +89,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View v) {
                     int whetherCollection = mInformationListBeans.get(i).getWhetherCollection();
                     mAddcollection.addsuccess(mInformationListBeans.get(i).getId(),whetherCollection);
+
                     if (whetherCollection == 2){
                         mInformationListBeans.get(i).setWhetherCollection(1);
                         mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection()+1);
@@ -101,6 +102,13 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 }
             });
+            ((InformationListMessage)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId());
+                }
+            });
+
 
 
         }
@@ -202,5 +210,16 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setAddgreat(Addcollection addcollection) {
         mAddcollection = addcollection;
+    }
+
+
+
+    public interface Detailstiao{
+        void detalssuccess(int id);
+    }
+    private Detailstiao mDetailstiao;
+
+    public void setDetailstiao(Detailstiao detailstiao) {
+        mDetailstiao = detailstiao;
     }
 }

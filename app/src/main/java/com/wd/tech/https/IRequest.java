@@ -2,11 +2,13 @@ package com.wd.tech.https;
 
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.FriendsPostData;
+import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
@@ -209,10 +211,10 @@ public interface IRequest {
 
     // 我的帖子community/verify/v1/findMyPostById
     @GET("community/verify/v1/findMyPostById")
-    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
-                                                            @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
+    Observable<Result<List<CardListData>>> findMyPostById(@Header("userId") long userId,
+                                                          @Header("sessionId") String sessionId,
+                                                          @Query("page") int page,
+                                                          @Query("count") int count);
 
 
     /**
@@ -240,9 +242,20 @@ public interface IRequest {
     Observable<Result> addcollection(@Header("userId") long userId,
                                 @Header("sessionId")String sessionId,
                                 @Field("infoId")int infoId);
-
+    /**
+     * 资讯取消收藏（lk)
+     */
     @DELETE("user/verify/v1/cancelCollection")
     Observable<Result> cancelcollection(@Header("userId") long userId,
                                         @Header("sessionId")String sessionId,
                                         @Query("infoId") String infoId);
+
+
+    /**
+     * 资讯详情页（lk）
+     */
+    @GET("information/v1/findInformationDetails")
+    Observable<Result<InformationDetailsBean>> infordetails();
+
+
 }

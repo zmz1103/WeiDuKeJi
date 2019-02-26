@@ -40,6 +40,7 @@ public abstract class WDActivity extends SwipeBackActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
+
         userDao = daoSession.getUserDao();
         setContentView(getLayoutId());
         mForegroundActivity = this;

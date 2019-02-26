@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.activity.InformationDetailsActivity;
 import com.wd.tech.activity.InterestActivity;
 import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.activity.WebDetailsActivity;
@@ -90,7 +91,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
     @Override
     public void initView(View view) {
-        if (userDao.loadAll().size()>0){
+        if (userDao.loadAll().size() > 0) {
             List<User> users = userDao.loadAll();
             userId = users.get(0).getUserId();
             sessionId = users.get(0).getSessionId();
@@ -147,25 +148,32 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         mCancelCollectionPresenter = new CancelCollectionPresenter(new CancelCollectionCall());
 
         mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
-                @Override
-                public void addsuccess(int id, int whetherCollection) {
-                    if (userDao.loadAll().size()>0){
-                        if (whetherCollection == 2){
+            @Override
+            public void addsuccess(int id, int whetherCollection) {
+                if (userDao.loadAll().size() > 0) {
+                    if (whetherCollection == 2) {
 
-                            mAddCollectionPresenter.reqeust(userId, sessionId, id);
-                        }else {
-                            String mid = String.valueOf(id);
-                            mCancelCollectionPresenter.reqeust(userId, sessionId, mid);
-                        }
-
-                    }else {
-                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                        mAddCollectionPresenter.reqeust(userId, sessionId, id);
+                    } else {
+                        String mid = String.valueOf(id);
+                        mCancelCollectionPresenter.reqeust(userId, sessionId, mid);
                     }
 
+                } else {
+                    Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
                 }
-            });
 
+            }
+        });
 
+        mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
+            @Override
+            public void detalssuccess(int id) {
+                Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
+                intent.putExtra("id",id+"");
+                startActivity(intent);
+            }
+        });
 
 
     }
