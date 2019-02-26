@@ -92,7 +92,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         communityImage.setAdapter(mPictureAdapter);
         mPictureAdapter.setOnImageClickListener(new PictureAdapter.OnImageClickListener() {
             @Override
-            public void onImageClick(int position) {
+            public void onImageClick() {
                 View view1 = View.inflate(PublishActivity.this, R.layout.community_popwindow, null);
                 popupWindow = new PopupWindow(view1);
                 //设置充满父窗体

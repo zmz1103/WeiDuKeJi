@@ -188,14 +188,14 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
             }
 
             @Override
-            public void onPraiseClick(int id,CommunityUserPostVoListBean communityUserPostVoListBean) {
+            public void onPraiseClick(int id,int whetherGreat) {
                 if (user==null){
                     Toast.makeText(FriendsPostActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
-                    if (communityUserPostVoListBean.getWhetherGreat() == 1) {
-                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communityUserPostVoListBean);
+                    if (whetherGreat == 1) {
+                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
                     } else {
-                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communityUserPostVoListBean);
+                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
                     }
                 }
             }
@@ -301,18 +301,13 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
             Toast.makeText(FriendsPostActivity.this, "请检查网络连接", Toast.LENGTH_SHORT).show();
         }
     }
-    //评论点赞
+    //点赞
     class LikeCall implements DataCall<Result> {
 
         @Override
         public void success(Result data) {
-            if (data.getStatus().equals("0000")) {
-                int o = (int) data.getArgs()[3];
-                CommunityUserPostVoListBean item = mFriendsPostAdapter.getItem(o);
-                item.setWhetherGreat(1);
-                item.setPraise(item.getPraise()+1);
-                mFriendsPostAdapter.notifyDataSetChanged();
-                initView();
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(FriendsPostActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -327,12 +322,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
-                int o = (int) result.getArgs()[3];
-                CommunityUserPostVoListBean item = mFriendsPostAdapter.getItem(o);
-                item.setWhetherGreat(2);
-                item.setPraise(item.getPraise()-1);
-                mFriendsPostAdapter.notifyDataSetChanged();
-                initView();
+                Toast.makeText(FriendsPostActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -383,6 +373,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(FriendsPostActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         }
 

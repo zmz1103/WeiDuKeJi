@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -53,7 +54,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
  */
 public class CommunityFragment extends WDFragment implements CustomAdapt{
     @BindView(R.id.community_recy)
-    XRecyclerView communityRecy;
+    RecyclerView communityRecy;
     @BindView(R.id.btn_publish_the_news)
     ImageView btnPublishTheNews;
     @BindView(R.id.refreshLayout)
@@ -169,6 +170,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                                 Toast.makeText(getContext(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
                             } else {
                                 mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
+
                                 builder.dismiss();
                             }
                         }
@@ -177,14 +179,14 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
             }
 
             @Override
-            public void onmPraiseClick(int id,CommunitylistData communitylistData) {
+            public void onmPraiseClick(int id,int whetherGreat) {
                 if (user ==null){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
-                    if (communitylistData.getWhetherGreat() == 1) {
-                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
+                    if (whetherGreat == 1) {
+                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
                     } else {
-                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,communitylistData);
+                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
                     }
                 }
             }
@@ -217,7 +219,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getActivity(), "请检查网络连接", Toast.LENGTH_SHORT).show();
         }
     }
     //评论点赞
@@ -226,11 +227,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                int o = (int) data.getArgs()[3];
-                CommunitylistData item = mCommunityListAdapter.getItem(o);
-                item.setWhetherGreat(1);
-                item.setPraise(item.getPraise()+1);
-                mCommunityListAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -244,11 +241,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
-                int o = (int) result.getArgs()[3];
-                CommunitylistData item = mCommunityListAdapter.getItem(o);
-                item.setWhetherGreat(2);
-                item.setPraise(item.getPraise()-1);
-                mCommunityListAdapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -58,10 +58,14 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
     //接口回调
     public interface onCommunityListClickListener{
+        //点击头像
         void onmHeadPicClick(int userid);
+        //评论
         void onmCommentClick(int id,String name);
-        void onmPraiseClick(int id,CommunitylistData communitylistData);
+        //点赞
+        void onmPraiseClick(int id,int whetherGreat);
     }
+
     public onCommunityListClickListener mOnCommunityListClickListener;
 
     public void setOnCommunityListClickListener(onCommunityListClickListener onCommunityListClickListener){
@@ -143,8 +147,18 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         viewHolder.mPraise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int whetherGreat = list.get(i).getWhetherGreat();
                 if (mOnCommunityListClickListener !=null){
-                    mOnCommunityListClickListener.onmPraiseClick(data.getId(),list.get(i));
+                    mOnCommunityListClickListener.onmPraiseClick(data.getId(),whetherGreat);
+                }
+                if (list.get(i).getWhetherGreat()==2){
+                    list.get(i).setWhetherGreat(1);
+                    list.get(i).setPraise(list.get(i).getPraise()+1);
+                    notifyItemChanged(i);
+                }else {
+                    list.get(i).setWhetherGreat(2);
+                    list.get(i).setPraise(list.get(i).getPraise()-1);
+                    notifyItemChanged(i);
                 }
             }
         });

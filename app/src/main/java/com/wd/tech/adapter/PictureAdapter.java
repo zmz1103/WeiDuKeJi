@@ -66,10 +66,9 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
         myHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnImageClickListener !=null){
-                    mOnImageClickListener.onImageClick(i);
+                if (i==0){
+                    mOnImageClickListener.onImageClick();
                 }
-
             }
         });
 
@@ -99,7 +98,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
         }
     }
     public interface OnImageClickListener{
-        void onImageClick(int position);
+        void onImageClick();
     }
     public OnImageClickListener mOnImageClickListener;
     public void setOnImageClickListener(OnImageClickListener onImageClickListener){

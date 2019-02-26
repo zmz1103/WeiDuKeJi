@@ -13,7 +13,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/friends_image_bg"
             android:layout_width="match_parent"
-            android:layout_height="1250dp"/>
+            android:layout_height="250dp"/>
         <LinearLayout
             android:id="@+id/layout"
             android:layout_width="match_parent"
