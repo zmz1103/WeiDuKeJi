@@ -229,13 +229,18 @@ public interface IRequest {
 
     //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
     @GET("user/verify/v1/findUserSignRecording")
-    Observable<Result > findUserSignRecording(@Query("userId") long title,
-                                                                         @Query("sessionId") String page );
+    Observable<Result<List<String>>> findUserSignRecording(@Header("userId") long title,
+                                                                         @Header("sessionId") String page );
 
     // user/verify/v1/findUserSignStatus  查询当天签到状态
     @GET("user/verify/v1/findUserSignStatus")
-    Observable<Result<Integer>> findUserSignStatus(@Query("userId") long title,
-                                              @Query("sessionId") String page );
+    Observable<Result<Integer>> findUserSignStatus(@Header("userId") long title,
+                                              @Header("sessionId") String page );
+    // 删除帖子 community/verify/v1/deletePost
+    @DELETE ("community/verify/v1/deletePost")
+    Observable<Result> deletePost (@Header ("userId") long userid,
+                                        @Header ("sessionld") String sessionld,
+                                        @Query ("communityId") String communityId);
     /**
      * 按标题搜索(lk)
      */

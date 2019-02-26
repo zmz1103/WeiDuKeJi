@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
-import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.RecyclerGridView;
 

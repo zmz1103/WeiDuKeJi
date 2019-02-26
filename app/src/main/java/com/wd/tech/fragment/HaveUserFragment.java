@@ -1,13 +1,7 @@
 package com.wd.tech.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,19 +20,13 @@ import com.wd.tech.activity.myactivity.SignActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Result;
-import com.wd.tech.bean.User;
-import com.wd.tech.dao.DaoMaster;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.GetUserBeanPresenter;
 import com.wd.tech.util.NetWorkUtils;
 import com.wd.tech.view.DataCall;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.jessyan.autosize.internal.CustomAdapt;
 
 
 /**
@@ -51,15 +39,15 @@ public class HaveUserFragment extends WDFragment {
 
     //头像 昵称 签到图标 签名
     @BindView(R.id.my_icon)
-    SimpleDraweeView my_icon;
+    SimpleDraweeView mMyIcon;
     @BindView(R.id.my_name)
-    TextView my_name;
+    TextView mMyName;
     @BindView(R.id.my_image_sign)
-    ImageView my_image_sign;
+    ImageView mMyImageSign;
     @BindView(R.id.my_signature)
-    TextView my_signature;
+    TextView mMySignAture;
 
-    private GetUserBeanPresenter getUserBeanPresenter;
+    private GetUserBeanPresenter mGetUserBeanPresenter;
     @Override
     public int getContent() {
         return R.layout.fragment_have_user;
@@ -67,14 +55,14 @@ public class HaveUserFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
-        getUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
-        getUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
+        mGetUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
+        mGetUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
+        mGetUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
     }
 
     @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext})
@@ -127,9 +115,9 @@ public class HaveUserFragment extends WDFragment {
         @Override
         public void success(Result<GetUserBean> result) {
             if (result.getStatus().equals("0000")) {
-                my_icon.setImageURI(result.getResult().getHeadPic());
-                my_name.setText(result.getResult().getNickName());
-                my_signature.setText(result.getResult().getSignature());
+                mMyIcon.setImageURI(result.getResult().getHeadPic());
+                mMyName.setText(result.getResult().getNickName());
+                mMySignAture.setText(result.getResult().getSignature());
             }
         }
 

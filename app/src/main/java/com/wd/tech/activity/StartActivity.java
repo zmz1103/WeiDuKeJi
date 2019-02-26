@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.MessageQueue;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import com.wd.tech.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * 作者: Wang on 2019/2/19 15:58
@@ -24,18 +24,18 @@ import me.jessyan.autosize.internal.CustomAdapt;
 
 public class StartActivity extends AppCompatActivity {
 
-    int time = 2;
-    Handler handler = new Handler(Looper.getMainLooper()) {
+    int mTime = 2;
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                if (time <= 0) {
+                if (mTime <= 0) {
                     startActivity(new Intent(StartActivity.this, HomeActivity.class));
                     finish();
                     return;
                 }
-                time--;
-                handler.sendEmptyMessageDelayed(1, 1000);
+                mTime--;
+                mHandler.sendEmptyMessageDelayed(1, 1000);
             }
         }
     };
@@ -52,7 +52,7 @@ public class StartActivity extends AppCompatActivity {
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/ziti.ttf");
         t.setTypeface(typeFace);
         tt.setTypeface(typeFace);
-        handler.sendEmptyMessage(1);
+        mHandler.sendEmptyMessage(1);
     }
 
 
