@@ -71,16 +71,18 @@ public class HaveUserFragment extends WDFragment {
         getUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
+    }
+
     @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext})
     void dian(View view) {
         // 判断是否有网
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
             switch (view.getId()) {
                 case R.id.my_image_sign:
-                    // 签到
-                    startActivity(new Intent(WDApplication.getAppContext(), SignActivity.class));
-                    break;
-                case R.id.qdtext:
                     // 签到
                     startActivity(new Intent(WDApplication.getAppContext(), SignActivity.class));
                     break;
@@ -125,7 +127,7 @@ public class HaveUserFragment extends WDFragment {
         @Override
         public void success(Result<GetUserBean> result) {
             if (result.getStatus().equals("0000")) {
-                my_icon.setImageURI(user.getHeadPic());
+                my_icon.setImageURI(result.getResult().getHeadPic());
                 my_name.setText(result.getResult().getNickName());
                 my_signature.setText(result.getResult().getSignature());
             }

@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -215,8 +216,26 @@ public interface IRequest {
                                                           @Header("sessionId") String sessionId,
                                                           @Query("page") int page,
                                                           @Query("count") int count);
+    // 上传头像 user/verify/v1/modifyHeadPic
+    @POST("user/verify/v1/modifyHeadPic")
+    Observable<RequestBody> modifyHeadPic(@Header("userId") long userId,
+                                          @Header("sessionId")String sessionId,
+                                          @Body MultipartBody body);
 
+    // 签到 user/verify/v1/userSign
+    @POST("user/verify/v1/userSign")
+    Observable<Result> userSign(@Header("userId") long userId,
+                                       @Header("sessionId") String sessionId );
 
+    //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
+    @GET("user/verify/v1/findUserSignRecording")
+    Observable<Result > findUserSignRecording(@Query("userId") long title,
+                                                                         @Query("sessionId") String page );
+
+    // user/verify/v1/findUserSignStatus  查询当天签到状态
+    @GET("user/verify/v1/findUserSignStatus")
+    Observable<Result<Integer>> findUserSignStatus(@Query("userId") long title,
+                                              @Query("sessionId") String page );
     /**
      * 按标题搜索(lk)
      */

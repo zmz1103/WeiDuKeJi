@@ -47,7 +47,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.Vh> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listData.size();
     }
 
     public void clear() {
@@ -55,6 +55,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.Vh> {
     }
 
     public class Vh extends RecyclerView.ViewHolder{
+
+
         public Vh(@NonNull View itemView) {
             super(itemView);
         }

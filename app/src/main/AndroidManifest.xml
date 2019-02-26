@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wd.tech">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,7 +11,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
+<uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <!--获取设备唯一标识，用于SDK激活授权-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -61,7 +62,8 @@
         <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.AddFriendsActivity"></activity>
-        <activity android:name=".activity.InterestDetailsActivity" />
+        <activity android:name="com.wd.tech.activity.InterestDetailsActivity"
+            tools:ignore="DuplicateActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.InformationDetailsActivity"></activity>
     </application>

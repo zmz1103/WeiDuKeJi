@@ -100,7 +100,7 @@ public class MyCardActivity extends WDActivity {
             Toast.makeText(MyCardActivity.this, "" + result.getMessage() + result.getResult().size(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
                 cardListAdapter.setListData(result.getResult());
-
+                cardListAdapter.notifyDataSetChanged();
             }
         }
 
