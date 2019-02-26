@@ -34,7 +34,7 @@ public class WeiXinUtil {
             wxapi.registerApp("wx4c96b6b8da494224");
             return wxapi;
         }else {
-            return  null;
+            return null;
         }
     }
    /* //支付

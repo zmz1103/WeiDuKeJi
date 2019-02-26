@@ -3,6 +3,7 @@ package com.wd.tech.https;
 import com.wd.tech.bean.AllInfoCommentListBean;
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
+import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -211,12 +213,35 @@ public interface IRequest {
 
     // 我的帖子community/verify/v1/findMyPostById
     @GET("community/verify/v1/findMyPostById")
-    Observable<Result<List<NoticeListDAta>>> findMyPostById(@Header("userId") long userId,
-                                                            @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
+    Observable<Result<List<CardListData>>> findMyPostById(@Header("userId") long userId,
+                                                          @Header("sessionId") String sessionId,
+                                                          @Query("page") int page,
+                                                          @Query("count") int count);
+    // 上传头像 user/verify/v1/modifyHeadPic
+    @POST("user/verify/v1/modifyHeadPic")
+    Observable<RequestBody> modifyHeadPic(@Header("userId") long userId,
+                                          @Header("sessionId")String sessionId,
+                                          @Body MultipartBody body);
 
+    // 签到 user/verify/v1/userSign
+    @POST("user/verify/v1/userSign")
+    Observable<Result> userSign(@Header("userId") long userId,
+                                       @Header("sessionId") String sessionId );
 
+    //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
+    @GET("user/verify/v1/findUserSignRecording")
+    Observable<Result<List<String>>> findUserSignRecording(@Header("userId") long title,
+                                                                         @Header("sessionId") String page );
+
+    // user/verify/v1/findUserSignStatus  查询当天签到状态
+    @GET("user/verify/v1/findUserSignStatus")
+    Observable<Result<Integer>> findUserSignStatus(@Header("userId") long title,
+                                              @Header("sessionId") String page );
+    // 删除帖子 community/verify/v1/deletePost
+    @DELETE ("community/verify/v1/deletePost")
+    Observable<Result> deletePost (@Header ("userId") long userid,
+                                        @Header ("sessionld") String sessionld,
+                                        @Query ("communityId") String communityId);
     /**
      * 按标题搜索(lk)
      */

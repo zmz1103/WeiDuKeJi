@@ -6,20 +6,20 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/open_camera"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="相机"
-            android:textColor="#333333"
-            android:textSize="20sp" />
+            android:text="确认删除该帖子吗?"
+            android:textColor="#999"
+            android:textSize="12sp" />
 
 
     </RelativeLayout>
@@ -31,7 +31,7 @@
         android:background="#f4f4f4" />
 
     <RelativeLayout
-        android:id="@+id/open_album"
+        android:id="@+id/btn_del"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginLeft="10dp"
@@ -41,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="相册"
-            android:textColor="#333333"
+            android:text="确认"
+            android:textColor="#f00"
             android:textSize="20sp" />
 
     </RelativeLayout>
@@ -55,12 +55,11 @@
         android:background="#f4f4f4" />
 
     <RelativeLayout
-        android:id="@+id/open_cancel"
+        android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
-
 
         <TextView
             android:layout_width="wrap_content"

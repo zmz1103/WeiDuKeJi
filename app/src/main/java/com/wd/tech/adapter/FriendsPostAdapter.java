@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
-import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.RecyclerGridView;
 
@@ -53,8 +51,10 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
     }
 
     public interface OnFriendsPostClickListener{
+        //评论
         void onCommentClick(int id);
-        void onPraiseClick(int id,CommunityUserPostVoListBean communityUserPostVoListBean);
+        //点赞
+        void onPraiseClick(int id,int whetherGreat);
     }
     public OnFriendsPostClickListener mOnFriendsPostClickListener;
     public void setOnFriendsPostClickListener(OnFriendsPostClickListener onFriendsPostClickListener){
@@ -108,14 +108,25 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
                 if (mOnFriendsPostClickListener !=null){
                     mOnFriendsPostClickListener.onCommentClick(listBean.getId());
                 }
+
             }
         });
         //点赞
         viewHolder.mFriendspostpraise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int whetherGreat = list.get(i).getWhetherGreat();
                 if (mOnFriendsPostClickListener !=null){
-                    mOnFriendsPostClickListener.onPraiseClick(listBean.getId(),list.get(i));
+                    mOnFriendsPostClickListener.onPraiseClick(list.get(i).getId(),whetherGreat);
+                }
+                if (list.get(i).getWhetherGreat()==2){
+                    list.get(i).setWhetherGreat(1);
+                    list.get(i).setPraise(list.get(i).getPraise()+1);
+                    notifyItemChanged(i);
+                }else {
+                    list.get(i).setWhetherGreat(2);
+                    list.get(i).setPraise(list.get(i).getPraise()-1);
+                    notifyItemChanged(i);
                 }
             }
         });

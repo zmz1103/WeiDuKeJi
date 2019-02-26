@@ -22,55 +22,57 @@ import java.util.List;
 
 
 public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.Vh> {
-    private List<CollectDataList> lists;
-    private Context context;
+    private List<CollectDataList> mLists;
+    private Context mContext;
 
     public CollectListAdapter(Context context) {
-        this.lists = new ArrayList<>();
-        this.context = context;
+        this.mLists = new ArrayList<>();
+        this.mContext = context;
     }
 
-    public void setLists(List<CollectDataList> lists) {
-        this.lists = lists;
+    public void setmLists(List<CollectDataList> mLists) {
+        if (mLists != null) {
+            this.mLists.addAll(mLists);
+        }
     }
 
     @NonNull
     @Override
     public Vh onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(context, R.layout.adapter_collect_list, null);
+        View view = View.inflate(mContext, R.layout.adapter_collect_list, null);
         return new Vh(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
-        CollectDataList collectDataList = lists.get(i);
+        CollectDataList collectDataList = mLists.get(i);
         String thumbnail = collectDataList.getThumbnail();
         String[] split = thumbnail.split("？");
-        vh.sim.setImageURI(split[0]);
-        
-        vh.title.setText(collectDataList.getTitle());
-        vh.zuozhe.setText(ToDate.timedate(collectDataList.getCreateTime()));
+        vh.mIcon.setImageURI(split[0]);
+
+        vh.mTitle.setText(collectDataList.getTitle());
+        vh.mAuther.setText(ToDate.timedate(collectDataList.getCreateTime()));
     }
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return mLists.size();
     }
 
     public void clear() {
-        lists.clear();
+        mLists.clear();
     }
 
     public class Vh extends RecyclerView.ViewHolder {
 
-        private final TextView title, zuozhe;
-        private final SimpleDraweeView sim;
+        private final TextView mTitle, mAuther;
+        private final SimpleDraweeView mIcon;
 
         public Vh(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.co_item_title);
-            zuozhe = itemView.findViewById(R.id.co_item_zuozhe);
-            sim = itemView.findViewById(R.id.collect_ite_simpleview);
+            mTitle = itemView.findViewById(R.id.co_item_title);
+            mAuther = itemView.findViewById(R.id.co_item_zuozhe);
+            mIcon = itemView.findViewById(R.id.collect_ite_simpleview);
         }
     }
 }

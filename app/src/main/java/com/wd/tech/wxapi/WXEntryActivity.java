@@ -7,11 +7,9 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.wd.tech.R;
-import com.wd.tech.activity.MainActivity;
 import com.wd.tech.activity.WDActivity;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
-import com.wd.tech.bean.WxData;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.WxLoginPresenter;
 import com.wd.tech.util.WeiXinUtil;
@@ -20,8 +18,8 @@ import com.wd.tech.view.DataCall;
 import java.util.List;
 
 public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
-    private WxLoginPresenter wxLoginPresenter;
-    private String code;
+    private WxLoginPresenter mWxLoginPresenter;
+    private String mCode;
 
 
     @Override
@@ -48,9 +46,9 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
     public void onResp(final BaseResp baseResp) {
         switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                code = ((SendAuth.Resp) baseResp).code;
-                wxLoginPresenter = new WxLoginPresenter(new WxCall());
-                wxLoginPresenter.reqeust(code);
+                mCode = ((SendAuth.Resp) baseResp).code;
+                mWxLoginPresenter = new WxLoginPresenter(new WxCall());
+                mWxLoginPresenter.reqeust(mCode);
                 break;
             default:
                 break;

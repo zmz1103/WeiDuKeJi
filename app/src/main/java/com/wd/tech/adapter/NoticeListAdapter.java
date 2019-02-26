@@ -22,48 +22,50 @@ import java.util.List;
 
 public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vh> {
 
-    private List<NoticeListDAta> listDAta;
-    private Context context;
+    private List<NoticeListDAta> mListDAta;
+    private Context mContext;
 
     public NoticeListAdapter(Context context) {
-        this.listDAta = new ArrayList<>();
-        this.context = context;
+        this.mListDAta = new ArrayList<>();
+        this.mContext = context;
     }
 
-    public void setListDAta(List<NoticeListDAta> listDAta) {
-        this.listDAta = listDAta;
+    public void setmListDAta(List<NoticeListDAta> mListDAta) {
+        if (mListDAta != null) {
+            this.mListDAta.addAll(mListDAta);
+        }
     }
 
 
     @NonNull
     @Override
     public Vh onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new Vh(View.inflate(context, R.layout.adapter_notice_item,null));
+        return new Vh(View.inflate(mContext, R.layout.adapter_notice_item,null));
     }
 
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
-        vh.text.setText(listDAta.get(i).getContent());
-        vh.text.setText(ToDate.timedate(listDAta.get(i).getCreateTime()));
+        vh.mText.setText(mListDAta.get(i).getContent());
+        vh.mTiem.setText(ToDate.timedate(mListDAta.get(i).getCreateTime()));
     }
 
     @Override
     public int getItemCount() {
-        return listDAta.size();
+        return mListDAta.size();
     }
 
     public void clear() {
-        listDAta.clear();
+        mListDAta.clear();
     }
 
     public class Vh extends RecyclerView.ViewHolder{
 
-        private final TextView text,tiem;
+        private final TextView mText, mTiem;
 
         public Vh(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.notice_item_text);
-            tiem = itemView.findViewById(R.id.notice_item_time);
+            mText = itemView.findViewById(R.id.notice_item_text);
+            mTiem = itemView.findViewById(R.id.notice_item_time);
         }
     }
 }

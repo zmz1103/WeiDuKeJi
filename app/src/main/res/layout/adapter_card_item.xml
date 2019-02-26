@@ -1,5 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <jaydenxiao.com.expandabletextview.ExpandableTextView
+        android:id="@+id/card_etv_textview"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:collapseExpandGrarity="right"
+        app:collapseExpandTextColor="#9932cc"
+        app:contentTextColor="#333"
+        app:contentTextSize="12sp"
+        app:maxCollapsedLines="4"
+        app:textCollapse="@string/collapse"
+        app:textExpand="@string/expand"  />
+
+    <com.wd.tech.view.RecyclerRecView
+        android:id="@+id/card_rec_list"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_etv_textview"
+        android:layout_marginTop="14dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_rec_list"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/card_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="201920192019"
+            android:textColor="#999"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/card_sc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/card_time_textview"
+            android:text="删除"
+            android:textColor="#20affa"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:id="@+id/card_pl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="00"
+            android:textColor="#666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/card_pl_img"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/card_pl_text"
+            android:src="@mipmap/common_icon_comment_n" />
+
+        <TextView
+            android:id="@+id/card_dz_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/card_pl_img"
+            android:text="00"
+            android:textColor="#666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/card_dz_img"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/card_dz_textview"
+            android:src="@mipmap/common_icon_prise_n" />
+    </RelativeLayout>
 </RelativeLayout>

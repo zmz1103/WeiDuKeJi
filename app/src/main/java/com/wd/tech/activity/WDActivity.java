@@ -28,8 +28,10 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * function:
  */
 public abstract class WDActivity extends SwipeBackActivity {
-    public final static int PHOTO = 0;// 相册选取
-    public final static int CAMERA = 1;// 拍照
+    // 相册选取
+    public final static int PHOTO = 0;
+    // 拍照
+    public final static int CAMERA = 1;
 
     private static WDActivity mForegroundActivity = null;
     private SwipeBackLayout mSwipeBackLayout;
@@ -40,6 +42,7 @@ public abstract class WDActivity extends SwipeBackActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
+
         userDao = daoSession.getUserDao();
         setContentView(getLayoutId());
         mForegroundActivity = this;
@@ -49,17 +52,14 @@ public abstract class WDActivity extends SwipeBackActivity {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getSole() == 1) {
                     user = users.get(i);
-
                     break;
                 }
             }
-        } else {
         }
 
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
         } else {
             Toast.makeText(WDApplication.getAppContext(), "aaaa请检查网络", Toast.LENGTH_SHORT).show();
-
 
         }
         initView();
@@ -134,8 +134,9 @@ public abstract class WDActivity extends SwipeBackActivity {
             String img_path = actualimagecursor
                     .getString(actual_image_column_index);
             // 4.0以上平台会自动关闭cursor,所以加上版本判断,OK
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 actualimagecursor.close();
+            }
             return img_path;
         }
         return null;

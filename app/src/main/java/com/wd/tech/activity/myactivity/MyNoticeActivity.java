@@ -13,7 +13,6 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
-import com.wd.tech.adapter.AttentionListAdapter;
 import com.wd.tech.adapter.NoticeListAdapter;
 import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
@@ -34,8 +33,8 @@ public class MyNoticeActivity extends WDActivity {
     @BindView(R.id.my_notice_listView)
     RecyclerView mRec;
     private int mPage = 1;
-    private FindSysNoticePresenter findSysNoticePresenter;
-    private NoticeListAdapter noticeListAdapter;
+    private FindSysNoticePresenter mFindSysNoticePresenter;
+    private NoticeListAdapter mNoticeListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -44,7 +43,7 @@ public class MyNoticeActivity extends WDActivity {
 
     @Override
     protected void initView() {
-        findSysNoticePresenter = new FindSysNoticePresenter(new findList());
+        mFindSysNoticePresenter = new FindSysNoticePresenter(new findList());
         mLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
 //设置 Footer 为 球脉冲 样式
         mLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
@@ -58,7 +57,7 @@ public class MyNoticeActivity extends WDActivity {
             public void onRefresh(RefreshLayout refreshlayout) {
                 mPage = 1;
                 requestt(mPage);
-                noticeListAdapter.clear();
+                mNoticeListAdapter.clear();
                 refreshlayout.finishRefresh();
             }
         });
@@ -67,24 +66,24 @@ public class MyNoticeActivity extends WDActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 mPage++;
                 requestt(mPage);
-                noticeListAdapter.notifyDataSetChanged();
+                mNoticeListAdapter.notifyDataSetChanged();
                 refreshlayout.finishLoadmore();
             }
         });
-        noticeListAdapter = new NoticeListAdapter(this);
+        mNoticeListAdapter = new NoticeListAdapter(this);
         mRec.setLayoutManager(new LinearLayoutManager(this));
-        mRec.setAdapter(noticeListAdapter);
+        mRec.setAdapter(mNoticeListAdapter);
     }
     private void requestt(int page) {
         if (user == null) {
-            findSysNoticePresenter.reqeust(0, "", page, 5);
+            mFindSysNoticePresenter.reqeust(0, "", page, 5);
         } else {
-            findSysNoticePresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
+            mFindSysNoticePresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
         }
     }
     @Override
     protected void destoryData() {
-        findSysNoticePresenter.unBind();
+        mFindSysNoticePresenter.unBind();
     }
     @OnClick(R.id.my_back_notice)
     void iD(){
@@ -96,8 +95,8 @@ public class MyNoticeActivity extends WDActivity {
         public void success(Result<List<NoticeListDAta>> result) {
             Toast.makeText(MyNoticeActivity.this, ""+result.getMessage()+result.getResult().size(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                noticeListAdapter.setListDAta(result.getResult());
-                noticeListAdapter.notifyDataSetChanged();
+                mNoticeListAdapter.setmListDAta(result.getResult());
+                mNoticeListAdapter.notifyDataSetChanged();
             }
         }
 
