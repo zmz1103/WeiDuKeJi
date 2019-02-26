@@ -1,7 +1,5 @@
 package com.wd.tech.activity.myactivity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,7 +15,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
 import com.wd.tech.adapter.AttentionListAdapter;
-import com.wd.tech.adapter.CollectListAdapter;
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
@@ -32,9 +29,9 @@ import butterknife.OnClick;
 public class MyAttentionActivity extends WDActivity {
 
 
-    private FindFollowUserListPresenter findFollowUserListPresenter;
-    private int page = 1;
-    private AttentionListAdapter attentionListAdapter;
+    private FindFollowUserListPresenter mFindFollowUserListPresenter;
+    private int mPage = 1;
+    private AttentionListAdapter mAttentionListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -49,11 +46,11 @@ public class MyAttentionActivity extends WDActivity {
     @Override
     protected void initView() {
 
-        findFollowUserListPresenter = new FindFollowUserListPresenter(new findFollow());
+        mFindFollowUserListPresenter = new FindFollowUserListPresenter(new findFollow());
         mLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
 //设置 Footer 为 球脉冲 样式
         mLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
-        requestt(page);
+        requestt(mPage);
         mLayout.setEnableRefresh(true);
         //启用刷新
         mLayout.setEnableLoadmore(true);
@@ -61,31 +58,31 @@ public class MyAttentionActivity extends WDActivity {
         mLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page = 1;
-                requestt(page);
-                attentionListAdapter.clear();
+                mPage = 1;
+                requestt(mPage);
+                mAttentionListAdapter.clear();
                 refreshlayout.finishRefresh();
             }
         });
         mLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                requestt(page);
-                attentionListAdapter.notifyDataSetChanged();
+                mPage++;
+                requestt(mPage);
+                mAttentionListAdapter.notifyDataSetChanged();
                 refreshlayout.finishLoadmore();
             }
         });
-        attentionListAdapter = new AttentionListAdapter(this);
+        mAttentionListAdapter = new AttentionListAdapter(this);
         mRec.setLayoutManager(new LinearLayoutManager(this));
-        mRec.setAdapter(attentionListAdapter);
+        mRec.setAdapter(mAttentionListAdapter);
     }
 
     private void requestt(int page) {
         if (user == null) {
-            findFollowUserListPresenter.reqeust(0, "", page, 10);
+            mFindFollowUserListPresenter.reqeust(0, "", page, 10);
         } else {
-            findFollowUserListPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 10);
+            mFindFollowUserListPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 10);
         }
     }
     @OnClick(R.id.my_back_gz)
@@ -102,7 +99,7 @@ public class MyAttentionActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        findFollowUserListPresenter.unBind();
+        mFindFollowUserListPresenter.unBind();
     }
 
     private class findFollow implements DataCall<Result<List<AttentionListData>>> {
@@ -111,8 +108,8 @@ public class MyAttentionActivity extends WDActivity {
         public void success(Result<List<AttentionListData>> result) {
             Toast.makeText(MyAttentionActivity.this, "" + result.getMessage() + result.getResult().size(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                attentionListAdapter.setListData(result.getResult());
-                attentionListAdapter.notifyDataSetChanged();
+                mAttentionListAdapter.setmListData(result.getResult());
+                mAttentionListAdapter.notifyDataSetChanged();
             }
         }
 

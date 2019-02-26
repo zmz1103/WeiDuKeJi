@@ -82,6 +82,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private Intent mIntent;
     private AddCollectionPresenter mAddCollectionPresenter;
     private CancelCollectionPresenter mCancelCollectionPresenter;
+    private List<InformationListBean> mResult;
 
 
     @Override
@@ -204,6 +205,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
     }
 
+
     @Override
     public boolean isBaseOnWidth() {
         return false;
@@ -292,7 +294,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
     private class showListCall implements DataCall<Result<List<InformationListBean>>> {
 
-        private List<InformationListBean> mResult;
+
 
         @Override
         public void success(Result<List<InformationListBean>> result) {
@@ -314,6 +316,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")) {
+
                 Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
@@ -341,4 +344,5 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         }
     }
+
 }

@@ -22,52 +22,52 @@ import java.util.List;
 
 public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdapter.Vh> {
 
-    private List<AttentionListData> listData;
-    private Context context;
+    private List<AttentionListData> mListData;
+    private Context mContext;
 
     public AttentionListAdapter(Context context) {
-        this.listData = new ArrayList<>();
-        this.context = context;
+        this.mListData = new ArrayList<>();
+        this.mContext = context;
     }
 
     @NonNull
     @Override
     public Vh onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new Vh(View.inflate(context,R.layout.adapter_atten_item,null));
+        return new Vh(View.inflate(mContext,R.layout.adapter_atten_item,null));
     }
 
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
-        vh.qm.setText(listData.get(i).getSignature());
-        vh.sim.setImageURI(listData.get(i).getHeadPic());
-        vh.title.setText(listData.get(i).getNickName());
+        vh.mSignsture.setText(mListData.get(i).getSignature());
+        vh.mIcon.setImageURI(mListData.get(i).getHeadPic());
+        vh.mTitle.setText(mListData.get(i).getNickName());
     }
 
     @Override
     public int getItemCount() {
-        return listData.size();
+        return mListData.size();
     }
 
-    public void setListData(List<AttentionListData> listData) {
-        if (listData != null) {
-            this.listData.addAll(listData);
+    public void setmListData(List<AttentionListData> mListData) {
+        if (mListData != null) {
+            this.mListData.addAll(mListData);
         }
     }
 
     public void clear() {
-        listData.clear();
+        mListData.clear();
     }
 
     public class Vh extends RecyclerView.ViewHolder{
 
-        private final SimpleDraweeView sim;
-        private final TextView title,qm;
+        private final SimpleDraweeView mIcon;
+        private final TextView mTitle, mSignsture;
 
         public Vh(@NonNull View itemView) {
             super(itemView);
-            sim = itemView.findViewById(R.id.atten_item_sim);
-            title = itemView.findViewById(R.id.atten_item_title);
-            qm = itemView.findViewById(R.id.atten_item_qm);
+            mIcon = itemView.findViewById(R.id.atten_item_sim);
+            mTitle = itemView.findViewById(R.id.atten_item_title);
+            mSignsture = itemView.findViewById(R.id.atten_item_qm);
         }
     }
 }

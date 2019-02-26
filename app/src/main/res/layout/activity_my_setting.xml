@@ -407,12 +407,25 @@
                     android:textColor="#f00"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/u_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/my_view_00003"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:text="修改信息"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
                 <View
                     android:layout_width="260dp"
                     android:layout_height="1dp"
                     android:layout_below="@id/my_tc_t"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="#f4f4f4" />
             </RelativeLayout>
         </RelativeLayout>

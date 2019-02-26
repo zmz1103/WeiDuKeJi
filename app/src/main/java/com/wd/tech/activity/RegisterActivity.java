@@ -14,7 +14,6 @@ import com.wd.tech.view.DataCall;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * 作者: Wang on 2019/2/19 15:48
@@ -24,7 +23,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
 
 public class RegisterActivity extends WDActivity   {
 
-    private RegisterPresenter registerPresenter;
+    private RegisterPresenter mRegisterPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -40,24 +39,22 @@ public class RegisterActivity extends WDActivity   {
 
     @Override
     protected void initView() {
-        registerPresenter = new RegisterPresenter(new registerCall());
+        mRegisterPresenter = new RegisterPresenter(new registerCall());
     }
 
     @OnClick(R.id.register_btn)
     void onclick(View v) {
         switch (v.getId()) {
             case R.id.register_btn:
-                boolean mobile = RegUtils.isMobile(mEphone.getText().toString());
-                boolean b = RegUtils.rexCheckPassword(mEpwd.getText().toString());
-
-                if ( mobile) {
-
-                    if (b&&mEpwd.length()>=8) {
+                boolean mMobile = RegUtils.isMobile(mEphone.getText().toString());
+                boolean mPwdText = RegUtils.rexCheckPassword(mEpwd.getText().toString());
+                if ( mMobile) {
+                    if (mPwdText&&mEpwd.length()>=8) {
                         try {
                             if (mEname.getText().toString().length()>=1) {
                                 String s = RsaCoder.encryptByPublicKey(mEpwd.getText().toString());
 
-                                registerPresenter.reqeust(mEphone.getText().toString(),mEname.getText().toString(),s );
+                                mRegisterPresenter.reqeust(mEphone.getText().toString(),mEname.getText().toString(),s );
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -77,7 +74,7 @@ public class RegisterActivity extends WDActivity   {
 
     @Override
     protected void destoryData() {
-        registerPresenter.unBind();
+        mRegisterPresenter.unBind();
     }
 
 

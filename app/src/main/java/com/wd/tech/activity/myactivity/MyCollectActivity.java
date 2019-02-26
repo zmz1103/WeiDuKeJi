@@ -1,7 +1,5 @@
 package com.wd.tech.activity.myactivity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -33,9 +30,9 @@ import butterknife.OnClick;
 
 public class MyCollectActivity extends WDActivity {
 
-    private FindAllInfoCillectionPresenter findAllInfoCillectionPresenter;
-    private int page = 1;
-    private CollectListAdapter collectListAdapter;
+    private FindAllInfoCillectionPresenter mFindAllInfoCillectionPresenter;
+    private int mPage = 1;
+    private CollectListAdapter mCollectListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -43,7 +40,7 @@ public class MyCollectActivity extends WDActivity {
     }
 
     @BindView(R.id.collect_xrec_list)
-    SmartRefreshLayout xRecyclerView;
+    SmartRefreshLayout mXRecyclerView;
 
     @BindView(R.id.co_listView)
     RecyclerView mRec;
@@ -57,50 +54,50 @@ public class MyCollectActivity extends WDActivity {
 
     @Override
     protected void initView() {
-        findAllInfoCillectionPresenter = new FindAllInfoCillectionPresenter(new findAll());
+        mFindAllInfoCillectionPresenter = new FindAllInfoCillectionPresenter(new findAll());
 
-        xRecyclerView.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
+        mXRecyclerView.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
 //设置 Footer 为 球脉冲 样式
-        xRecyclerView.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
-        requestt(page);
-        xRecyclerView.setEnableRefresh(true);
+        mXRecyclerView.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        requestt(mPage);
+        mXRecyclerView.setEnableRefresh(true);
         //启用刷新
-        xRecyclerView.setEnableLoadmore(true);
-        collectListAdapter = new CollectListAdapter(this);
+        mXRecyclerView.setEnableLoadmore(true);
+        mCollectListAdapter = new CollectListAdapter(this);
         //启用加载
-        xRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+        mXRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page = 1;
-                requestt(page);
-                collectListAdapter.clear();
+                mPage = 1;
+                requestt(mPage);
+                mCollectListAdapter.clear();
                 refreshlayout.finishRefresh();
             }
         });
-        xRecyclerView.setOnLoadmoreListener(new OnLoadmoreListener() {
+        mXRecyclerView.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                requestt(page);
-                collectListAdapter.notifyDataSetChanged();
+                mPage++;
+                requestt(mPage);
+                mCollectListAdapter.notifyDataSetChanged();
                 refreshlayout.finishLoadmore();
             }
         });
         mRec.setLayoutManager(new LinearLayoutManager(this));
-        mRec.setAdapter(collectListAdapter);
+        mRec.setAdapter(mCollectListAdapter);
     }
 
     private void requestt(int page) {
         if (user == null) {
-            findAllInfoCillectionPresenter.reqeust(0, "", page, 5);
+            mFindAllInfoCillectionPresenter.reqeust(0, "", page, 5);
         } else {
-            findAllInfoCillectionPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
+            mFindAllInfoCillectionPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
         }
     }
 
     @Override
     protected void destoryData() {
-        findAllInfoCillectionPresenter.unBind();
+        mFindAllInfoCillectionPresenter.unBind();
     }
 
 
@@ -140,8 +137,8 @@ public class MyCollectActivity extends WDActivity {
         public void success(Result<List<CollectDataList>> result) {
             Toast.makeText(MyCollectActivity.this, "" + result.getMessage() + result.getResult().size(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                collectListAdapter.setLists(result.getResult());
-                collectListAdapter.notifyDataSetChanged();
+                mCollectListAdapter.setmLists(result.getResult());
+                mCollectListAdapter.notifyDataSetChanged();
             }
         }
 
