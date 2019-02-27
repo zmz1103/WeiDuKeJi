@@ -4,7 +4,6 @@ package com.wd.tech.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
-import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.LoginPresenter;
@@ -26,15 +24,13 @@ import com.wd.tech.util.RsaCoder;
 import com.wd.tech.util.WeiXinUtil;
 import com.wd.tech.view.DataCall;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class MainActivity extends WDActivity implements CustomAdapt {
 
-    private LoginPresenter loginPresenter;
+    private LoginPresenter mLoginPresenter;
 
 
     @Override
@@ -84,7 +80,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         // 设置密码不可见
         mEpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
         isHide = true;
-        loginPresenter = new LoginPresenter(new loginCall());
+        mLoginPresenter = new LoginPresenter(new loginCall());
     }
 
     @OnClick({R.id.eye, R.id.toReagist, R.id.weixinLogin, R.id.faseIdLogin, R.id.login_btn})
@@ -100,7 +96,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
                     if (b && mEpwd.length() >= 8) {
                         try {
-                            loginPresenter.reqeust(mEtel.getText().toString(), RsaCoder.encryptByPublicKey(mEpwd.getText().toString()));
+                            mLoginPresenter.reqeust(mEtel.getText().toString(), RsaCoder.encryptByPublicKey(mEpwd.getText().toString()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -149,7 +145,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
     @Override
     protected void destoryData() {
-        loginPresenter.unBind();
+        mLoginPresenter.unBind();
     }
 
     @Override

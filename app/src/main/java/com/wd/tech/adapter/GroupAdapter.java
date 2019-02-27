@@ -60,6 +60,18 @@ public class GroupAdapter extends BaseAdapter {
                 }
                 break;
             case 1:
+                AddFriendHolder addFriendHolder;
+                if (convertView == null) {
+                    addFriendHolder = new AddFriendHolder();
+                    convertView = View.inflate(context,R.layout.activity_add_friend_item,null);
+                    addFriendHolder.addFriend = convertView.findViewById(R.id.add_fri);
+                    convertView.setTag(addFriendHolder);
+                }else {
+                    addFriendHolder = (AddFriendHolder) convertView.getTag();
+                }
+
+                break;
+            case 2:
                 ClusterHolder clusterHolder;
                 if (convertView == null) {
                     clusterHolder = new ClusterHolder();
@@ -69,8 +81,8 @@ public class GroupAdapter extends BaseAdapter {
                 } else {
                     clusterHolder = (ClusterHolder) convertView.getTag();
                 }
-
                 break;
+
             default:
                 FriendHolder friendHolder;
                 if (convertView == null) {
@@ -114,6 +126,10 @@ public class GroupAdapter extends BaseAdapter {
 
     class ClusterHolder {
         RelativeLayout cluster;
+    }
+
+    class AddFriendHolder{
+        RelativeLayout addFriend;
     }
 
     class FriendHolder {

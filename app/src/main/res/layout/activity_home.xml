@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/draw"
     android:background="@android:color/white">
 
     <RelativeLayout
+        android:id="@+id/reght"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RadioGroup
@@ -47,7 +50,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:drawableTop="@drawable/rbtn_sele_mine"
-                android:text="我的"
+                android:text="社区"
                 android:textColor="@color/colorText"
                 android:textSize="12sp"
                 android:button="@null"/>

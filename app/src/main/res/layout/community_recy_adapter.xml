@@ -68,6 +68,7 @@
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
+
     <jaydenxiao.com.expandabletextview.ExpandableTextView
         android:id="@+id/community_list_content"
         android:layout_width="match_parent"

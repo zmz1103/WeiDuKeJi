@@ -134,6 +134,16 @@ public class InterestDetailsActivity extends WDActivity {
             }
         });
 
+        mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
+            @Override
+            public void detalssuccess(int id) {
+                Log.e("lk","id===id"+id);
+                Intent intent = new Intent(InterestDetailsActivity.this,InformationDetailsActivity.class);
+                intent.putExtra("id",id+"");
+                startActivity(intent);
+            }
+        });
+
 
 
     }

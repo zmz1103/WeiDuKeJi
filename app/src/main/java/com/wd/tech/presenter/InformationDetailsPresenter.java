@@ -20,6 +20,6 @@ public class InformationDetailsPresenter extends WDPresenter {
     @Override
     protected Observable observable(Object... args) {
         IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return null;
+        return iRequest.infordetails((long) args[0],(String) args[1],(String) args[2]);
     }
 }

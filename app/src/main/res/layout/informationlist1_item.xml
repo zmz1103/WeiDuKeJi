@@ -68,14 +68,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/details"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="12dp">
 
         <ImageView
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:id="@+id/shoucang"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="6dp"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/shoucangshu"
             android:src="@mipmap/common_icon_collect_n" />
@@ -83,9 +84,10 @@
         <ImageView
             android:layout_toLeftOf="@id/fenxiangshu"
             android:id="@+id/fenxiang"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="6dp"
+            android:layout_marginRight="5dp"
             android:src="@mipmap/common_icon_share_n"/>
 
         <TextView
@@ -95,16 +97,18 @@
             android:layout_alignParentRight="true"
             android:text="0"
             android:textColor="#999999"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/shoucangshu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:textColor="#999999"
             android:textSize="10sp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/fenxiang"/>
 
     </RelativeLayout>
