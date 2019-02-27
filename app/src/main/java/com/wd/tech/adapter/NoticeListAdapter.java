@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.wd.tech.R;
 import com.wd.tech.bean.NoticeListDAta;
+import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.ToDate;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vh
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
         vh.mText.setText(mListDAta.get(i).getContent());
-        vh.mTiem.setText(ToDate.timedate(mListDAta.get(i).getCreateTime()));
+        vh.mTiem.setText(DateUtils.stampToDate(mListDAta.get(i).getCreateTime()));
     }
 
     @Override
