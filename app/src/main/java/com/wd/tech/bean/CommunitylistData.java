@@ -8,18 +8,19 @@ import java.util.List;
  * function:社区列表
  */
 public class CommunitylistData {
+
     /**
-     * comment : 0
-     * communityCommentVoList : []
-     * content : 321
-     * file : http://172.17.8.100/images/tech/community_pic/2019-02-21/1563220190221153058.jpg
-     * headPic : http://172.17.8.100/images/tech/default/tech.jpg
-     * id : 32
-     * nickName : 赵豪轩
+     * comment : 1
+     * communityCommentVoList : [{"content":"111","nickName":"999","userId":23}]
+     * content : 1
+     * file :
+     * headPic : http://172.17.8.100/images/tech/head_pic/2019-02-26/20190226203514.png
+     * id : 26
+     * nickName : 999
      * praise : 0
-     * publishTime : 1550734258000
-     * signature : 挺好
-     * userId : 20
+     * publishTime : 1551141640000
+     * signature : 在座的都是弟弟
+     * userId : 23
      * whetherFollow : 2
      * whetherGreat : 2
      * whetherVip : 2

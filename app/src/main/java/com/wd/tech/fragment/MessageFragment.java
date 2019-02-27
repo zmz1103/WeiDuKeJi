@@ -1,5 +1,6 @@
 package com.wd.tech.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.wd.tech.R;
+import com.wd.tech.activity.CreateGroupActivity;
+import com.wd.tech.activity.FridendAddActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,11 +61,6 @@ public class MessageFragment extends WDFragment {
 
         list.add(contactsFragment);
         list.add(myMessageFrament);
-
-
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-
-        HashSet<Object> objects = new HashSet<>();
 
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
@@ -139,12 +137,21 @@ public class MessageFragment extends WDFragment {
     }
 
     private void initPopClick(View view) {
-        RelativeLayout add_friend = view.findViewById(R.id.add_friend);
-        RelativeLayout add_group = view.findViewById(R.id.add_group);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+        RelativeLayout mFriend = view.findViewById(R.id.add_friend);
+        RelativeLayout mGroup= view.findViewById(R.id.add_group);
+        mFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FridendAddActivity.class);
+                startActivity(intent);
+            }
+        });
+        mGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreateGroupActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

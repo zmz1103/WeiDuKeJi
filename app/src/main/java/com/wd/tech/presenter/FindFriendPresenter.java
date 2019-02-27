@@ -7,19 +7,20 @@ import com.wd.tech.view.DataCall;
 import io.reactivex.Observable;
 
 /**
- * 作者: Wang on 2019/2/26 11:44
- * 寄语：加油！相信自己可以！！！
+ * date:2019/2/26 19:00
+ * author:赵明珠(啊哈)
+ * function:
  */
+public class FindFriendPresenter extends WDPresenter{
 
-
-public  class DeletePostPresenter extends WDPresenter {
-    public DeletePostPresenter(DataCall dataCall) {
+    public FindFriendPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     protected Observable observable(Object... args) {
         IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return iRequest.deletePost((long)args[0],(String)args[1],(String)args[2]);
+
+        return iRequest.phone((int)args[0],(String)args[1],(String)args[2]);
     }
 }

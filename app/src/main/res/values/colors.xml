@@ -7,4 +7,6 @@
     <color name="color_Text">#333333</color>
     <color name="white">#ffffff</color>
     <color name="blue_btn">#20aff9</color>
+    <color name="TextTure">#20affa</color>
+    <color name="TextFalse">#ffffff</color>
 </resources>

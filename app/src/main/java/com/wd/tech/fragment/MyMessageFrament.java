@@ -7,18 +7,11 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wd.tech.R;
 import com.wd.tech.adapter.GroupAdapter;
-import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.Result;
-import com.wd.tech.bean.User;
-import com.wd.tech.dao.DaoMaster;
-import com.wd.tech.dao.DaoSession;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.QueryGroupPresenter;
 import com.wd.tech.view.DataCall;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +28,8 @@ public class MyMessageFrament extends WDFragment{
 
     PullToRefreshListView linkman;
     private GroupAdapter groupAdapter;
+    private String sessionId;
+    private int userId;
 
     @Override
     public int getContent() {
@@ -50,8 +45,15 @@ public class MyMessageFrament extends WDFragment{
         linkman.setAdapter(groupAdapter);
 
 
+        if (user != null){
 
-        presenter.reqeust(40,"155075257646440");
+            userId = (int) user.getUserId();
+            sessionId = user.getSessionId();
+
+            presenter.reqeust(userId,sessionId);
+        }else {
+            Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -63,21 +65,7 @@ public class MyMessageFrament extends WDFragment{
                 Group group = new Group();
                 groupList.add(0,group);
                 groupList.add(1,group);
-                Group group2 = new Group();
-                List<FriendInfoList>lists = new ArrayList<>();
-                FriendInfoList friendInfoList = new FriendInfoList();
-                friendInfoList.setNickName("啊哈");
-                friendInfoList.setSignature("呃呃呃");
-                lists.add(friendInfoList);
-                group2.setFriendInfoList(lists);
-
-                group2.setCurrentNumber(10);
-                group2.setGroupName("我的好友");
-                groupList.add(2,group2);
-
-                group.setCurrentNumber(10);
-                group.setGroupName("黑名单");
-                groupList.add(3,group);
+                groupList.add(2,group);
                 groupAdapter.addAll(groupList);
                 groupAdapter.notifyDataSetChanged();
             }

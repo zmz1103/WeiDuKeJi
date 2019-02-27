@@ -7,19 +7,19 @@ import com.wd.tech.view.DataCall;
 import io.reactivex.Observable;
 
 /**
- * 作者: Wang on 2019/2/26 11:44
+ * 作者: Wang on 2019/2/26 11:34
  * 寄语：加油！相信自己可以！！！
  */
 
 
-public  class DeletePostPresenter extends WDPresenter {
-    public DeletePostPresenter(DataCall dataCall) {
+public class FindContinuosSignDaysPresenter extends WDPresenter {
+
+    public FindContinuosSignDaysPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     protected Observable observable(Object... args) {
-        IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return iRequest.deletePost((long)args[0],(String)args[1],(String)args[2]);
+        return NetWorkManager.getInstance().create(IRequest.class).findContinuousSignDays((long)args[0],(String)args[1] );
     }
 }

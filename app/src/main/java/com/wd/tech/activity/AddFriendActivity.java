@@ -29,11 +29,11 @@ import me.jessyan.autosize.internal.CustomAdapt;
 public class AddFriendActivity extends WDActivity implements CustomAdapt {
     @BindView(R.id.friend_headpic)
     SimpleDraweeView friendHeadpic;
-    @BindView(R.id.friend_nickName)
+    @BindView(R.id.friend_nickname)
     TextView friendNickName;
     @BindView(R.id.friend_integral)
     TextView friendIntegral;
-    @BindView(R.id.friend_whetherVip)
+    @BindView(R.id.friend_whethervip)
     SimpleDraweeView friendWhetherVip;
     @BindView(R.id.friend_signature)
     TextView friendSignature;
@@ -52,6 +52,7 @@ public class AddFriendActivity extends WDActivity implements CustomAdapt {
     private String mNickName;
     private String mSignature;
     private String mHeadPic;
+
 
 
     @Override

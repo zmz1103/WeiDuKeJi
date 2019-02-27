@@ -47,7 +47,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="12dp">
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/addfriends_headPic"
+        android:id="@+id/addfriends_headpic"
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:layout_marginLeft="12dp"/>
@@ -57,7 +57,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="20dp">
             <TextView
-                android:id="@+id/addfriends_nickName"
+                android:id="@+id/addfriends_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -87,5 +87,6 @@
         android:layout_marginTop="10dp"
         android:paddingLeft="12dp"
         android:background="#fff"/>
+
 
 </LinearLayout>
