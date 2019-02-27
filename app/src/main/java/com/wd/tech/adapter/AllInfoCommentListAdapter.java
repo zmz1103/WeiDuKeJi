@@ -32,8 +32,13 @@ public class AllInfoCommentListAdapter extends RecyclerView.Adapter<AllInfoComme
     }
 
     public void reset(List<AllInfoCommentListBean> result) {
-        mListBeans.clear();
+
         mListBeans.addAll(result);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        mListBeans.clear();
         notifyDataSetChanged();
     }
 
@@ -58,6 +63,8 @@ public class AllInfoCommentListAdapter extends RecyclerView.Adapter<AllInfoComme
     public int getItemCount() {
         return mListBeans.size();
     }
+
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
