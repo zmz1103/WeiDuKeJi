@@ -6,16 +6,22 @@ package com.wd.tech.bean;
  * function:社区评论
  */
 public class communityCommentVoList {
-    private int userId;
-    private String nickName;
-    private String content;
+    /**
+     * content : 111
+     * nickName : 999
+     * userId : 23
+     */
 
-    public int getUserId() {
-        return userId;
+    private String content;
+    private String nickName;
+    private int userId;
+
+    public String getContent() {
+        return content;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getNickName() {
@@ -26,11 +32,11 @@ public class communityCommentVoList {
         this.nickName = nickName;
     }
 
-    public String getContent() {
-        return content;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

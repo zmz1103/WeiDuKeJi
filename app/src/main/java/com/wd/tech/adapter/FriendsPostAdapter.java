@@ -101,6 +101,8 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             viewHolder.imageAdapter.notifyDataSetChanged();
         }
 
+        //评论内容
+
         //评论
         viewHolder.mFriendspostComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +148,8 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
         private final ImageView mFriendspostpraise;
         private final TextView mFriendspostPraiseNum;
         private final ImageAdapter imageAdapter;
+        private final RecyclerView mFriendsPostRecy;
+        private final TextView mFriendspostPl;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -156,6 +160,8 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             mFriendspostCommentNum = itemView.findViewById(R.id.friendspost_comment_num);
             mFriendspostpraise = itemView.findViewById(R.id.friendspost_praise);
             mFriendspostPraiseNum = itemView.findViewById(R.id.friendspost_praise_num);
+            mFriendsPostRecy = itemView.findViewById(R.id.friendspost_recy);
+            mFriendspostPl = itemView.findViewById(R.id.friendspost_pl);
             imageAdapter = new ImageAdapter();
             mFriendspostGridView.setVerticalSpacing(10);
             mFriendspostGridView.setAdapter(imageAdapter);

@@ -41,12 +41,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         communityCommentVoList commentVoList = list.get(i);
         viewHolder.mCommentName.setText(commentVoList.getNickName());
-        viewHolder.mCommentName.setText(commentVoList.getContent());
+        viewHolder.mCommentContent.setText(commentVoList.getContent());
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void setAll(List<communityCommentVoList> communitylist) {
+        if (communitylist !=null){
+            list.addAll(communitylist);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

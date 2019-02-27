@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         app:roundAsCircle="true"/>
     <TextView
-        android:id="@+id/friend_nickName"
+        android:id="@+id/friend_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -33,16 +33,16 @@
         android:layout_height="wrap_content"
         android:textSize="10sp"
         android:layout_marginTop="210dp"
-        android:layout_toRightOf="@id/friend_nickName"
+        android:layout_toRightOf="@id/friend_nickname"
         android:layout_marginLeft="10dp"
         android:textColor="#f70606"/>
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/friend_whetherVip"
+        android:id="@+id/friend_whethervip"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/friend_nickName"
+        android:layout_below="@id/friend_nickname"
         android:layout_toRightOf="@id/friend_headpic"/>
 
     <TextView

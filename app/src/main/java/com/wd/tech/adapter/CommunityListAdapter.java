@@ -36,6 +36,7 @@ import jaydenxiao.com.expandabletextview.ExpandableTextView;
 public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdapter.ViewHolder> {
     private Context context;
     private List<CommunitylistData> list;
+    private List<communityCommentVoList> mCommunitylist;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -93,11 +94,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         viewHolder.mPraiseNum.setText(""+data.getPraise());
         viewHolder.mContent.setText(data.getContent());
 
-        //设置布局管理器
-        viewHolder.mCommentRecy.setLayoutManager(new LinearLayoutManager(context));
-        List<communityCommentVoList> communitylist = list.get(0).getCommunityCommentVoList();
-        CommentAdapter commentAdapter = new CommentAdapter(context,communitylist);
-        viewHolder.mCommentRecy.setAdapter(commentAdapter);
         //登录用户是否点过赞
         if (list.get(i).getWhetherGreat()==1){
             viewHolder.mPraise.setImageResource(R.mipmap.common_icon_praise_s);
@@ -128,6 +124,11 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         }
 
 
+        mCommunitylist = list.get(i).getCommunityCommentVoList();
+        CommentAdapter commentAdapter = new CommentAdapter(context,mCommunitylist);
+        viewHolder.mCommentRecy.setLayoutManager(new LinearLayoutManager(context));
+        viewHolder.mCommentRecy.setAdapter(commentAdapter);
+        commentAdapter.notifyDataSetChanged();
 
         //头像监听
         viewHolder.mHeadPic.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +167,9 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
                 }
             }
         });
-
+        if (list.get(i).getComment() > 0) {
+            viewHolder.mCommentPl.setText("没有更多评论了");
+        }
     }
 
     @Override
@@ -188,6 +191,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final TextView mPraiseNum;
         private final ImageAdapter imageAdapter;
         private final RecyclerView mCommentRecy;
+        private final TextView mCommentPl;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -202,6 +206,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mPraise = itemView.findViewById(R.id.community_list_praise);
             mPraiseNum = itemView.findViewById(R.id.community_list_praise_num);
             mCommentRecy = itemView.findViewById(R.id.comment_recy);
+            mCommentPl = itemView.findViewById(R.id.comment_pl);
             imageAdapter = new ImageAdapter();
             int space = context.getResources().getDimensionPixelSize(R.dimen.dp_10);;//图片间距
             mGridView.setHorizontalSpacing(space);
