@@ -170,7 +170,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                                 Toast.makeText(getContext(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
                             } else {
                                 mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
-
                                 builder.dismiss();
                             }
                         }

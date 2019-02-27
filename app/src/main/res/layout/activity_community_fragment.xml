@@ -39,4 +39,5 @@
             </LinearLayout>
         </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </RelativeLayout>

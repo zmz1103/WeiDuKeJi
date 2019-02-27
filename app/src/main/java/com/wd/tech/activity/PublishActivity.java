@@ -72,6 +72,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private LinearLayout mOpenCamera;
     private  PopupWindow popupWindow;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_publish;
