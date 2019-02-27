@@ -51,9 +51,9 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
 
     @BindView(R.id.friends_image_bg)
     SimpleDraweeView friendsImageBg;
-    @BindView(R.id.friends_image_headPic)
+    @BindView(R.id.friends_image_headpic)
     SimpleDraweeView friendsImageHeadPic;
-    @BindView(R.id.friends_txt_nickName)
+    @BindView(R.id.friends_txt_nickname)
     TextView friendsTxtNickName;
     @BindView(R.id.friends_txt_signature)
     TextView friendsTxtSignature;
@@ -204,7 +204,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
     }
 
 
-    @OnClick({R.id.friends_more, R.id.friends_image_headPic,R.id.txt_friend,R.id.txt_attention,R.id.relat,R.id.friends_recy})
+    @OnClick({R.id.friends_more, R.id.friends_image_headpic,R.id.txt_friend,R.id.txt_attention,R.id.relat,R.id.friends_recy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.friends_more:
@@ -222,7 +222,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                     layoutHide.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.friends_image_headPic:
+            case R.id.friends_image_headpic:
                 //点击头像查看大图
                 Intent intent = new Intent(FriendsPostActivity.this,PictureDisplayActivity.class);
                 intent.putExtra("mHeadPic",mHeadPic);

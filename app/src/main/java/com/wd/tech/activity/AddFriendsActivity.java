@@ -27,9 +27,9 @@ public class AddFriendsActivity extends WDActivity implements CustomAdapt {
     ImageView addfriendsBack;
     @BindView(R.id.addfriends_send)
     TextView addfriendsSend;
-    @BindView(R.id.addfriends_headPic)
+    @BindView(R.id.addfriends_headpic)
     SimpleDraweeView addfriendsHeadPic;
-    @BindView(R.id.addfriends_nickName)
+    @BindView(R.id.addfriends_nickname)
     TextView addfriendsNickName;
     @BindView(R.id.addfriends_signature)
     TextView addfriendsSignature;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +57,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     @BindView(R.id.community_recy)
     RecyclerView communityRecy;
     @BindView(R.id.btn_publish_the_news)
-    ImageView btnPublishTheNews;
-    @BindView(R.id.refreshLayout)
+    LinearLayout btnPublishTheNews;
+    @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshLayout;
     private CommunityListAdapter mCommunityListAdapter;
     private CommunityListPresenter mCommunityListPresenter;
@@ -125,7 +126,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
             mCommunityListPresenter.reqeust(0, "", page, 10);
         }else {
             mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 10);
-
         }
 
     }
@@ -288,4 +288,5 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     public float getSizeInDp() {
         return 720;
     }
+
 }
