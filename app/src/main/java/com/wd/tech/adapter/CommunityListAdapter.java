@@ -37,6 +37,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     private Context context;
     private List<CommunitylistData> list;
     private List<communityCommentVoList> mCommunitylist;
+    private int mImageCount;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -107,12 +108,12 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         }else{
             viewHolder.mGridView.setVisibility(View.VISIBLE);
             String[] images = data.getFile().split(",");
-            int imageCount = images.length;
+            mImageCount = images.length;
 
             int colNum;//列数
-            if (imageCount == 1){
+            if (mImageCount == 1){
                 colNum = 1;
-            }else if (imageCount == 2||imageCount == 4){
+            }else if (mImageCount == 2){
                 colNum = 2;
             }else {
                 colNum = 3;
