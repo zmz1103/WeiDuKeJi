@@ -252,8 +252,10 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
-                mCommunityListAdapter.notifyDataSetChanged();
                 Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                mCommunityListAdapter.clear();
+                mCommunityListAdapter.notifyDataSetChanged();
+                mCommunityListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),page,10);
             }
         }
 
