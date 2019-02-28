@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Administrator on 2019/1/2 0002.
  */
 public class NetWorkManager {
-    private String INSIDE_BASE_URL = "https://172.17.8.100/techApi/";
+//    private String INSIDE_BASE_URL = "https://172.17.8.100/techApi/";
     private String OUTSIDE_BASE_URL = "https://mobile.bwstudent.com/techApi/";
     private static NetWorkManager instance;
     private Retrofit retrofit;

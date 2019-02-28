@@ -81,6 +81,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:layout_below="@id/reeeee"
         android:layout_marginTop="-18dp"
         android:background="@drawable/h_c_bg_fff"
@@ -89,10 +90,11 @@
         <LinearLayout
             android:id="@+id/linear_my_collect"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -118,10 +120,10 @@
         <LinearLayout
             android:id="@+id/linear_my_attention"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -148,10 +150,10 @@
         <LinearLayout
             android:id="@+id/linear_my_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -178,10 +180,10 @@
         <LinearLayout
             android:id="@+id/linear_my_notice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -208,10 +210,10 @@
         <LinearLayout
             android:id="@+id/linear_my_integral"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -223,7 +225,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="我的积分"
                 android:textColor="#333"
                 android:textSize="14sp" />
@@ -238,10 +240,10 @@
         <LinearLayout
             android:id="@+id/linear_my_task"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -268,10 +270,10 @@
         <LinearLayout
             android:id="@+id/linear_my_setting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
@@ -291,9 +293,12 @@
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="17dp"
-
                 android:src="@mipmap/my_icon_next_n" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
 </RelativeLayout>
