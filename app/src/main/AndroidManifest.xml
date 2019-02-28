@@ -15,8 +15,9 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
-    <!--获取设备唯一标识，用于SDK激活授权-->
+    <!-- 获取设备唯一标识，用于SDK激活授权 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name=".application.WDApplication"
         android:allowBackup="true"
@@ -73,7 +74,7 @@
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.AddFriendsActivity"></activity>
         <activity
-            android:name="com.wd.tech.activity.InterestDetailsActivity"
+            android:name=".activity.InterestDetailsActivity"
             tools:ignore="DuplicateActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.InformationDetailsActivity"></activity>
@@ -81,6 +82,8 @@
             android:name=".activity.FridendAddActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.CreateGroupActivity"></activity>
+        <activity android:name=".activity.LookImageActivity" />
+        <activity android:name=".activity.PhotoActivity"></activity>
     </application>
 
 </manifest>

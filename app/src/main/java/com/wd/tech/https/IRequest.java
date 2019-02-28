@@ -352,6 +352,16 @@ public interface IRequest {
                                                                      @Query("page") int page,
                                                                      @Query("count") int count);
 
+    /**
+     * 资讯详情页评论查询（lk）
+     */
+    @POST("information/verify/v1/addInfoComment")
+    @FormUrlEncoded
+    Observable<Result> addinforComment(@Header("userId") long userId,
+                                      @Header("sessionId")String sessionId,
+                                      @Field("content") String content,
+                                      @Field("infoId") String infoId);
+
 
     /**
      * @作者 啊哈

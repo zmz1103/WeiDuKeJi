@@ -1,5 +1,6 @@
 package com.wd.tech.adapter;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.LookImageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,6 @@ import java.util.List;
  * function:
  */
 public class ImageAdapter extends BaseAdapter {
-
     private List<String> mList = new ArrayList<>();
 
     public void addAll(List<String> list){
@@ -40,7 +41,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         MyHodler myHodler ;
         if (convertView==null){
             convertView = View.inflate(parent.getContext(), R.layout.circle_image_item,null);
@@ -50,6 +51,18 @@ public class ImageAdapter extends BaseAdapter {
         }
         myHodler = (MyHodler) convertView.getTag();
         myHodler.image.setImageURI(Uri.parse(mList.get(position)));
+        myHodler.image.setImageURI(Uri.parse(mList.get(position)));
+        //点击图片查看大图
+        myHodler.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(parent.getContext(),LookImageActivity.class);
+                intent.putExtra("currentPosition",position);
+                intent.putStringArrayListExtra("image", (ArrayList<String>) mList);
+                parent.getContext().startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 

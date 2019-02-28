@@ -108,8 +108,8 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
 
     @Override
     protected void destoryData() {
-        mFindMyPostByIdPresenter.unBind();
-        mDeletePostPresenter.unBind();
+        mFindMyPostByIdPresenter = null;
+        mDeletePostPresenter = null;
     }
 
     @Override

@@ -57,10 +57,19 @@
             android:layout_alignParentEnd="true"
             android:text="0/300" />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/community_image"
+    <GridView
+        android:id="@+id/Scrollgridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"/>
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:horizontalSpacing="5dp"
+        android:layout_marginTop="10dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
 
 </LinearLayout>

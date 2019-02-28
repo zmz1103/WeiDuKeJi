@@ -59,7 +59,7 @@
         app:srlAccentColor="#00000000"
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="#00000000">
-        <com.scwang.smartrefresh.header.WaveSwipeHeader
+        <com.scwang.smartrefresh.header.TaurusHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -13,6 +13,9 @@
         app:srlAccentColor="#00000000"
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="#00000000">
+        <com.scwang.smartrefresh.header.WaveSwipeHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
