@@ -83,7 +83,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.CreateGroupActivity"></activity>
         <activity android:name=".activity.LookImageActivity" />
-        <activity android:name=".activity.PhotoActivity"></activity>
     </application>
 
 </manifest>

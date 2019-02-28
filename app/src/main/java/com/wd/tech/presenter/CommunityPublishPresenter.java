@@ -26,13 +26,15 @@ public class CommunityPublishPresenter extends WDPresenter {
     protected Observable observable(Object... args) {
         IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        builder.addFormDataPart("content",(String)args[2]);//文字内容
+        builder.addFormDataPart("content", (String)args[2]);
         List<Object> list = (List<Object>) args[3];
-        // 图片集合
-        if (list .size()>1) {
+
+        if (list.size()>1) {
             for (int i = 1; i < list.size(); i++) {
                 File file = new File((String) list.get(i));
-                builder.addFormDataPart("image",file.getName(),RequestBody.create(MediaType.parse("multipart/octet-stream"),file));
+                builder.addFormDataPart("file", file.getName(),
+                        RequestBody.create(MediaType.parse("multipart/octet-stream"),
+                                file));
             }
         }
         return iRequest.getPublish((int)args[0],(String) args[1],builder.build());
