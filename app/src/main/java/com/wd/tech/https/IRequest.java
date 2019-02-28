@@ -28,10 +28,13 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.TaskListData;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserInteGralDataList2;
 import com.wd.tech.bean.UserInteGralListData;
 
 import io.reactivex.Observable;
@@ -260,6 +263,32 @@ public interface IRequest {
     @GET("user/verify/v1/findUserIntegral")
     Observable<Result<UserInteGralListData>> findUserIntegral(@Header("userId") long title,
                                                               @Header("sessionId") String page);
+
+    // 积分明细 user/verify/v1/findUserIntegralRecord
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<UserInteGralDataList2>>> findUserIntegralRecord(@Header("userId") long title,
+                                                                           @Header("sessionId") String pages,
+                                                                           @Query("page") int page,
+                                                                           @Query("count") int count);
+
+    //user/verify/v1/doTheTask  做任务
+    @POST("user/verify/v1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") long userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+
+    // 查询任务列表  user/verify/v1/findUserTaskList
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<TaskListData>>> findUserTaskList(@Header("userId") long userId,
+                                                            @Header("sessionId") String sessionId);
+
+    // 更改密码 user/verify/v1/modifyUserPwd
+    @PUT("user/verify/v1/modifyUserPwd")
+    Observable<Result> modifyUserPwd(@Header("userId") long userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Query("oldPwd") String oldPwd,
+                                     @Query("newPwd") String newPwd);
 
     /**
      * 按标题搜索(lk)
