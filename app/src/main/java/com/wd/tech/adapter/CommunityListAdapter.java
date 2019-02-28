@@ -87,9 +87,13 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         final CommunitylistData data = list.get(i);
         viewHolder.mHeadPic.setImageURI(Uri.parse(data.getHeadPic()));
         viewHolder.mNickName.setText(data.getNickName());
+        Date date = new Date();
+        date.setTime(data.getPublishTime());
+        viewHolder.mPublishTime.setText(DateUtils.getTimeFormatText(date));
+
         //转换成日期格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN,Locale.getDefault());
-        viewHolder.mPublishTime.setText(dateFormat.format(data.getPublishTime()));
+//        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN,Locale.getDefault());
+//        viewHolder.mPublishTime.setText(dateFormat.format(data.getPublishTime()));
         viewHolder.mSignature.setText(data.getSignature());
         viewHolder.mCommentNum.setText(""+data.getComment());
         viewHolder.mPraiseNum.setText(""+data.getPraise());
@@ -171,6 +175,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         if (list.get(i).getComment() > 0) {
             viewHolder.mCommentPl.setText("没有更多评论了");
         }
+
     }
 
     @Override
