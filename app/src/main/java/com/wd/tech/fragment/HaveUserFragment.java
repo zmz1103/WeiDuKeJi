@@ -46,8 +46,11 @@ public class HaveUserFragment extends WDFragment {
     ImageView mMyImageSign;
     @BindView(R.id.my_signature)
     TextView mMySignAture;
+    @BindView(R.id.my_image_vip)
+    ImageView mImageVip;
 
     private GetUserBeanPresenter mGetUserBeanPresenter;
+
     @Override
     public int getContent() {
         return R.layout.fragment_have_user;
@@ -55,14 +58,15 @@ public class HaveUserFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
+        mImageVip.setVisibility(View.GONE);
         mGetUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
-        mGetUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
+        mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mGetUserBeanPresenter.reqeust(user.getUserId(),user.getSessionId());
+        mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
     }
 
     @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext})
@@ -115,6 +119,11 @@ public class HaveUserFragment extends WDFragment {
         @Override
         public void success(Result<GetUserBean> result) {
             if (result.getStatus().equals("0000")) {
+                if (result.getResult().getWhetherVip() == 1) {
+                    mImageVip.setVisibility(View.VISIBLE);
+                } else {
+                    mImageVip.setVisibility(View.GONE);
+                }
                 mMyIcon.setImageURI(result.getResult().getHeadPic());
                 mMyName.setText(result.getResult().getNickName());
                 mMySignAture.setText(result.getResult().getSignature());

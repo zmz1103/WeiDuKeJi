@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.myactivity.MyNoticeActivity">
+
     <RelativeLayout
         android:id="@+id/settting_linear_01"
         android:layout_width="match_parent"
@@ -36,14 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/settting_linear_01"
-        android:background="#ececec"
-        android:layout_marginBottom="10dp"/>
+        android:background="#ececec" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/ny_notice_layout"
-        android:layout_below="@id/settting_view_01"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#f2f2f2"
+        android:layout_below="@id/settting_view_01">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_notice_listView"

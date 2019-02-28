@@ -28,7 +28,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="86dp"
             android:layout_toRightOf="@id/my_icon"
-            android:text="JUKER"
+            android:text=""
             android:textColor="#fff"
             android:textSize="14sp" />
 
@@ -43,7 +43,7 @@
             android:ellipsize="end"
             android:maxEms="10"
             android:singleLine="true"
-            android:text="我最好看看"
+            android:text=""
             android:textColor="#fff"
             android:textSize="12sp" />
 

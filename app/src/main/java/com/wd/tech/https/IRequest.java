@@ -32,6 +32,7 @@ import retrofit2.http.Query;
 
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserInteGralListData;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -222,31 +223,44 @@ public interface IRequest {
                                                           @Header("sessionId") String sessionId,
                                                           @Query("page") int page,
                                                           @Query("count") int count);
+
     // 上传头像 user/verify/v1/modifyHeadPic
     @POST("user/verify/v1/modifyHeadPic")
     Observable<RequestBody> modifyHeadPic(@Header("userId") long userId,
-                                          @Header("sessionId")String sessionId,
+                                          @Header("sessionId") String sessionId,
                                           @Body MultipartBody body);
 
     // 签到 user/verify/v1/userSign
     @POST("user/verify/v1/userSign")
     Observable<Result> userSign(@Header("userId") long userId,
-                                       @Header("sessionId") String sessionId );
+                                @Header("sessionId") String sessionId);
 
     //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
     @GET("user/verify/v1/findUserSignRecording")
     Observable<Result<List<String>>> findUserSignRecording(@Header("userId") long title,
-                                                                         @Header("sessionId") String page );
+                                                           @Header("sessionId") String page);
 
     // user/verify/v1/findUserSignStatus  查询当天签到状态
     @GET("user/verify/v1/findUserSignStatus")
     Observable<Result<Integer>> findUserSignStatus(@Header("userId") long title,
-                                              @Header("sessionId") String page );
+                                                   @Header("sessionId") String page);
+
+    // 签到天数 user/verify/v1/findContinuousSignDays
+    @GET("user/verify/v1/findContinuousSignDays")
+    Observable<Result<Integer>> findContinuousSignDays(@Header("userId") long userId,
+                                                       @Header("sessionId") String sessionId);
+
     // 删除帖子 community/verify/v1/deletePost
-    @DELETE ("community/verify/v1/deletePost")
-    Observable<Result> deletePost (@Header ("userId") long userid,
-                                        @Header ("sessionld") String sessionld,
-                                        @Query ("communityId") String communityId);
+    @DELETE("community/verify/v1/deletePost")
+    Observable<Result> deletePost(@Header("userId") long userid,
+                                  @Header("sessionld") String sessionld,
+                                  @Query("communityId") String communityId);
+
+    // 积分查询 user/verify/v1/findUserIntegral
+    @GET("user/verify/v1/findUserIntegral")
+    Observable<Result<UserInteGralListData>> findUserIntegral(@Header("userId") long title,
+                                                              @Header("sessionId") String page);
+
     /**
      * 按标题搜索(lk)
      */
@@ -269,8 +283,8 @@ public interface IRequest {
      */
     @DELETE("information/verify/v1/cancelGreat")
     Observable<Result> cancelGreat(@Header("userId") long userId,
-                                @Header("sessionId")String sessionId,
-                                @Query("infoId") String infoId);
+                                   @Header("sessionId") String sessionId,
+                                   @Query("infoId") String infoId);
 
     /**
      * 资讯收藏（lk)
@@ -295,7 +309,7 @@ public interface IRequest {
      */
     @GET("information/v1/findInformationDetails")
     Observable<Result<InformationDetailsBean>> infordetails(@Header("userId") long userId,
-                                                            @Header("sessionId")String sessionId,
+                                                            @Header("sessionId") String sessionId,
                                                             @Query("id") String id);
 
 
@@ -304,10 +318,20 @@ public interface IRequest {
      */
     @GET("information/v1/findAllInfoCommentList")
     Observable<Result<List<AllInfoCommentListBean>>> infoCommentList(@Header("userId") long userId,
-                                                                     @Header("sessionId")String sessionId,
+                                                                     @Header("sessionId") String sessionId,
                                                                      @Query("infoId") String infoId,
                                                                      @Query("page") int page,
                                                                      @Query("count") int count);
+
+    /**
+     * 资讯详情页评论查询（lk）
+     */
+    @POST("information/verify/v1/addInfoComment")
+    @FormUrlEncoded
+    Observable<Result> addinforComment(@Header("userId") long userId,
+                                      @Header("sessionId")String sessionId,
+                                      @Field("content") String content,
+                                      @Field("infoId") String infoId);
 
 
     /**
@@ -332,6 +356,7 @@ public interface IRequest {
                                    @Header("sessionId") String sessionId,
                                    @Field("name") String name,
                                    @Field("description") String description);
+
     /**
      * @作者 啊哈
      * @date 2019/2/26

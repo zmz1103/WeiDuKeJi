@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 public class MyNoticeActivity extends WDActivity {
 
@@ -89,6 +90,7 @@ public class MyNoticeActivity extends WDActivity {
     void iD(){
         finish();
     }
+
 
     private class findList implements DataCall<Result<List<NoticeListDAta>>> {
         @Override
