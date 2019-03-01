@@ -72,10 +72,11 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
 
     @Override
     public int getItemCount() {
-        if(mList == null){
-            return 0;
-        }
-        return mList.size() >= 9 ? 9 : mList.size();
+        return mList.size();
+//        if(mList == null){
+//            return 0;
+//        }
+//        return mList.size() >= 9 ? 9 : mList.size();
     }
 
     public void add(Object image) {
