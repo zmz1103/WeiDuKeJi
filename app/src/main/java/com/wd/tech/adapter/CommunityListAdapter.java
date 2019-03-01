@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.Result;
 import com.wd.tech.bean.communityCommentVoList;
 import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.StringUtils;
@@ -53,6 +54,12 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     public void clear() {
         list.clear();
         notifyDataSetChanged();
+    }
+
+    public int getImageCount() {
+        notifyDataSetChanged();
+        return mImageCount;
+
     }
 
     public CommunitylistData getItem(int position) {
@@ -183,6 +190,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         return list.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView mNickName;
@@ -220,4 +228,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mGridView.setAdapter(imageAdapter);
         }
     }
+
+
 }

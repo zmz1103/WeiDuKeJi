@@ -276,7 +276,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                 friendsImageHeadPic.setImageURI(mHeadPic);
                 friendsTxtSignature.setText(mSignature);
                 if (mWhetherFollow ==1){
-                    txtAttention.setText("已关注");
+                    txtAttention.setText("取消关注");
                 }else {
                     txtAttention.setText("+关注");
                 }
