@@ -85,7 +85,7 @@ public class AddFriFragment extends WDFragment {
 
     }
 
-    @OnClick(R.id.datum)
+    @OnClick(R.id.show_friend)
     public void onClick() {
         Intent intent = new Intent(getActivity(),AddFriendActivity.class);
         intent.putExtra("mUserid",mResult.getUserId());
@@ -114,5 +114,11 @@ public class AddFriFragment extends WDFragment {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFriendPresenter.unBind();
     }
 }

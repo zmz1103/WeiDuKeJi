@@ -83,11 +83,12 @@
         android:layout_alignRight="@+id/group_introduce"/>
     <Button
         android:id="@+id/establish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="336dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/add_frient"
         android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="true"
         android:textColor="#fff"
         android:text="创建"
         android:textSize="20sp"
