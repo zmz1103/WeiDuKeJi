@@ -148,7 +148,6 @@ public class SignActivity extends WDActivity {
      */
     private class FindUserResult implements DataCall<Result<Integer>> {
 
-
         @Override
         public void success(Result<Integer> result) {
             ;

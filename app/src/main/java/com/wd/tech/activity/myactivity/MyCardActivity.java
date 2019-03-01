@@ -132,9 +132,8 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
                 if (user == null) {
                     Toast.makeText(MyCardActivity.this, "未登录", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.v("delete--",""+user.getUserId()+user.getSessionId());
+                    Log.v("delete--", "" + user.getUserId() + user.getSessionId());
                     mDeletePostPresenter.reqeust(user.getUserId(), user.getSessionId(), String.valueOf(i));
-                    Toast.makeText(MyCardActivity.this, "删除"+i, Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -153,7 +152,7 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
     private class findPost implements DataCall<Result<List<CardListData>>> {
         @Override
         public void success(Result<List<CardListData>> result) {
-            Toast.makeText(MyCardActivity.this, "" + result.getMessage() + result.getResult().size(), Toast.LENGTH_SHORT).show();
+
             if (result.getStatus().equals("0000")) {
                 cardListAdapter.setmListData(result.getResult());
                 cardListAdapter.notifyDataSetChanged();
@@ -170,6 +169,9 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
         @Override
         public void success(Result result) {
             Toast.makeText(MyCardActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+            if (result.getStatus().equals("9999")) {
+                finish();
+            }
             cardListAdapter.notifyDataSetChanged();
         }
 

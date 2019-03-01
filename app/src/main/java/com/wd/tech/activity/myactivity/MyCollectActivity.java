@@ -20,9 +20,11 @@ import com.wd.tech.adapter.CollectListAdapter;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.FindAllInfoCillectionPresenter;
 import com.wd.tech.view.DataCall;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,12 +35,14 @@ public class MyCollectActivity extends WDActivity {
     private FindAllInfoCillectionPresenter mFindAllInfoCillectionPresenter;
     private int mPage = 1;
     private CollectListAdapter mCollectListAdapter;
+    private CancelCollectionPresenter cancelCollectionPresenter;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_my_collect;
     }
 
+    private List<CollectDataList> mLists;
     @BindView(R.id.collect_xrec_list)
     SmartRefreshLayout mXRecyclerView;
 
@@ -54,8 +58,9 @@ public class MyCollectActivity extends WDActivity {
 
     @Override
     protected void initView() {
+        mLists = new ArrayList<>();
         mFindAllInfoCillectionPresenter = new FindAllInfoCillectionPresenter(new findAll());
-
+        cancelCollectionPresenter = new CancelCollectionPresenter(new cancenCollect());
         mXRecyclerView.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
 //设置 Footer 为 球脉冲 样式
         mXRecyclerView.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
@@ -89,56 +94,123 @@ public class MyCollectActivity extends WDActivity {
 
     private void requestt(int page) {
         if (user == null) {
-            mFindAllInfoCillectionPresenter.reqeust(0, "", page, 5);
+            mFindAllInfoCillectionPresenter.reqeust(0, "", page, 35);
         } else {
-            mFindAllInfoCillectionPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
+            mFindAllInfoCillectionPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 35);
         }
     }
 
     @Override
     protected void destoryData() {
         mFindAllInfoCillectionPresenter.unBind();
+        cancelCollectionPresenter.unBind();
     }
 
-
-    @OnClick({R.id.cancel_text_collect, R.id.cancel_image_delete,R.id.my_back_sc})
+    @OnClick({R.id.cancel_text_collect, R.id.cancel_image_delete, R.id.my_back_sc})
     void oDian(View view) {
         switch (view.getId()) {
             case R.id.cancel_image_delete:
+                for (int i = 0; i < mLists.size(); i++) {
+                    CollectDataList collectDataList = mLists.get(i);
+                    collectDataList.setFlag(false);
+                    mCollectListAdapter.clear();
+                    mCollectListAdapter.setmLists(mLists);
+                    mCollectListAdapter.notifyDataSetChanged();
+                }
                 if (mBoolean) {
                     cancel_image_delete.setVisibility(View.VISIBLE);
                     cancel_text_collect.setVisibility(View.GONE);
                     mBoolean = false;
+
+                    for (int i = 0; i < mLists.size(); i++) {
+                        CollectDataList collectDataList = mLists.get(i);
+                        collectDataList.setFlag(false);
+                        mCollectListAdapter.clear();
+                        mCollectListAdapter.setmLists(mLists);
+                        mCollectListAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     cancel_text_collect.setVisibility(View.VISIBLE);
                     cancel_image_delete.setVisibility(View.GONE);
                     mBoolean = true;
+                    for (int i = 0; i < mLists.size(); i++) {
+                        CollectDataList collectDataList = mLists.get(i);
+                        collectDataList.setFlag(true);
+                        mCollectListAdapter.clear();
+                        mCollectListAdapter.setmLists(mLists);
+                        mCollectListAdapter.notifyDataSetChanged();
+                    }
                 }
                 break;
             case R.id.cancel_text_collect:
+
                 if (mBoolean) {
                     cancel_image_delete.setVisibility(View.VISIBLE);
                     cancel_text_collect.setVisibility(View.GONE);
                     mBoolean = false;
+                    for (int i = 0; i < mLists.size(); i++) {
+                        CollectDataList collectDataList = mLists.get(i);
+                        collectDataList.setFlag(false);
+                        mCollectListAdapter.clear();
+                        mCollectListAdapter.setmLists(mLists);
+                        mCollectListAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     cancel_text_collect.setVisibility(View.VISIBLE);
                     cancel_image_delete.setVisibility(View.GONE);
                     mBoolean = true;
+                    for (int i = 0; i < mLists.size(); i++) {
+                        CollectDataList collectDataList = mLists.get(i);
+                        collectDataList.setFlag(true);
+                        mCollectListAdapter.clear();
+                        mCollectListAdapter.setmLists(mLists);
+                        mCollectListAdapter.notifyDataSetChanged();
+                    }
                 }
+                //
+                String id = mCollectListAdapter.getId();
+                if (id.length() >= 1) {
+                    cancelCollectionPresenter.reqeust(user.getUserId(), user.getSessionId(), id);
+                }
+
                 break;
             case R.id.my_back_sc:
                 finish();
                 break;
+            default:
+                break;
         }
     }
+
 
     private class findAll implements DataCall<Result<List<CollectDataList>>> {
         @Override
         public void success(Result<List<CollectDataList>> result) {
-            Toast.makeText(MyCollectActivity.this, "" + result.getMessage() + result.getResult().size(), Toast.LENGTH_SHORT).show();
+
             if (result.getStatus().equals("0000")) {
+                mLists.clear();
+                mLists.addAll(result.getResult());
+                for (int i = 0; i < result.getResult().size(); i++) {
+                    result.getResult().get(i).setFlag(false);
+                }
                 mCollectListAdapter.setmLists(result.getResult());
                 mCollectListAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class cancenCollect implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+
+            if (result.getStatus().equals("0000")) {
+                requestt(mPage);
+                mCollectListAdapter.clear();
             }
         }
 

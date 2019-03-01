@@ -59,11 +59,10 @@ public class MyUpdateUserMessageActivity extends WDActivity {
         });
 
 
-
     }
 
     @OnClick(R.id.saveUserData)
-    void oN(){
+    void oN() {
         EditText newName = (EditText) findViewById(R.id.newname);
         EditText newBox = (EditText) findViewById(R.id.newbox);
 
@@ -88,8 +87,11 @@ public class MyUpdateUserMessageActivity extends WDActivity {
             if (name != null && name != "" && qm.getText().toString() != null && qm.getText().toString() != "") {
                 mPerFectUserInfoPresenter.reqeust(user.getUserId(), user.getSessionId(), name, sex, qm.getText().toString(), mDateAndTimeLabel.getText().toString().trim(), box);
             }
+        } else {
+            Toast.makeText(this, "请检查邮箱格式", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void destoryData() {
         mPerFectUserInfoPresenter.unBind();
@@ -100,7 +102,7 @@ public class MyUpdateUserMessageActivity extends WDActivity {
         public void success(Result result) {
             Toast.makeText(MyUpdateUserMessageActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                doTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1006);
+                doTheTastPresenter.reqeust(user.getUserId(), user.getSessionId(), 1006);
             }
             finish();
         }
