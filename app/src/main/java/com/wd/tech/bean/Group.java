@@ -8,7 +8,6 @@ import java.util.List;
  * function:
  */
 public class Group {
-
     private int currentNumber;
     private int customize;
     private int groupId;

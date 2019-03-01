@@ -1,10 +1,18 @@
 package com.wd.tech.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.GroupAdapter;
 import com.wd.tech.bean.Group;
@@ -12,6 +20,7 @@ import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.QueryGroupPresenter;
 import com.wd.tech.view.DataCall;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,17 +28,20 @@ import butterknife.BindView;
 /**
  * date:2019/2/19 19:47
  * author:赵明珠(啊哈)
- * function:
+ * function:联系人
  */
-public class MyMessageFrament extends WDFragment{
+public class MyMessageFrament extends WDFragment {
 
-    QueryGroupPresenter presenter;
+    QueryGroupPresenter mQueryGroupPresenter;
     @BindView(R.id.linkman_pre)
+    ListView mLinkman;
 
-    PullToRefreshListView linkman;
-    private GroupAdapter groupAdapter;
-    private String sessionId;
-    private int userId;
+    @BindView(R.id.message_refreshLayout)
+    SmartRefreshLayout mSmart;
+    private GroupAdapter mGroupAdapter;
+    private String mSessionId;
+    private int mUserId;
+    private SharedPreferences mDate;
 
     @Override
     public int getContent() {
@@ -38,20 +50,39 @@ public class MyMessageFrament extends WDFragment{
 
     @Override
     public void initView(View view) {
-        presenter = new QueryGroupPresenter(new QueryCall());
+        mQueryGroupPresenter = new QueryGroupPresenter(new QueryCall());
 
-        groupAdapter = new GroupAdapter(getActivity());
+        mDate = getActivity().getSharedPreferences("date", Context.MODE_PRIVATE);
 
-        linkman.setAdapter(groupAdapter);
+        mGroupAdapter = new GroupAdapter(getActivity());
+
+        mLinkman.setAdapter(mGroupAdapter);
+        mSmart.setEnableRefresh(true);
+
+        mSmart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (user != null) {
+
+                    mUserId = (int) user.getUserId();
+                    mSessionId = user.getSessionId();
+
+                    mQueryGroupPresenter.reqeust(mUserId, mSessionId);
+                }
+
+                refreshlayout.finishRefresh();
+
+            }
+        });
 
 
-        if (user != null){
+        if (user != null) {
 
-            userId = (int) user.getUserId();
-            sessionId = user.getSessionId();
+            mUserId = (int) user.getUserId();
+            mSessionId = user.getSessionId();
 
-            presenter.reqeust(userId,sessionId);
-        }else {
+            mQueryGroupPresenter.reqeust(mUserId, mSessionId);
+        } else {
             Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
         }
 
@@ -60,14 +91,19 @@ public class MyMessageFrament extends WDFragment{
     private class QueryCall implements DataCall<Result<List<Group>>> {
         @Override
         public void success(Result<List<Group>> result) {
-            if (result.getStatus().equals("0000")){
+            if (result.getStatus().equals("0000")) {
+
+                List<Group> mGroup = result.getResult();
+
+
+
                 List<Group> groupList = result.getResult();
-                Group group = new Group();
-                groupList.add(0,group);
-                groupList.add(1,group);
-                groupList.add(2,group);
-                groupAdapter.addAll(groupList);
-                groupAdapter.notifyDataSetChanged();
+
+                mGroupAdapter.clear();
+
+                mGroupAdapter.addAll(groupList,mGroup);
+
+                mGroupAdapter.notifyDataSetChanged();
             }
         }
 
@@ -75,5 +111,11 @@ public class MyMessageFrament extends WDFragment{
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mQueryGroupPresenter.unBind();
     }
 }

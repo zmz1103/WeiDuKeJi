@@ -27,6 +27,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.activity.FriendsPostActivity;
 import com.wd.tech.activity.PublishActivity;
+import com.wd.tech.activity.myactivity.SignActivity;
 import com.wd.tech.adapter.CommunityListAdapter;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.Result;
@@ -35,6 +36,7 @@ import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.AddCommunityPresenter;
 import com.wd.tech.presenter.CancelLikePresenter;
 import com.wd.tech.presenter.CommunityListPresenter;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.LikePresenter;
 import com.wd.tech.view.DataCall;
 
@@ -68,6 +70,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     private TextView mSend;
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
+    private DoTheTastPresenter mDoTheTastPresenter;
+    private List<CommunitylistData> list;
 
     @Override
     public int getContent() {
@@ -92,10 +96,16 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
     private void initRefresh() {
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        //列表
         mCommunityListPresenter = new CommunityListPresenter(new CommunityCall());
+        //点赞
         mLikePresenter = new LikePresenter(new LikeCall());
+        //取消点赞
         mCancelLikePresenter = new CancelLikePresenter(new CancelLike());
+        //评论
         mAddCommunityPresenter = new AddCommunityPresenter(new AddCommunity());
+        //做任务首评
+        mDoTheTastPresenter = new DoTheTastPresenter(new doTheTask());
         requestt(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
         refreshLayout.setEnableLoadmore(true);//启用加载
@@ -254,13 +264,26 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
             if (result.getStatus().equals("0000")){
                 Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
                 mCommunityListAdapter.clear();
-                mCommunityListAdapter.notifyDataSetChanged();
-                mCommunityListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),page,10);
+                mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), 1, 10);
+                mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1002);
             }
         }
 
         @Override
         public void fail(ApiException e) {
+        }
+    }
+
+    //做任务评论
+    private class doTheTask implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            Log.i("success",result.getMessage());
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
     @Override

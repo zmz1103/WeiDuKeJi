@@ -35,6 +35,7 @@ import com.wd.tech.adapter.PictureAdapter;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.CommunityPublishPresenter;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.util.FileUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.DataCall;
@@ -75,6 +76,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private  PopupWindow popupWindow;
     String picturePath;
     private static final int TAKE_PICTURE = 1;
+    private DoTheTastPresenter mDoTheTastPresenter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_publish;
@@ -88,6 +90,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
 
     private void initData() {
         mCommunityPublishPresenter = new CommunityPublishPresenter(new CommunityPublish());
+        mDoTheTastPresenter = new DoTheTastPresenter(new doTheTask());
         mPictureAdapter = new PictureAdapter(this);
         mPictureAdapter.add(R.drawable.xc);
         communityImage.setLayoutManager(new GridLayoutManager(this, 3));
@@ -169,13 +172,26 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(PublishActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1003);
                 finish();
             }
         }
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(PublishActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PublishActivity.this, "发布失败,最多可发九张图片", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //做任务评论
+    private class doTheTask implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            Log.i("success",result.getMessage());
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
     @Override

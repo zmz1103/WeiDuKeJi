@@ -6,7 +6,7 @@ android {
         tech {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/SouGouDownload/tech.keystore')
+            storeFile file('C:/Users/xuanlong/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -78,6 +78,8 @@ dependencies {
     // 今日头条适配
     implementation 'me.jessyan:autosize:0.9.5'
     implementation 'com.github.userswlwork:pull-to-refresh:1.0.0'
+
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 greendao {
     schemaVersion 1  //版本

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.activity.AddFriendActivity;
+import com.wd.tech.activity.GroupApplyActivity;
 import com.wd.tech.bean.Flockformation;
 import com.wd.tech.bean.FriendInformation;
 import com.wd.tech.bean.Result;
@@ -87,11 +88,17 @@ public class AddFlockFragment extends WDFragment {
 
     }
 
-    @OnClick(R.id.datum)
+    @OnClick(R.id.show_friend)
     public void onClick() {
+        Intent intent = new Intent(getActivity(),GroupApplyActivity.class);
 
+        intent.putExtra("mGroupId",String.valueOf(mResult.getGroupId()));
+        intent.putExtra("mGroupImage",mResult.getGroupImage());
+        intent.putExtra("mGroupName",mResult.getGroupName());
+        intent.putExtra("mCurrentCount",String.valueOf(mResult.getCurrentCount()));
+        intent.putExtra("mDescription",mResult.getDescription());
+        startActivity(intent);
     }
-
     class FindCall implements DataCall<Result<Flockformation>> {
         @Override
         public void success(Result<Flockformation> result) {
@@ -102,8 +109,10 @@ public class AddFlockFragment extends WDFragment {
 
                 mHeadPic.setImageURI(Uri.parse(mResult.getGroupImage()));
                 mNickName.setText(mResult.getGroupName());
+
                 mFriend.setVisibility(View.VISIBLE);
                 mFruitless.setVisibility(View.GONE);
+
             }else {
                 mFriend.setVisibility(View.GONE);
                 mFruitless.setVisibility(View.VISIBLE);
@@ -114,5 +123,11 @@ public class AddFlockFragment extends WDFragment {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFlockPresenter.unBind();
     }
 }

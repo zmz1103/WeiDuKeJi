@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.Result;
 import com.wd.tech.bean.communityCommentVoList;
 import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.StringUtils;
@@ -53,10 +54,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     public void clear() {
         list.clear();
         notifyDataSetChanged();
-    }
-
-    public CommunitylistData getItem(int position) {
-        return list.get(position);
     }
 
     //接口回调
@@ -117,7 +114,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             int colNum;//列数
             if (mImageCount == 1){
                 colNum = 1;
-            }else if (mImageCount == 2){
+            }else if (mImageCount == 2||mImageCount == 4){
                 colNum = 2;
             }else {
                 colNum = 3;
@@ -183,6 +180,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         return list.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView mNickName;
@@ -220,4 +218,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mGridView.setAdapter(imageAdapter);
         }
     }
+
+
 }
