@@ -36,7 +36,7 @@ public abstract class WDActivity extends SwipeBackActivity {
     private static WDActivity mForegroundActivity = null;
     private SwipeBackLayout mSwipeBackLayout;
     public User user;
-    public UserDao userDao;
+    public  UserDao userDao=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

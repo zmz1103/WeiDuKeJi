@@ -40,7 +40,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         communityCommentVoList commentVoList = list.get(i);
-        viewHolder.mCommentName.setText(commentVoList.getNickName());
+        viewHolder.mCommentName.setText(commentVoList.getNickName()+":");
         viewHolder.mCommentContent.setText(commentVoList.getContent());
     }
 

@@ -54,7 +54,7 @@ public class MySettingActivity extends WDActivity {
     private LinearLayout mCamera;
     private Dialog mDialog;
     private GetUserBeanPresenter mGetUserBeanPresenter;
-    private static final int PERMISSIONS_REQUEST_OPEN_ALBUM=1;
+    private static final int PERMISSIONS_REQUEST_OPEN_ALBUM = 1;
     private static int output_X = 100;
     private static int output_Y = 100;
     private static final int CODE_GALLERY_REQUEST = 0xa0;
@@ -79,7 +79,7 @@ public class MySettingActivity extends WDActivity {
     TextView MWhereVip;
     @BindView(R.id.bind_faceId)
     TextView mBindFaceId;
-     TextView mDateAndTimeLabel;
+    TextView mDateAndTimeLabel;
     private PerFectUserInfoPresenter mPerFectUserInfoPresenter;
     private View mView1;
     private ModifyHeadPicPresenter mModifyHeadPicPresenter;
@@ -89,24 +89,7 @@ public class MySettingActivity extends WDActivity {
         return R.layout.activity_my_setting;
     }
 
-    //获取日期格式器对象
-    DateFormat mFmtDateAndTime = DateFormat.getDateInstance(1);
 
-    //获取一个日历对象
-    Calendar mDateAndTime = Calendar.getInstance(Locale.CHINA);
-    //当点击DatePickerDialog控件的设置按钮时，调用该方法
-    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            //修改日历控件的年，月，日
-            //这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致
-            mDateAndTime.set(Calendar.YEAR, year);
-            mDateAndTime.set(Calendar.MONTH, monthOfYear);
-            mDateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            //将页面TextView的显示更新为最新时间
-            updateLabel();
-        }
-    };
     @Override
     protected void initView() {
         mModifyHeadPicPresenter = new ModifyHeadPicPresenter(new uImage());
@@ -118,15 +101,7 @@ public class MySettingActivity extends WDActivity {
             mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
         }
 
-        mView1 = View.inflate(this, R.layout.activity_mine_dialog, null);
 
-        mDateAndTimeLabel = mView1.findViewById(R.id.new_riqi);
-
-    }
-
-    //更新页面TextView的方法
-    private void updateLabel() {
-        mDateAndTimeLabel.setText(mFmtDateAndTime.format(mDateAndTime.getTime()));
     }
 
     @Override
@@ -136,7 +111,7 @@ public class MySettingActivity extends WDActivity {
         mModifyHeadPicPresenter.unBind();
     }
 
-    @OnClick({R.id.my_back_setting, R.id.my_tc_t, R.id.my_setting_icon, R.id.go_up_sign, R.id.bind_faceId, R.id.my_sr_t, R.id.my_setting_email,R.id.u_message})
+    @OnClick({R.id.my_back_setting, R.id.my_tc_t, R.id.my_setting_icon, R.id.go_up_sign, R.id.bind_faceId,  R.id.u_mpwd})
     void dianJi(View view) {
         switch (view.getId()) {
             case R.id.my_back_setting:
@@ -154,7 +129,7 @@ public class MySettingActivity extends WDActivity {
                 builder.setPositiveButton("确认退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                         userDao.deleteAll();
+                        userDao.deleteAll();
                         finish();
                     }
                 });
@@ -217,9 +192,7 @@ public class MySettingActivity extends WDActivity {
 
                         } else {
                             choseHeadImageFromCameraCapture();
-
                         }
-
                     }
                 });
                 break;
@@ -232,174 +205,11 @@ public class MySettingActivity extends WDActivity {
 
                 }
                 break;
-            case R.id.my_sr_t:
-                if (mBirthday.getText().toString().equals("未设置生日")) {
-                    final AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-
-
-                    mBuilder.setTitle("完善信息");
-                    mBuilder.setView(mView1);
-                    mBuilder.setPositiveButton("确定完善", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            EditText newName = mView1.findViewById(R.id.newname);
-                            EditText newBox = mView1.findViewById(R.id.newbox);
-
-                            RadioButton man = mView1.findViewById(R.id.man);
-                            RadioButton woman = mView1.findViewById(R.id.woman);
-
-                            EditText qm = mView1.findViewById(R.id.new_qianming_t);
-                            mDateAndTimeLabel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //生成一个DatePickerDialog对象，并显示。显示的DatePickerDialog控件可以选择年月日，并设置
-                                    new DatePickerDialog(MySettingActivity.this,
-                                            d,
-                                            mDateAndTime.get(Calendar.YEAR),
-                                            mDateAndTime.get(Calendar.MONTH),
-                                            mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
-                                    Toast.makeText(MySettingActivity.this, "aaa", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            int sex = 0;
-                            if (man.isChecked()) {
-                                sex = 1;
-                            }
-                            if (woman.isChecked()) {
-                                sex = 2;
-                            }
-
-                            String name = newName.getText().toString().trim();
-
-                            String box = newBox.getText().toString().trim();
-                            String s1 = mDateAndTimeLabel.getText().toString().replaceAll("年", "-");
-                            String s2 = s1.replaceAll("月", "-");
-                            String rs = s2.replace("日","  ");
-                            if (JavaUtils.isEmail(box)) {
-                                if (name != null && name != "" && qm.getText().toString() != null && qm.getText().toString() != "") {
-                                    mPerFectUserInfoPresenter.reqeust(user.getUserId(), user.getSessionId(), name, sex, qm.getText().toString(), rs, box);
-                                }
-                            }
-
-                        }
-                    });
-                    mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    mBuilder.show();
-                }
+            case R.id.u_mpwd:
+                startActivity(new Intent(MySettingActivity.this,UpdatePwdActivity.class));
                 break;
-            case R.id.u_message:
-                final AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(this);
 
-                mBuilder1.setTitle("完善信息");
-                mBuilder1.setView(mView1);
-                mBuilder1.setPositiveButton("确定完善", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText newName = mView1.findViewById(R.id.newname);
-                        EditText newBox = mView1.findViewById(R.id.newbox);
-                        EditText qm = mView1.findViewById(R.id.new_qianming_t);
 
-                        RadioButton man = mView1.findViewById(R.id.man);
-                        RadioButton woman = mView1.findViewById(R.id.woman);
-
-                        mDateAndTimeLabel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //生成一个DatePickerDialog对象，并显示。显示的DatePickerDialog控件可以选择年月日，并设置
-                                new DatePickerDialog(MySettingActivity.this,
-                                        d,
-                                        mDateAndTime.get(Calendar.YEAR),
-                                        mDateAndTime.get(Calendar.MONTH),
-                                        mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
-                            }
-                        });
-                        int sex = 0;
-                        if (man.isChecked()) {
-                            sex = 1;
-                        }
-                        if (woman.isChecked()) {
-                            sex = 2;
-                        }
-                        String s1 = mDateAndTimeLabel.getText().toString().replaceAll("年", "-");
-                        String s2 = s1.replaceAll("月", "-");
-                        String rs = s2.replace("日","  ");
-                        String name = newName.getText().toString().trim();
-                        String box = newBox.getText().toString().trim();
-                        if (JavaUtils.isEmail(box)) {
-                            if (name != null && name != "" && qm.getText().toString() != null && qm.getText().toString() != "") {
-                                mPerFectUserInfoPresenter.reqeust(user.getUserId(), user.getSessionId(), name, sex, qm.getText().toString(),rs , box);
-                            }
-                        }
-                    }
-                });
-                mBuilder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                mBuilder1.show();
-                break;
-            case R.id.my_setting_email:
-                if (MSettingEmail.getText().toString().equals("未设置邮箱")) {
-                    final AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-
-                    mBuilder.setTitle("完善信息");
-                    mBuilder.setView(mView1);
-                    mBuilder.setPositiveButton("确定完善", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            EditText newName = mView1.findViewById(R.id.newname);
-                            EditText newBox = mView1.findViewById(R.id.newbox);
-                            EditText qm = mView1.findViewById(R.id.new_qianming_t);
-
-                            RadioButton man = mView1.findViewById(R.id.man);
-                            RadioButton woman = mView1.findViewById(R.id.woman);
-
-                            mDateAndTimeLabel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //生成一个DatePickerDialog对象，并显示。显示的DatePickerDialog控件可以选择年月日，并设置
-                                    new DatePickerDialog(MySettingActivity.this,
-                                            d,
-                                            mDateAndTime.get(Calendar.YEAR),
-                                            mDateAndTime.get(Calendar.MONTH),
-                                            mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
-                                }
-                            });
-                            int sex = 0;
-                            if (man.isChecked()) {
-                                sex = 1;
-                            }
-                            if (woman.isChecked()) {
-                                sex = 2;
-                            }
-                            String s1 = mDateAndTimeLabel.getText().toString().replaceAll("年", "-");
-                            String s2 = s1.replaceAll("月", "-");
-                            String rs = s2.replace("日","  ");
-                            String name = newName.getText().toString().trim();
-                            String box = newBox.getText().toString().trim();
-                            if (JavaUtils.isEmail(box)) {
-                                if (name != null && name != "" && qm.getText().toString() != null && qm.getText().toString() != "") {
-                                    mPerFectUserInfoPresenter.reqeust(user.getUserId(), user.getSessionId(), name, sex, qm.getText().toString(),rs , box);
-                                }
-                            }
-                        }
-                    });
-                    mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    mBuilder.show();
-                }
-                break;
             default:
                 break;
 
@@ -420,50 +230,15 @@ public class MySettingActivity extends WDActivity {
                             IMAGE_FILE_NAME);
 
                     cropRawPhoto(Uri.fromFile(tempFile));
-//                    File file = new File(Uri.fromFile(tempFile));
-//                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-//                    MultipartBody.Part body = MultipartBody.Part.createFormData("app_user_header", fileNameByTimeStamp, requestFile);
 
                 } else {
                     Toast.makeText(MySettingActivity.this, "没有SDCard!", Toast.LENGTH_LONG)
                             .show();
                 }
-//                Log.v("xjjjj",data.getData().getPath());
-//                mDialog.cancel();
-//                if (data == null || data.equals("")) {
-//                    return;
-//                }
-//                File imageFile = FileUtils.getImageFile();
-//                String path = imageFile.getPath();
-//                Toast.makeText(this, ""+path, Toast.LENGTH_SHORT).show();
-
-                break;
+                 break;
             case CODE_GALLERY_REQUEST:
                 cropRawPhoto(data.getData());
-//                Log.v("xcccc",data.getData().getPath());
-//                mDialog.cancel();
-//                if (data == null || data.equals("")) {
-//                    return;
-//                }
-//                Uri data1 = data.getData();
-//
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//
-//                Cursor actualimagecursor = managedQuery(data1, proj, null, null, null);
-//
-//                int actual_image_column_index = actualimagecursor
-//                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                actualimagecursor.moveToFirst();
-//                String img_path = actualimagecursor
-//                        .getString(actual_image_column_index);
-//
-//                // 4.0以上平台会自动关闭cursor,所以加上版本判断,OK
-//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-//                    actualimagecursor.close();
-//                }
-
-
-                break;
+                 break;
             case CODE_RESULT_REQUEST:
                 if (data != null) {
                     setImageToHeadView(data);
@@ -489,7 +264,7 @@ public class MySettingActivity extends WDActivity {
                 }
                 if (result.getResult().getBirthday() == 0) {
                     mBirthday.setText("未设置生日");
-                }else{
+                } else {
                     mBirthday.setText(ToDate.timedate(result.getResult().getBirthday()));
                 }
                 mSettingIcon.setImageURI(result.getResult().getHeadPic());
@@ -523,7 +298,10 @@ public class MySettingActivity extends WDActivity {
     private class perCall implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Toast.makeText(MySettingActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+
+            if (result.getStatus().equals("0000")) {
+                onResume();
+            }
         }
 
         @Override
@@ -531,6 +309,17 @@ public class MySettingActivity extends WDActivity {
 
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (user == null) {
+            Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
+        } else {
+            mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
+        }
+    }
+
     // 从本地相册选取图片作为头像
     private void choseHeadImageFromGallery() {
         Intent intentFromGallery = new Intent();
@@ -565,9 +354,9 @@ public class MySettingActivity extends WDActivity {
      */
     public void cropRawPhoto(Uri uri) {
 
-        String path = StringUtils.getRealPathFromUri(MySettingActivity.this,uri);
+        String path = StringUtils.getRealPathFromUri(MySettingActivity.this, uri);
         // 改头像
-        mModifyHeadPicPresenter.reqeust(user.getUserId(),user.getSessionId(),path);
+        mModifyHeadPicPresenter.reqeust(user.getUserId(), user.getSessionId(), path);
         Bitmap map = null;
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -589,11 +378,10 @@ public class MySettingActivity extends WDActivity {
     }
 
 
-
     /**
      * 提取保存裁剪之后的图片数据，并设置头像部分的View
      */
-    private void setImageToHeadView (Intent intent){
+    private void setImageToHeadView(Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
@@ -605,7 +393,7 @@ public class MySettingActivity extends WDActivity {
     /**
      * 检查设备是否存在SDCard的工具方法
      */
-    public static boolean hasSdcard () {
+    public static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             // 有存储的SDCard
@@ -618,7 +406,7 @@ public class MySettingActivity extends WDActivity {
     private class uImage implements DataCall<Result<String>> {
         @Override
         public void success(Result<String> result) {
-            Toast.makeText(MySettingActivity.this, ""+result.getMessage()+result.getResult(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MySettingActivity.this, "" + result.getMessage() + result.getResult(), Toast.LENGTH_SHORT).show();
         }
 
         @Override

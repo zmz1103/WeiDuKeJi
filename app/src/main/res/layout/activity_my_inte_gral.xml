@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.myactivity.MyInteGralActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/jf_bg_ig"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:background="@mipmap/jf_bg" />
+
+    <TextView
+        android:id="@+id/jf_count_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="1200"
+        android:textColor="#fff"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/jf_keyong_textv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/jf_count_textview"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="可用积分"
+        android:textColor="#fff"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/jf_user_sign_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/jf_keyong_textv"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#fff"
+        android:textSize="10sp" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/jf_smart_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/jf_bg_ig"
+        android:layout_marginTop="30dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/jf_rec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v7.widget.CardView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</RelativeLayout>

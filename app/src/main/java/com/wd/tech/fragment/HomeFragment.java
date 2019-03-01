@@ -104,11 +104,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false));
         mInformationAdapter = new InformationAdapter(getContext());
         recyclerlist.setAdapter(mInformationAdapter);
-
-
-        //设置 Header 为 贝塞尔雷达 样式
-        //refreshLayout.setRefreshHeader(new BezierRadarHeader(getContext()).setEnableHorizontalDrag(true));
-        //refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()).setEnableLastTime(true));
         //设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         mBannerPresenter = new BannerPresenter(new showBannerCall());

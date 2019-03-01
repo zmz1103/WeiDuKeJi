@@ -30,7 +30,10 @@ public class StartActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (mTime <= 0) {
-                    startActivity(new Intent(StartActivity.this, HomeActivity.class));
+                    Intent intent = new Intent(StartActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("show",1);
+                    startActivity(intent);
                     finish();
                     return;
                 }

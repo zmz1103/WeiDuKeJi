@@ -58,14 +58,16 @@
         android:id="@+id/frient_grzl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#666666"
         android:text="----------  个人资料  -----------"
         android:gravity="center"
         android:layout_below="@+id/friend_signature"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="60dp"/>
     <LinearLayout
         android:id="@+id/frient_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#666666"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:gravity="center"
@@ -73,10 +75,12 @@
         <TextView
             android:id="@+id/frient_sex"
             android:layout_width="wrap_content"
+            android:textColor="#666666"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/frient_birthday"
             android:layout_width="wrap_content"
+            android:textColor="#666666"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
@@ -85,6 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#666666"
         android:layout_marginTop="10dp"
         android:layout_below="@id/frient_layout"/>
     <TextView
@@ -92,6 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#666666"
         android:layout_marginTop="10dp"
         android:layout_below="@id/frient_phone"/>
 
@@ -108,6 +114,7 @@
         android:visibility="gone"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"/>
+
 
 
 </RelativeLayout>

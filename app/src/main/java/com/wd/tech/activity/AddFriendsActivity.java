@@ -41,6 +41,7 @@ public class AddFriendsActivity extends WDActivity implements CustomAdapt {
     private String mMNickName;
     private String mMSignature;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_friends;

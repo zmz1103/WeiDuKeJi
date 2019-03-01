@@ -106,7 +106,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                 requestt(page);
                 mCommunityListAdapter.clear();
                 refreshlayout.finishRefresh();
-
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -118,7 +117,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                 refreshlayout.finishLoadmore();
             }
         });
-
     }
 
     private void requestt(int page) {
@@ -127,7 +125,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         }else {
             mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 10);
         }
-
     }
 
     private void initListener() {
@@ -170,7 +167,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                                 Toast.makeText(getContext(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
                             } else {
                                 mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
-
                                 builder.dismiss();
                             }
                         }
@@ -227,7 +223,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                Toast.makeText(getActivity(), ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i("success",data.getMessage());
             }
         }
 
@@ -241,7 +237,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
-                Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i("success",result.getMessage());
             }
         }
 
@@ -250,23 +246,27 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         }
     }
 
+    //评论
     class AddCommunity implements DataCall<Result>{
 
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                mCommunityListAdapter.clear();
+                mCommunityListAdapter.notifyDataSetChanged();
+                mCommunityListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),page,10);
             }
         }
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getActivity(), "失败", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     public void onResume() {
         super.onResume();
+        mCommunityListAdapter.clear();
         initData();
     }
 

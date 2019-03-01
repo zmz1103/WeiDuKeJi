@@ -19,6 +19,7 @@ public  class DeletePostPresenter extends WDPresenter {
 
     @Override
     protected Observable observable(Object... args) {
-        return NetWorkManager.getInstance().create(IRequest.class).deletePost((long)args[0],(String)args[1],(String)args[2]);
+        IRequest iRequest = NetWorkManager.getInstance().create(IRequest.class);
+        return iRequest.deletePost((long)args[0],(String)args[1],(String)args[2]);
     }
 }

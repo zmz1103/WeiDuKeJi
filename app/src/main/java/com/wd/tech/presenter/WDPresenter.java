@@ -1,5 +1,10 @@
 package com.wd.tech.presenter;
 
+import com.wd.tech.application.WDApplication;
+import com.wd.tech.bean.Result;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.CustomException;
 import com.wd.tech.exception.ResponseTransformer;
 import com.wd.tech.view.DataCall;
@@ -43,10 +48,14 @@ public abstract class WDPresenter<T> {
                                 .observeOn(AndroidSchedulers.mainThread());
                     }
                 })
-                .subscribe(new Consumer<T>() {
+                .subscribe(new Consumer<Result>() {
                     @Override
-                    public void accept(T result) throws Exception {
+                    public void accept(Result result) throws Exception {
                         running = false;
+                        if (result.getStatus().equals("9999")) {
+                            DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getAppContext(), UserDao.TABLENAME);
+                            daoSession.getUserDao().deleteAll();
+                        }
                         dataCall.success(result);
                     }
                 }, new Consumer<Throwable>() {

@@ -37,6 +37,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     private Context context;
     private List<CommunitylistData> list;
     private List<communityCommentVoList> mCommunitylist;
+    private int mImageCount;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -86,9 +87,13 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         final CommunitylistData data = list.get(i);
         viewHolder.mHeadPic.setImageURI(Uri.parse(data.getHeadPic()));
         viewHolder.mNickName.setText(data.getNickName());
+        Date date = new Date();
+        date.setTime(data.getPublishTime());
+        viewHolder.mPublishTime.setText(DateUtils.getTimeFormatText(date));
+
         //转换成日期格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN,Locale.getDefault());
-        viewHolder.mPublishTime.setText(dateFormat.format(data.getPublishTime()));
+//        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN,Locale.getDefault());
+//        viewHolder.mPublishTime.setText(dateFormat.format(data.getPublishTime()));
         viewHolder.mSignature.setText(data.getSignature());
         viewHolder.mCommentNum.setText(""+data.getComment());
         viewHolder.mPraiseNum.setText(""+data.getPraise());
@@ -107,12 +112,12 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         }else{
             viewHolder.mGridView.setVisibility(View.VISIBLE);
             String[] images = data.getFile().split(",");
-            int imageCount = images.length;
+            mImageCount = images.length;
 
             int colNum;//列数
-            if (imageCount == 1){
+            if (mImageCount == 1){
                 colNum = 1;
-            }else if (imageCount == 2||imageCount == 4){
+            }else if (mImageCount == 2){
                 colNum = 2;
             }else {
                 colNum = 3;
@@ -170,6 +175,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         if (list.get(i).getComment() > 0) {
             viewHolder.mCommentPl.setText("没有更多评论了");
         }
+
     }
 
     @Override
