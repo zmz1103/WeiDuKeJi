@@ -157,7 +157,9 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             mFriendspostpraise = itemView.findViewById(R.id.friendspost_praise);
             mFriendspostPraiseNum = itemView.findViewById(R.id.friendspost_praise_num);
             imageAdapter = new ImageAdapter();
-            mFriendspostGridView.setVerticalSpacing(10);
+            int space = context.getResources().getDimensionPixelSize(R.dimen.dp_10);;//图片间距
+            mFriendspostGridView.setHorizontalSpacing(space);
+            mFriendspostGridView.setVerticalSpacing(space);
             mFriendspostGridView.setAdapter(imageAdapter);
         }
     }
