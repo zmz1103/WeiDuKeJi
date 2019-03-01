@@ -71,6 +71,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
     private DoTheTastPresenter mDoTheTastPresenter;
+    private List<CommunitylistData> list;
 
     @Override
     public int getContent() {
@@ -262,6 +263,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                mCommunityListAdapter.clear();
+                mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), 1, 10);
                 mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1002);
             }
         }
@@ -275,7 +278,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     private class doTheTask implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.i("success",result.getMessage());
         }
 
         @Override

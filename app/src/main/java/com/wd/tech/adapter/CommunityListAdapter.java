@@ -56,10 +56,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         notifyDataSetChanged();
     }
 
-    public CommunitylistData getItem(int position) {
-        return list.get(position);
-    }
-
     //接口回调
     public interface onCommunityListClickListener{
         //点击头像

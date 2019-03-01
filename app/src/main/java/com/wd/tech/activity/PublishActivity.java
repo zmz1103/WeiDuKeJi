@@ -186,7 +186,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private class doTheTask implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Toast.makeText(PublishActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.i("success",result.getMessage());
         }
 
         @Override

@@ -287,7 +287,6 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                     txtFriend.setText("+好友");
                 }
 
-
                 List<CommunityUserPostVoListBean> postVoList = result.getResult().get(0).getCommunityUserPostVoList();
                 mFriendsPostAdapter.setAll(postVoList);
                 mFriendsPostAdapter.notifyDataSetChanged();
