@@ -112,9 +112,7 @@ public class AuditFriendActivity extends WDActivity{
         public void success(Result<List<FriendInform>> result) {
             if (result.getStatus().equals("0000")) {
 
-                if (mAuditPresenter.isResresh()) {
-                    mAdapter.clear();
-                }
+                mAdapter.clear();
 
                 mResult = result.getResult();
 
