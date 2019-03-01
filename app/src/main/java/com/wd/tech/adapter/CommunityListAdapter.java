@@ -56,12 +56,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         notifyDataSetChanged();
     }
 
-    public int getImageCount() {
-        notifyDataSetChanged();
-        return mImageCount;
-
-    }
-
     public CommunitylistData getItem(int position) {
         return list.get(position);
     }
