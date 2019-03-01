@@ -69,6 +69,10 @@
         <activity android:name=".activity.InformationDetailsActivity"></activity>
         <activity android:name=".activity.FridendAddActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.CreateGroupActivity"></activity>
+        <activity android:name=".activity.SendApplyActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.GroupApplyActivity"/>
+        <activity android:name=".activity.SearchMyFriendActivity"/>
+        <activity android:name=".activity.AuditFriendActivity"/>
     </application>
 
 </manifest>

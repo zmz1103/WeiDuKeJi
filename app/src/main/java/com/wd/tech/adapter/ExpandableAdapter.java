@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -18,12 +18,14 @@ import com.wd.tech.bean.Group;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wd.tech.util.UIUtils.getResources;
+
 /**
  * date:2019/2/22 18:34
  * author:赵明珠(啊哈)
  * function:
  */
-public class ExpandableAdapter extends BaseExpandableListAdapter {
+public class ExpandableAdapter extends BaseExpandableListAdapter{
     private Context context;
 
     List<Group> mList = new ArrayList<>();
@@ -69,7 +71,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        DivideHolder holder;
+        DivideHolder holder=null;
+
+        Log.e("zmz"+groupPosition,mList.size()+"二级groupPosition:"+mList.get(groupPosition).getGroupName());
 
         if (convertView == null) {
             holder = new DivideHolder();
@@ -82,14 +86,25 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (DivideHolder) convertView.getTag();
         }
+
         holder.gruppnamn.setText(mList.get(groupPosition).getGroupName());
         holder.number.setText("0/" + String.valueOf(mList.get(groupPosition).getCurrentNumber()));
+
+        if (isExpanded){
+            holder.relativeLayout.setBackground(getResources().getDrawable(R.color.TextTure));
+            holder.off.setImageResource(R.drawable.caret_bottom);
+        }else {
+            holder.off.setImageResource(R.drawable.caret_left);
+            holder.relativeLayout.setBackground(getResources().getDrawable(R.color.white));
+        }
 
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Log.e("zmz","childPosition:"+childPosition);
+
         FriendInfoList friendInfoList = mList.get(groupPosition).getFriendInfoList().get(childPosition);
 
         Log.e("zmz","==0=="+friendInfoList.getNickName());
@@ -110,6 +125,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         childHolder.nickName.setText(friendInfoList.getNickName());
         childHolder.signature.setText(friendInfoList.getSignature());
 
+
+
+
         return convertView;
     }
 
@@ -118,14 +136,15 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
-    public void addAll(Group group) {
-        mList.add(group);
+    public void addAll(List<Group> mGroupList) {
+        mList.clear();
+        if (mGroupList != null)
+            mList.addAll(mGroupList);
     }
-
 
     class DivideHolder {
         RelativeLayout relativeLayout;
-        ToggleButton off;
+        ImageView off;
         TextView gruppnamn, number;
     }
     class ChildHolder {
