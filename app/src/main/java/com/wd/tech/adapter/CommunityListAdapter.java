@@ -118,7 +118,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             int colNum;//列数
             if (mImageCount == 1){
                 colNum = 1;
-            }else if (mImageCount == 2){
+            }else if (mImageCount == 2||mImageCount == 4){
                 colNum = 2;
             }else {
                 colNum = 3;
