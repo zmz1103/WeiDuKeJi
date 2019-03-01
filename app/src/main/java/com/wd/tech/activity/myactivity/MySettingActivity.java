@@ -212,7 +212,6 @@ public class MySettingActivity extends WDActivity {
 
             default:
                 break;
-
         }
     }
 
@@ -253,7 +252,7 @@ public class MySettingActivity extends WDActivity {
     private class getUserById implements DataCall<Result<GetUserBean>> {
         @Override
         public void success(Result<GetUserBean> result) {
-            Toast.makeText(MySettingActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+
             if (result.getStatus().equals("0000")) {
                 mPhoneTextview.setText(result.getResult().getPhone());
                 mJfTextView.setText(result.getResult().getIntegral() + "");

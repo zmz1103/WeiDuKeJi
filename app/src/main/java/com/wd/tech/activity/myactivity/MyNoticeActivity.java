@@ -95,7 +95,6 @@ public class MyNoticeActivity extends WDActivity {
     private class findList implements DataCall<Result<List<NoticeListDAta>>> {
         @Override
         public void success(Result<List<NoticeListDAta>> result) {
-            Toast.makeText(MyNoticeActivity.this, ""+result.getMessage()+result.getResult().size(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
                 mNoticeListAdapter.setmListDAta(result.getResult());
                 mNoticeListAdapter.notifyDataSetChanged();

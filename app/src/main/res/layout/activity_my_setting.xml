@@ -41,7 +41,7 @@
         android:layout_below="@id/settting_linear_01"
         android:background="#ececec" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/settting_view_01">
@@ -49,7 +49,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="100dp">
 
             <RelativeLayout
                 android:id="@+id/set_r1"
@@ -294,7 +294,7 @@
 
             <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="170dp"
+                android:layout_height="185dp"
                 android:layout_below="@id/set_r2"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
@@ -432,5 +432,5 @@
                     android:background="#f4f4f4" />
             </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

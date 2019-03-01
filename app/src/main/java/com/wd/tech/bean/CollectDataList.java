@@ -13,6 +13,16 @@ public class CollectDataList {
     private String thumbnail;
     private String title;
 
+    private boolean isFlag;
+
+    public void setFlag(boolean flag) {
+        isFlag = flag;
+    }
+
+    public boolean isFlag() {
+        return isFlag;
+    }
+
     public long getCreateTime() {
         return createTime;
     }
