@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
@@ -177,6 +179,29 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 Toast.makeText(MainActivity.this, ""+userDao.loadAll().get(0).getUserId(), Toast.LENGTH_SHORT).show();
                 finish();
                 Log.v("数据库---",""+userDao.loadAll().get(0).toString());
+
+                EMClient.getInstance().login(result.getResult().getUserName(),result.getResult().getPwd(),new EMCallBack() {//回调
+                    @Override
+                    public void onSuccess() {
+                        EMClient.getInstance().groupManager().loadAllGroups();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                        Log.d("main", "登录聊天服务器成功！");
+                        finish();
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        Log.d("main", "登录聊天服务器失败！");
+                    }
+                });
+
+
+
             }
         }
 

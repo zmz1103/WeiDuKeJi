@@ -8,6 +8,7 @@ import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.Flockformation;
 import com.wd.tech.bean.FriendInform;
 import com.wd.tech.bean.FriendInformation;
+import com.wd.tech.bean.FuzzyQuery;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
@@ -429,4 +430,14 @@ public interface IRequest {
                                 @Header("sessionId") String session,
                                 @Field("noticeId") int noticeId,
                                 @Field("flag") int flag);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/1
+     * @method：模糊查询我的好友
+     */
+    @GET("chat/verify/v1/searchFriend")
+    Observable<Result<List<FuzzyQuery>>> query(@Header("userId") int userid,
+                                               @Header("sessionId") String session,
+                                               @Query("searchName") String searchName);
+
 }

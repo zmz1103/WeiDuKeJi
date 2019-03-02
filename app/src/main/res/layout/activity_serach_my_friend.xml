@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/search"
@@ -34,6 +35,7 @@
             android:layout_toLeftOf="@+id/cancel"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
+            android:maxLines="1"
             android:textColor="@color/color_Text"
             android:textSize="12sp" />
 
@@ -78,14 +80,14 @@
         android:layout_height="1dp"
         android:background="#22999999"
         android:layout_below="@+id/text_view"/>
-    <ListView
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/my_friend_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#22999999"
-        android:dividerHeight="1dp"
+        android:layout_marginTop="1dp"
         android:layout_below="@+id/text_view">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
