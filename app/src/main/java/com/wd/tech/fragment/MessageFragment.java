@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.activity.CreateGroupActivity;
@@ -34,19 +35,19 @@ import butterknife.OnClick;
  */
 public class MessageFragment extends WDFragment {
 
-    @BindView(R.id.messageViewPager)
-    ViewPager viewPager;
+    @BindView(R.id.message_viewpager)
+    ViewPager mViewPager;
     @BindView(R.id.message_radio)
-    RadioGroup radioGroup;
+    RadioGroup mRadioGroup;
     @BindView(R.id.my_message)
-    RadioButton message;
+    RadioButton myMessage;
     @BindView(R.id.contacts)
-    RadioButton contacts;
+    RadioButton mContacts;
     ContactsFragment contactsFragment;
     MyMessageFrament myMessageFrament;
-    List<Fragment> list;
+    List<Fragment> mList;
     @BindView(R.id.add)
-    ImageView add;
+    ImageView mAdd;
 
     @Override
     public int getContent() {
@@ -55,25 +56,25 @@ public class MessageFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
-        list = new ArrayList<Fragment>();
+        mList = new ArrayList<Fragment>();
         contactsFragment = new ContactsFragment();
         myMessageFrament = new MyMessageFrament();
 
-        list.add(contactsFragment);
-        list.add(myMessageFrament);
+        mList.add(contactsFragment);
+        mList.add(myMessageFrament);
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                return list.get(i);
+                return mList.get(i);
             }
 
             @Override
             public int getCount() {
-                return list.size();
+                return mList.size();
             }
         });
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -83,14 +84,14 @@ public class MessageFragment extends WDFragment {
             public void onPageSelected(int i) {
                 switch (i) {
                     case 0:
-                        radioGroup.check(R.id.my_message);
-                        message.setTextColor(getResources().getColorStateList(R.color.white));
-                        contacts.setTextColor(getResources().getColorStateList(R.color.blue_btn));
+                        mRadioGroup.check(R.id.my_message);
+                        myMessage.setTextColor(getResources().getColorStateList(R.color.white));
+                        mContacts.setTextColor(getResources().getColorStateList(R.color.blue_btn));
                         break;
                     case 1:
-                        radioGroup.check(R.id.contacts);
-                        message.setTextColor(getResources().getColorStateList(R.color.blue_btn));
-                        contacts.setTextColor(getResources().getColorStateList(R.color.white));
+                        mRadioGroup.check(R.id.contacts);
+                        myMessage.setTextColor(getResources().getColorStateList(R.color.blue_btn));
+                        mContacts.setTextColor(getResources().getColorStateList(R.color.white));
                         break;
                 }
             }
@@ -101,19 +102,19 @@ public class MessageFragment extends WDFragment {
             }
         });
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.my_message:
-                        viewPager.setCurrentItem(0);
-                        message.setTextColor(getResources().getColorStateList(R.color.white));
-                        contacts.setTextColor(getResources().getColorStateList(R.color.blue_btn));
+                        mViewPager.setCurrentItem(0);
+                        myMessage.setTextColor(getResources().getColorStateList(R.color.white));
+                        mContacts.setTextColor(getResources().getColorStateList(R.color.blue_btn));
                         break;
                     case R.id.contacts:
-                        viewPager.setCurrentItem(1);
-                        message.setTextColor(getResources().getColorStateList(R.color.blue_btn));
-                        contacts.setTextColor(getResources().getColorStateList(R.color.white));
+                        mViewPager.setCurrentItem(1);
+                        myMessage.setTextColor(getResources().getColorStateList(R.color.blue_btn));
+                        mContacts.setTextColor(getResources().getColorStateList(R.color.white));
                         break;
                 }
             }
@@ -122,18 +123,22 @@ public class MessageFragment extends WDFragment {
 
     @OnClick(R.id.add)
     public void OnClick() {
-        View inflate = View.inflate(getActivity(), R.layout.activity_pop_window, null);
+        if (user != null){
+            View inflate = View.inflate(getActivity(), R.layout.activity_pop_window, null);
 
-        PopupWindow popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            PopupWindow popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, true);
 
-        popWindow.setTouchable(true);
-        popWindow.setBackgroundDrawable(new BitmapDrawable());
+            popWindow.setTouchable(true);
+            popWindow.setBackgroundDrawable(new BitmapDrawable());
 
-        popWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popWindow.showAsDropDown(add);
+            popWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            popWindow.showAsDropDown(mAdd);
 
-        initPopClick(inflate);
+            initPopClick(inflate);
+        }else {
+            Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initPopClick(View view) {
@@ -154,4 +159,6 @@ public class MessageFragment extends WDFragment {
             }
         });
     }
+
+
 }

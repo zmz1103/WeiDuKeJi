@@ -6,11 +6,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.FindUserSignPresenter;
 import com.wd.tech.presenter.FindUserSignRecordingPresenter;
 import com.wd.tech.presenter.UserSignPresenter;
@@ -41,6 +43,7 @@ public class SignActivity extends WDActivity {
     private FindUserSignPresenter mFindUserSignPresenter;
     private FindUserSignRecordingPresenter mFindUserSignRecordingPresenter;
     private ImageView mBack;
+    private DoTheTastPresenter doTheTastPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -55,7 +58,8 @@ public class SignActivity extends WDActivity {
 
             mFindUserSignRecordingPresenter = new FindUserSignRecordingPresenter(new FinduserRecordResult());
 
-
+            // 做任务
+            doTheTastPresenter = new DoTheTastPresenter(new doTheTask());
             // 用户签到
             mUserSignPresenter = new UserSignPresenter(new UserSignResult());
             mMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -129,6 +133,7 @@ public class SignActivity extends WDActivity {
                 mCalendar.textColor();
                 mRlBtnSign.setText("已签到");
                 mRlBtnSign.setClickable(false);
+                doTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1001);
             }
         }
 
@@ -143,7 +148,6 @@ public class SignActivity extends WDActivity {
      */
     private class FindUserResult implements DataCall<Result<Integer>> {
 
-
         @Override
         public void success(Result<Integer> result) {
             ;
@@ -153,6 +157,8 @@ public class SignActivity extends WDActivity {
                     mCalendar.textColor();
                     mRlBtnSign.setText("已签到");
                     mRlBtnSign.setClickable(false);
+
+
                 } else {
                     mCalendar.textColor();
                 }
@@ -186,4 +192,15 @@ public class SignActivity extends WDActivity {
         }
     }
 
+    private class doTheTask implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            Toast.makeText(SignActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }

@@ -30,25 +30,21 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
     }
 
     private List<Object> mList = new ArrayList<>();
-    private int sign;//0:普通点击，1自定义
 
     public void addAll(List<Object> list) {
         mList.addAll(list);
     }
 
-    public void setSign(int sign){
-        this.sign = sign;
-    }
 
     @NonNull
     @Override
-    public PictureAdapter.MyHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(viewGroup.getContext(), R.layout.circle_image_item, null);
         return new MyHodler(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PictureAdapter.MyHodler myHodler, final int i) {
+    public void onBindViewHolder(@NonNull MyHodler myHodler, final int i) {
         if (mList.get(i) instanceof String) {
             String imageUrl = (String) mList.get(i);
             if (imageUrl.contains("http:")) {//加载http
@@ -77,6 +73,10 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
     @Override
     public int getItemCount() {
         return mList.size();
+//        if(mList == null){
+//            return 0;
+//        }
+//        return mList.size() >= 9 ? 9 : mList.size();
     }
 
     public void add(Object image) {

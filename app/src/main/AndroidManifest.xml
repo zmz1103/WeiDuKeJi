@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.front" />
@@ -18,6 +19,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
 
 
 
@@ -40,7 +42,10 @@
         </activity>
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.HomeActivity" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop" />
         <activity android:name=".activity.PublishActivity" />
         <activity android:name=".activity.FriendsPostActivity" />
         <activity android:name=".activity.NoNetWorkActivity" />
@@ -62,8 +67,12 @@
         <activity android:name=".activity.myactivity.MyCardActivity" />
         <activity android:name=".activity.myactivity.MyNoticeActivity" />
         <activity android:name=".activity.myactivity.MyInteGralActivity" />
-        <activity android:name=".activity.myactivity.MyTaskActivity" />
+        <activity android:name="com.wd.tech.activity.myactivity.UpdatePwdActivity" />
+        <activity
+            android:name=".activity.myactivity.MyTaskActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.myactivity.MySettingActivity" />
+        <activity android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity" />
         <activity android:name=".activity.myactivity.SignActivity" />
         <activity android:name=".activity.InterestActivity" />
         <activity android:name=".activity.PictureDisplayActivity" />
@@ -71,9 +80,6 @@
         <activity android:name=".activity.InterestDetailsActivity" />
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.AddFriendsActivity" />
-        <activity
-            android:name=".activity.InterestDetailsActivity"
-            tools:ignore="DuplicateActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity
             android:name=".activity.InformationDetailsActivity"
@@ -84,6 +90,11 @@
         <activity android:name=".activity.CreateGroupActivity" />
         <activity android:name=".activity.OpenVipActivity" />
         <activity android:name=".activity.IntegralActivity"></activity>
+        <activity android:name=".activity.LookImageActivity" />
+        <activity android:name=".activity.SendApplyActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.GroupApplyActivity"/>
+        <activity android:name=".activity.SearchMyFriendActivity"/>
+        <activity android:name=".activity.AuditFriendActivity"/>
     </application>
 
 </manifest>

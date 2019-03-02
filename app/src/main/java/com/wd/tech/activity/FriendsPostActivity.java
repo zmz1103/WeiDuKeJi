@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,9 +112,6 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
 
     }
     private void initRefresh() {
-        //设置 Header 为 贝塞尔雷达 样式
-        refreshLayout.setRefreshHeader(new BezierRadarHeader(FriendsPostActivity.this).setEnableHorizontalDrag(true));
-        //设置 Footer 为 球脉冲 样式
         refreshLayout.setRefreshFooter(new BallPulseFooter(FriendsPostActivity.this).setSpinnerStyle(SpinnerStyle.Scale));
         request(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
@@ -278,7 +276,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                 friendsImageHeadPic.setImageURI(mHeadPic);
                 friendsTxtSignature.setText(mSignature);
                 if (mWhetherFollow ==1){
-                    txtAttention.setText("已关注");
+                    txtAttention.setText("取消关注");
                 }else {
                     txtAttention.setText("+关注");
                 }
@@ -289,7 +287,6 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                     txtFriend.setText("+好友");
                 }
 
-
                 List<CommunityUserPostVoListBean> postVoList = result.getResult().get(0).getCommunityUserPostVoList();
                 mFriendsPostAdapter.setAll(postVoList);
                 mFriendsPostAdapter.notifyDataSetChanged();
@@ -298,7 +295,6 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(FriendsPostActivity.this, "请检查网络连接", Toast.LENGTH_SHORT).show();
         }
     }
     //点赞
@@ -307,13 +303,13 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(FriendsPostActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i("success",data.getMessage());
             }
         }
 
         @Override
         public void fail(ApiException a) {
-            Toast.makeText(FriendsPostActivity.this, "请检查网络连接", Toast.LENGTH_SHORT).show();
+
         }
     }
     //取消点赞
@@ -322,7 +318,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         @Override
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
-                Toast.makeText(FriendsPostActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i("success",result.getMessage());
             }
         }
 

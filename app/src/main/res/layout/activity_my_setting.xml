@@ -41,14 +41,15 @@
         android:layout_below="@id/settting_linear_01"
         android:background="#ececec" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/settting_view_01">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="100dp">
 
             <RelativeLayout
                 android:id="@+id/set_r1"
@@ -293,7 +294,7 @@
 
             <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="170dp"
+                android:layout_height="185dp"
                 android:layout_below="@id/set_r2"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
@@ -410,15 +411,15 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/u_message"
+                    android:id="@+id/u_mpwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/my_view_00003"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
-                    android:text="修改信息"
-                    android:textColor="#000"
+                    android:text="修改密码"
+                    android:textColor="#f00"
                     android:textSize="14sp" />
 
                 <View
@@ -427,9 +428,9 @@
                     android:layout_below="@id/my_tc_t"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="50dp"
                     android:background="#f4f4f4" />
             </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

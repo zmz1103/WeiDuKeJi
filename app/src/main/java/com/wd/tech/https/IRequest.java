@@ -7,6 +7,7 @@ import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.Flockformation;
+import com.wd.tech.bean.FriendInform;
 import com.wd.tech.bean.FriendInformation;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
@@ -34,7 +35,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.TaskListData;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserInteGralDataList2;
 import com.wd.tech.bean.UserInteGralListData;
 
 import io.reactivex.Observable;
@@ -226,22 +229,21 @@ public interface IRequest {
                                                           @Header("sessionId") String sessionId,
                                                           @Query("page") int page,
                                                           @Query("count") int count);
-
     // 上传头像 user/verify/v1/modifyHeadPic
     @POST("user/verify/v1/modifyHeadPic")
     Observable<RequestBody> modifyHeadPic(@Header("userId") long userId,
-                                          @Header("sessionId") String sessionId,
+                                          @Header("sessionId")String sessionId,
                                           @Body MultipartBody body);
 
     // 签到 user/verify/v1/userSign
     @POST("user/verify/v1/userSign")
     Observable<Result> userSign(@Header("userId") long userId,
-                                @Header("sessionId") String sessionId);
+                                       @Header("sessionId") String sessionId );
 
     //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
     @GET("user/verify/v1/findUserSignRecording")
     Observable<Result<List<String>>> findUserSignRecording(@Header("userId") long title,
-                                                           @Header("sessionId") String page);
+                                                                         @Header("sessionId") String page );
 
     // user/verify/v1/findUserSignStatus  查询当天签到状态
     @GET("user/verify/v1/findUserSignStatus")
@@ -263,6 +265,32 @@ public interface IRequest {
     @GET("user/verify/v1/findUserIntegral")
     Observable<Result<UserInteGralListData>> findUserIntegral(@Header("userId") long title,
                                                               @Header("sessionId") String page);
+
+    // 积分明细 user/verify/v1/findUserIntegralRecord
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<UserInteGralDataList2>>> findUserIntegralRecord(@Header("userId") long title,
+                                                                           @Header("sessionId") String pages,
+                                                                           @Query("page") int page,
+                                                                           @Query("count") int count);
+
+    //user/verify/v1/doTheTask  做任务
+    @POST("user/verify/v1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") long userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+
+    // 查询任务列表  user/verify/v1/findUserTaskList
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<TaskListData>>> findUserTaskList(@Header("userId") long userId,
+                                                            @Header("sessionId") String sessionId);
+
+    // 更改密码 user/verify/v1/modifyUserPwd
+    @PUT("user/verify/v1/modifyUserPwd")
+    Observable<Result> modifyUserPwd(@Header("userId") long userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Query("oldPwd") String oldPwd,
+                                     @Query("newPwd") String newPwd);
 
     /**
      * 按标题搜索(lk)
@@ -286,8 +314,8 @@ public interface IRequest {
      */
     @DELETE("information/verify/v1/cancelGreat")
     Observable<Result> cancelGreat(@Header("userId") long userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Query("infoId") String infoId);
+                                @Header("sessionId")String sessionId,
+                                @Query("infoId") String infoId);
 
     /**
      * 资讯收藏（lk)
@@ -312,7 +340,7 @@ public interface IRequest {
      */
     @GET("information/v1/findInformationDetails")
     Observable<Result<InformationDetailsBean>> infordetails(@Header("userId") long userId,
-                                                            @Header("sessionId") String sessionId,
+                                                            @Header("sessionId")String sessionId,
                                                             @Query("id") String id);
 
 
@@ -321,7 +349,7 @@ public interface IRequest {
      */
     @GET("information/v1/findAllInfoCommentList")
     Observable<Result<List<AllInfoCommentListBean>>> infoCommentList(@Header("userId") long userId,
-                                                                     @Header("sessionId") String sessionId,
+                                                                     @Header("sessionId")String sessionId,
                                                                      @Query("infoId") String infoId,
                                                                      @Query("page") int page,
                                                                      @Query("count") int count);
@@ -359,7 +387,6 @@ public interface IRequest {
                                    @Header("sessionId") String sessionId,
                                    @Field("name") String name,
                                    @Field("description") String description);
-
     /**
      * @作者 啊哈
      * @date 2019/2/26
@@ -369,6 +396,41 @@ public interface IRequest {
     Observable<Result<Flockformation>> flock(@Header("userId") int userId,
                                              @Header("sessionId") String sessionId,
                                              @Query("groupId") String groupId);
+
+    /**
+     * @作者 啊哈
+     * @date 2019/2/27
+     * @method：申请加群
+     */
+    @FormUrlEncoded
+    @POST("group/verify/v1/applyAddGroup")
+    Observable<Result> applygroup(@Header("userId") int userId,
+                                  @Header("sessionId") String sessionId,
+                                  @Field("groupId") int groupId,
+                                  @Field("remark") String remark);
+
+    /**
+     * @作者 啊哈
+     * @date 2019/2/27
+     * @method：好友通知
+     */
+    @GET("chat/verify/v1/findFriendNoticePageList")
+    Observable<Result<List<FriendInform>>> audit(@Header("userId") int userid,
+                                                 @Header("sessionId") String session,
+                                                 @Query("page") int page,
+                                                 @Query("count") int count);
+
+    /**
+     * @作者 啊哈
+     * @date 2019/2/28
+     * @method：审核好友的请求
+     */
+    @FormUrlEncoded
+    @PUT("chat/verify/v1/reviewFriendApply")
+    Observable<Result> verifier(@Header("userId") int userid,
+                                @Header("sessionId") String session,
+                                @Field("noticeId") int noticeId,
+                                @Field("flag") int flag);
 
     /**
      * @作者 李阔

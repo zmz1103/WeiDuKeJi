@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.wd.tech.R;
+import com.wd.tech.activity.AuditFriendActivity;
+import com.wd.tech.activity.SearchMyFriendActivity;
 import com.wd.tech.bean.Group;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +27,8 @@ import java.util.List;
 public class GroupAdapter extends BaseAdapter {
     private Context context;
     List<Group> mList = new ArrayList<>();
-    private ExpandableAdapter expandableAdapter;
+    List<Group> mGroupList = new ArrayList<>();
+    private ExpandableAdapter expandableAdapter = null;
 
     public GroupAdapter(Context context) {
         this.context = context;
@@ -29,7 +36,10 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mList.size();
+        int size = mList.size();
+        int num = size - 1;
+
+        return num;
     }
 
     @Override
@@ -45,11 +55,11 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        int itemViewType = getItemViewType(position);
 
-        switch (position) {
+        switch (itemViewType) {
             case 0:
                 ViewHolder holder;
-                Log.e("zmz", "============");
                 if (convertView == null) {
                     holder = new ViewHolder();
                     convertView = View.inflate(context, R.layout.activity_search_item, null);
@@ -58,18 +68,34 @@ public class GroupAdapter extends BaseAdapter {
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
+
+                holder.editText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, SearchMyFriendActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+
                 break;
             case 1:
                 AddFriendHolder addFriendHolder;
                 if (convertView == null) {
                     addFriendHolder = new AddFriendHolder();
-                    convertView = View.inflate(context,R.layout.activity_add_friend_item,null);
+                    convertView = View.inflate(context, R.layout.activity_add_friend_item, null);
                     addFriendHolder.addFriend = convertView.findViewById(R.id.add_fri);
                     convertView.setTag(addFriendHolder);
-                }else {
+                } else {
                     addFriendHolder = (AddFriendHolder) convertView.getTag();
                 }
 
+                addFriendHolder.addFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, AuditFriendActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
                 break;
             case 2:
                 ClusterHolder clusterHolder;
@@ -84,7 +110,9 @@ public class GroupAdapter extends BaseAdapter {
                 break;
 
             default:
+
                 FriendHolder friendHolder;
+
                 if (convertView == null) {
                     friendHolder = new FriendHolder();
                     convertView = View.inflate(context, R.layout.activity_friend_item, null);
@@ -93,10 +121,18 @@ public class GroupAdapter extends BaseAdapter {
                 } else {
                     friendHolder = (FriendHolder) convertView.getTag();
                 }
-                expandableAdapter = new ExpandableAdapter(context);
-                Group group = mList.get(position);
-                expandableAdapter.addAll(group);
-                friendHolder.expandableListView.setAdapter(expandableAdapter);
+
+                if (expandableAdapter != null) {
+
+
+                    friendHolder.expandableListView.setAdapter(expandableAdapter);
+                } else {
+                    expandableAdapter = new ExpandableAdapter(context);
+                    friendHolder.expandableListView.setAdapter(expandableAdapter);
+                }
+
+                expandableAdapter.addAll(mGroupList);
+                expandableAdapter.notifyDataSetChanged();
                 break;
         }
 
@@ -106,18 +142,44 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        return position;
+        if (mList.get(position).getGroupName() != null) {
+            return 3;
+        }
+        if (position == 1) {
+            return 1;
+        }
+        if (position == 2) {
+            return 2;
+        }
+        return 0;
+
     }
 
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
-    public void addAll(List<Group> groupList) {
+    public void addAll(List<Group> groupList, List<Group> mGroup) {
+
+
+        mGroupList.addAll(mGroup);
+
+        Group group = new Group();
+
+        groupList.add(0, group);
+
+        groupList.add(1, group);
+
+        groupList.add(2, group);
 
         mList.addAll(groupList);
+    }
+
+    public void clear() {
+        mList.clear();
+        mGroupList.clear();
     }
 
     class ViewHolder {
@@ -128,7 +190,7 @@ public class GroupAdapter extends BaseAdapter {
         RelativeLayout cluster;
     }
 
-    class AddFriendHolder{
+    class AddFriendHolder {
         RelativeLayout addFriend;
     }
 

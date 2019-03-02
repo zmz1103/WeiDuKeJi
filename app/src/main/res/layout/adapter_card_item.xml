@@ -7,7 +7,7 @@
     <jaydenxiao.com.expandabletextview.ExpandableTextView
         android:id="@+id/card_etv_textview"
         android:layout_width="match_parent"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="22dp"
         android:layout_marginRight="12dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -45,6 +45,7 @@
             android:layout_marginRight="10dp"
             android:text="201920192019"
             android:textColor="#999"
+            android:layout_marginTop="2dp"
             android:textSize="10sp" />
 
         <TextView
@@ -52,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/card_time_textview"
+            android:layout_marginTop="2dp"
             android:text="删除"
             android:textColor="#20affa"
             android:textSize="10sp" />
@@ -70,7 +72,8 @@
             android:id="@+id/card_pl_img"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="2dp"
             android:layout_toLeftOf="@id/card_pl_text"
             android:src="@mipmap/common_icon_comment_n" />
 
@@ -88,7 +91,8 @@
             android:id="@+id/card_dz_img"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/card_dz_textview"
             android:src="@mipmap/common_icon_prise_n" />
     </RelativeLayout>

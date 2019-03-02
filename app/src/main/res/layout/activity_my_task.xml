@@ -1,9 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     tools:context=".activity.myactivity.MyTaskActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/ricrw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="40dp"
+        android:text="日常任务"
+        android:textColor="#666"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/t_r1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/ricrw"
+        android:layout_marginTop="20dp"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/qd_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="签到"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+10"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_qd"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/task_qd_n"
+            android:text="悄悄地"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_01"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/t_r1"
+        android:background="#ececec" />
+
+    <RelativeLayout
+        android:id="@+id/t_r2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/settting_view_01"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/sp_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="首评"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+20"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_pl"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/task_qd_n"
+            android:layout_marginRight="24dp"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_02"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/t_r2"
+        android:background="#ececec" />
+
+    <RelativeLayout
+        android:id="@+id/t_r3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/settting_view_02"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/ft_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="发帖"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+20"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_ft"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/task_qd_n"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_03"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/t_r3"
+        android:background="#ececec" />
+
+    <RelativeLayout
+        android:id="@+id/t_r4"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/settting_view_03"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/fx_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="分享"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+20"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_fx"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/task_qd_n"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_04"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/t_r4"
+        android:background="#ececec" />
+
+    <RelativeLayout
+        android:id="@+id/t_r5"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/settting_view_04"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/ck_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="查看广告"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+20"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_ck"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/task_qd_n"
+            android:layout_marginRight="24dp"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ycxrw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/t_r5"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="一次性任务" />
+
+    <RelativeLayout
+        android:id="@+id/t_r6"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/ycxrw"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/wsxx_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="完善信息"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+50"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_ws"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/task_qd_n"
+            android:layout_marginRight="24dp"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/settting_view_05"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/t_r6"
+        android:background="#ececec" />
+
+    <RelativeLayout
+        android:id="@+id/t_r7"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/settting_view_05"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/bdwx_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="绑定微信"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="+20"
+            android:textColor="#ff5757"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/task_btn_bd"
+            android:layout_width="51dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/task_qd_n"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,10 +35,12 @@ import com.wd.tech.adapter.PictureAdapter;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.CommunityPublishPresenter;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.util.FileUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.DataCall;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,9 +73,10 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private LinearLayout mBtnCancel;
     private LinearLayout mOpenPicture;
     private LinearLayout mOpenCamera;
-    private  PopupWindow popupWindow;
-
-
+    private PopupWindow popupWindow;
+    String picturePath;
+    private static final int TAKE_PICTURE = 1;
+    private DoTheTastPresenter mDoTheTastPresenter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_publish;
@@ -86,8 +90,8 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
 
     private void initData() {
         mCommunityPublishPresenter = new CommunityPublishPresenter(new CommunityPublish());
+        mDoTheTastPresenter = new DoTheTastPresenter(new doTheTask());
         mPictureAdapter = new PictureAdapter(this);
-//        mPictureAdapter.setSign(1);
         mPictureAdapter.add(R.drawable.xc);
         communityImage.setLayoutManager(new GridLayoutManager(this, 3));
         communityImage.setAdapter(mPictureAdapter);
@@ -112,20 +116,17 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 mOpenCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (ContextCompat.checkSelfPermission(PublishActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(PublishActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
-
-                        } else {
-                            Intent openCameraIntent = new Intent(
-                                    MediaStore.ACTION_IMAGE_CAPTURE);
-
-                            Uri tempUri = Uri.parse(FileUtils.getDir("/image/bimap") + "1.jpg");
-
-                            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                            startActivityForResult(intent,  WDActivity.CAMERA);
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        String path = Environment.getExternalStorageDirectory().toString() + "/elife/img";
+                        File path1 = new File(path);
+                        if (!path1.exists()) {
+                            path1.mkdirs();
                         }
+                        File file = new File(path1, System.currentTimeMillis() + ".jpg");
+                        Uri mOutPutFileUri = Uri.fromFile(file);
+                        picturePath = file.getAbsolutePath();
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
+                        startActivityForResult(intent, TAKE_PICTURE);
                     }
                 });
                 //相册
@@ -171,6 +172,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(PublishActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1003);
                 finish();
             }
         }
@@ -180,16 +182,45 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
             Toast.makeText(PublishActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
         }
     }
+    //做任务评论
+    private class doTheTask implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            Log.i("success",result.getMessage());
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {//resultcode是setResult里面设置的code值
-            String filePath = getFilePath(null, requestCode, data);
-            if (!StringUtils.isEmpty(filePath)) {
-                mPictureAdapter.add(filePath);
-                mPictureAdapter.notifyDataSetChanged();
-            }
+        switch (requestCode){
+            case TAKE_PICTURE:
+                //相机图片添加适配器
+                if (resultCode == RESULT_OK){
+                    if (!StringUtils.isEmpty(picturePath)){
+                        mPictureAdapter.add(picturePath);
+                        mPictureAdapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+            case PHOTO:
+                //相册图片添加适配器
+                if (resultCode == RESULT_OK) {//resultcode是setResult里面设置的code值
+                    String filePath = getFilePath(null, requestCode, data);
+                    if (!StringUtils.isEmpty(filePath)) {
+                        mPictureAdapter.add(filePath);
+                        mPictureAdapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+            default:
+                break;
         }
+
     }
 
     @OnClick({R.id.txt_cancel, R.id.txt_publish})
