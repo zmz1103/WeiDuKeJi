@@ -87,6 +87,8 @@
         <activity android:name=".activity.GroupApplyActivity"/>
         <activity android:name=".activity.SearchMyFriendActivity"/>
         <activity android:name=".activity.AuditFriendActivity"/>
+        <activity android:name=".activity.myactivity.PublishSingActivity"></activity>
+
     </application>
 
 </manifest>

@@ -289,6 +289,11 @@ public interface IRequest {
                                      @Header("sessionId") String sessionId,
                                      @Query("oldPwd") String oldPwd,
                                      @Query("newPwd") String newPwd);
+    // 修改用户签名  usererify1/modifySignature
+    @PUT("usererify1/modifySignature")
+    Observable<Result> modifySignature(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("signature") String oldPwd );
 
     /**
      * 按标题搜索(lk)

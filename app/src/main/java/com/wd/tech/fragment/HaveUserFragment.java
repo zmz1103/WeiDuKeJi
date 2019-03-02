@@ -17,6 +17,7 @@ import com.wd.tech.activity.myactivity.MyNoticeActivity;
 import com.wd.tech.activity.myactivity.MySettingActivity;
 import com.wd.tech.activity.myactivity.MyTaskActivity;
 import com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity;
+import com.wd.tech.activity.myactivity.PublishSingActivity;
 import com.wd.tech.activity.myactivity.SignActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.GetUserBean;
@@ -27,7 +28,9 @@ import com.wd.tech.util.NetWorkUtils;
 import com.wd.tech.view.DataCall;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -49,7 +52,7 @@ public class HaveUserFragment extends WDFragment {
     TextView mMySignAture;
     @BindView(R.id.my_image_vip)
     ImageView mImageVip;
-
+    private Unbinder unbinder;
     private GetUserBeanPresenter mGetUserBeanPresenter;
 
     @Override
@@ -59,6 +62,7 @@ public class HaveUserFragment extends WDFragment {
 
     @Override
     public void initView(View view) {
+        unbinder = ButterKnife.bind(this, view);
         mImageVip.setVisibility(View.GONE);
         mGetUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
         mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
@@ -70,14 +74,14 @@ public class HaveUserFragment extends WDFragment {
         mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
     }
 
-    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext,R.id.my_icon})
+    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
             switch (view.getId()) {
                 case R.id.my_icon:
                     Toast.makeText(getContext(), "14114", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WDApplication.getAppContext(),MyUpdateUserMessageActivity.class));
+                    startActivity(new Intent(WDApplication.getAppContext(), MyUpdateUserMessageActivity.class));
                     break;
                 case R.id.my_image_sign:
                     // 签到
@@ -111,6 +115,10 @@ public class HaveUserFragment extends WDFragment {
                     // 设置
                     startActivity(new Intent(WDApplication.getAppContext(), MySettingActivity.class));
                     break;
+                case R.id.my_signature:
+                    // 更换签名
+                    startActivity(new Intent(WDApplication.getAppContext(), PublishSingActivity.class));
+                    break;
                 default:
                     break;
             }
@@ -131,7 +139,12 @@ public class HaveUserFragment extends WDFragment {
                 }
                 mMyIcon.setImageURI(result.getResult().getHeadPic());
                 mMyName.setText(result.getResult().getNickName());
-                mMySignAture.setText(result.getResult().getSignature());
+                if (result.getResult().getSignature().equals("")) {
+                    mMySignAture.setText("发表个心情吧！");
+                }else{
+                    mMySignAture.setText(result.getResult().getSignature());
+                }
+
             }
         }
 
@@ -139,5 +152,11 @@ public class HaveUserFragment extends WDFragment {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

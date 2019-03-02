@@ -43,7 +43,7 @@
             android:ellipsize="end"
             android:maxEms="10"
             android:singleLine="true"
-            android:text=""
+            android:text="发表个心情吧！"
             android:textColor="#fff"
             android:textSize="12sp" />
 
