@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.os.StrictMode;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseUI;
 
 /**
  * date:2019/2/18 18:32
@@ -35,6 +37,12 @@ public class WDApplication extends Application {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+
+        EaseUI.getInstance().init(this,null);
+
+        EMClient.getInstance().setDebugMode(true);
+
+
     }
 
     public static Context getAppContext(){

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="224dp"
+    android:layout_height="118dp"
+    android:background="@drawable/dlog_shape"
+    >
+   <ImageView
+       android:id="@+id/img_close"
+       android:layout_width="24dp"
+       android:layout_height="24dp"
+       android:layout_marginLeft="12dp"
+       android:layout_marginTop="8dp"
+       android:padding="4dp"
+       android:src="@mipmap/common_btn_close_n"
+       />
+   <TextView
+       android:id="@+id/dlog_title"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="14sp"
+       android:textColor="#000000"
+       android:layout_marginTop="10dp"
+       android:layout_centerHorizontal="true"
+       android:text="兑换失败"
+       />
+
+     <View
+        android:id="@+id/view1"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="#666666"
+         android:layout_below="@id/img_close"
+         android:layout_marginTop="8dp"
+        />
+    <TextView
+        android:id="@+id/dlog_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="您目前积分不足,无法完成兑换"
+        android:layout_below="@id/view1"
+        android:layout_marginTop="20dp"
+        android:textSize="12sp"
+        android:textColor="#000000"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        />
+
+     <RadioGroup
+         android:layout_width="match_parent"
+         android:layout_height="50dp"
+         android:orientation="horizontal"
+         android:layout_below="@id/dlog_content"
+         android:layout_marginTop="12dp"
+         android:layout_alignParentBottom="true"
+         >
+         <RadioButton
+             android:id="@+id/quxiao"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="#999999"
+             android:text="取消"
+             android:textColor="#ffffff"
+             android:textSize="12sp"
+             android:gravity="center"
+             android:button="@null"
+             />
+         <RadioButton
+             android:id="@+id/queding"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="@drawable/dlog_btn_failed_shape"
+             android:text="确定"
+             android:textColor="#ffffff"
+             android:textSize="12sp"
+             android:gravity="center"
+             android:button="@null"
+             />
+     </RadioGroup>
+
+
+</RelativeLayout>

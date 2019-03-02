@@ -73,7 +73,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     private LinearLayout mBtnCancel;
     private LinearLayout mOpenPicture;
     private LinearLayout mOpenCamera;
-    private  PopupWindow popupWindow;
+    private PopupWindow popupWindow;
     String picturePath;
     private static final int TAKE_PICTURE = 1;
     private DoTheTastPresenter mDoTheTastPresenter;
@@ -179,7 +179,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(PublishActivity.this, "发布失败,最多可发九张图片", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PublishActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
         }
     }
     //做任务评论

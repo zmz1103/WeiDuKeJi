@@ -131,6 +131,18 @@ public class GroupAdapter extends BaseAdapter {
                     friendHolder.expandableListView.setAdapter(expandableAdapter);
                 }
 
+                friendHolder.expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                        String userName = mGroupList.get(groupPosition).getFriendInfoList().get(childPosition).getUserName();
+                        Toast.makeText(context, ""+userName, Toast.LENGTH_SHORT).show();
+                        onClickChildListenter.onClick(userName);
+
+                        return true;
+                    }
+                });
+
                 expandableAdapter.addAll(mGroupList);
                 expandableAdapter.notifyDataSetChanged();
                 break;
@@ -196,5 +208,14 @@ public class GroupAdapter extends BaseAdapter {
 
     class FriendHolder {
         ExpandableListView expandableListView;
+    }
+    private OnClickChildListenter onClickChildListenter;
+
+    public interface OnClickChildListenter{
+        void onClick(String name);
+    }
+
+    public void setOnClickChildListenter(OnClickChildListenter onClickChildListenter) {
+        this.onClickChildListenter = onClickChildListenter;
     }
 }

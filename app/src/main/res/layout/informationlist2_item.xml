@@ -27,13 +27,13 @@
         android:layout_marginRight="12dp"
         fresco:roundedCornerRadius="8dp"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/guangagao"
         android:layout_width="40dp"
         android:layout_height="18dp"
         android:layout_below="@id/textwenben"
         android:layout_alignStart="@+id/textwenben"
-        android:background="#ff00"
+        android:background="@mipmap/guanggao"
         android:gravity="center"
         android:text="广告"
         android:textColor="#ffffff"

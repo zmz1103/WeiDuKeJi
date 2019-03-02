@@ -1,6 +1,7 @@
 package com.wd.tech.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
@@ -9,11 +10,14 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.activity.huanxin.IMActivity;
 import com.wd.tech.adapter.GroupAdapter;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.Result;
@@ -75,6 +79,16 @@ public class MyMessageFrament extends WDFragment {
             }
         });
 
+        mGroupAdapter.setOnClickChildListenter(new GroupAdapter.OnClickChildListenter() {
+            @Override
+            public void onClick(String name) {
+                Toast.makeText(getContext(), "00"+name, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), IMActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,name);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                startActivity(intent);
+            }
+        });
 
         if (user != null) {
 

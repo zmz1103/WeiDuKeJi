@@ -118,8 +118,10 @@ public class AuditFriendActivity extends WDActivity{
 
                 mAdapter.addAll(mResult);
 
-                mAdapter.notifyDataSetChanged();
+
             }
+
+            mAdapter.notifyDataSetChanged();
         }
 
         @Override
