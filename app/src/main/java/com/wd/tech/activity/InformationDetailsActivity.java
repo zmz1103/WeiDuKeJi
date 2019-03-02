@@ -6,21 +6,23 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ import com.wd.tech.adapter.IfmDtlRecommendedAdapter;
 import com.wd.tech.bean.AllInfoCommentListBean;
 import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.Transfer;
 import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.AddCollectionPresenter;
@@ -57,7 +60,6 @@ import com.wd.tech.view.DataCall;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -130,6 +132,7 @@ public class InformationDetailsActivity extends WDActivity {
     private String mComment;
     private AddInforCommentPresenter mAddInforCommentPresenter;
     private int page = 1;
+    private Transfer mTransfer;
 
     @Override
     protected int getLayoutId() {
@@ -159,6 +162,10 @@ public class InformationDetailsActivity extends WDActivity {
 
         mIntent = getIntent();
         mId = mIntent.getStringExtra("id");
+        mTransfer = (Transfer)mIntent.getSerializableExtra("mTransfer");
+
+
+
         mInformationDetailsPresenter = new InformationDetailsPresenter(new InforDetailsCall());
         if (userDao.loadAll().size() > 0) {
             List<User> users = userDao.loadAll();
@@ -236,6 +243,9 @@ public class InformationDetailsActivity extends WDActivity {
             }
         });
 
+
+
+
     }
 
     private void requestt(int page) {
@@ -274,7 +284,7 @@ public class InformationDetailsActivity extends WDActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shop:
-
+                goShop();
                 break;
             case R.id.back:
                 finish();
@@ -282,7 +292,65 @@ public class InformationDetailsActivity extends WDActivity {
         }
     }
 
+    /**
+     * 购买VIP
+     */
+    private void goShop() {
+        if (userDao.loadAll().size() == 0) {
 
+            Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            View popView = View.inflate(this, R.layout.shoppingvip, null);
+            PopupWindow popWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            popWindow.setTouchable(true);
+            popWindow.setBackgroundDrawable(new BitmapDrawable());
+            popWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            initData(popView, popWindow);
+            View inflate = View.inflate(this, R.layout.activity_information_details, null);
+            popWindow.showAtLocation(inflate, Gravity.BOTTOM, 0, 0);
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+    private void initData(View popView, final PopupWindow popWindow) {
+        RelativeLayout mIntegral = popView.findViewById(R.id.integral);
+        RelativeLayout mVip = popView.findViewById(R.id.vip);
+        ImageView mBackGb = popView.findViewById(R.id.backgb);
+        mIntegral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InformationDetailsActivity.this,IntegralActivity.class);
+                intent.putExtra("mTransfer",mTransfer);
+                intent.putExtra("id",mId);
+                startActivity(intent);
+                popWindow.dismiss();
+            }
+        });
+        mVip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InformationDetailsActivity.this,OpenVipActivity.class);
+                startActivity(intent);
+                popWindow.dismiss();
+            }
+        });
+        mBackGb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popWindow.dismiss();
+            }
+        });
+    }
 
 
     /**
@@ -478,7 +546,7 @@ public class InformationDetailsActivity extends WDActivity {
                 Log.e("lk", "点赞" + mResult.getPraise() + 1);
                 great.setImageResource(R.mipmap.common_icon_praise_s);
                 mPraise = mResult.getPraise();
-                greatshu.setText(mPraise + "");
+                greatshu.setText(String.valueOf(mPraise+1));
                 //mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
                 Toast.makeText(InformationDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
             } else {

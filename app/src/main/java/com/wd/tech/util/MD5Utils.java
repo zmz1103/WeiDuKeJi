@@ -4,30 +4,37 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * created by fxb
- * 2019/1/27 17:36
+ * created by lk
+ * 2019/3/1 11:04
  */
 public class MD5Utils {
 
-    public static String md5Password(String password){
-        StringBuffer sb = new StringBuffer();
-        // 得到一个信息摘要器
+    /**
+     *  MD5加密
+     * @param sourceStr
+     * @return
+     */
+    public static String MD5(String sourceStr) {
+        String result = "";
         try {
-            MessageDigest digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(password.getBytes());
-            // 把每一个byte做一个与运算 0xff
-            for (byte b : result) {
-                // 与运算
-                int number = b & 0xff;
-                String str = Integer.toHexString(number);
-                if (str.length() == 1) {
-                    sb.append("0");
-                }
-                sb.append(str);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
             }
+            result = buf.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
-        return sb.toString();
+        return result;
     }
+
 }

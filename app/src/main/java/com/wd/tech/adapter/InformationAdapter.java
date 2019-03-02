@@ -3,17 +3,20 @@ package com.wd.tech.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tencent.wxop.stat.EasyListActivity;
 import com.wd.tech.R;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.util.TimeUtil;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +37,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int mWhetherAdvertising;
     private String mPic;
     private String[] mPic2;
+
 
 
     public InformationAdapter(Context context) {
@@ -71,59 +75,75 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (viewHolder instanceof InformationListMessage) {
             mThumbnail = mInformationListBeans.get(i).getThumbnail();
             mTu = mThumbnail.split("\\?");
-            ((InformationListMessage)viewHolder).title.setText(mInformationListBeans.get(i).getTitle());
-            ((InformationListMessage)viewHolder).details.setText(mInformationListBeans.get(i).getSummary());
-            ((InformationListMessage)viewHolder).simpleview.setImageURI(mTu[0]);
-            ((InformationListMessage)viewHolder).zuozhe.setText(mInformationListBeans.get(i).getSource());
-            String date = DateUtils.stampToDate(mInformationListBeans.get(i).getReleaseTime());
-            ((InformationListMessage)viewHolder).time.setText(date);
-            if (mInformationListBeans.get(i).getWhetherCollection() == 1){
-                ((InformationListMessage)viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_s);
-            }else{
-                ((InformationListMessage)viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_n);
+            ((InformationListMessage) viewHolder).title.setText(mInformationListBeans.get(i).getTitle());
+            ((InformationListMessage) viewHolder).details.setText(mInformationListBeans.get(i).getSummary());
+            ((InformationListMessage) viewHolder).simpleview.setImageURI(mTu[0]);
+            ((InformationListMessage) viewHolder).zuozhe.setText(mInformationListBeans.get(i).getSource());
+            if (mInformationListBeans.get(i).getWhetherPay() == 1){
+                ((InformationListMessage) viewHolder).qiandai.setVisibility(View.VISIBLE);
+            }else {
+                ((InformationListMessage) viewHolder).qiandai.setVisibility(View.GONE);
             }
-            ((InformationListMessage)viewHolder).fenxiangshu.setText(mInformationListBeans.get(i).getShare()+"");
-            ((InformationListMessage)viewHolder).shoucangshu.setText(mInformationListBeans.get(i).getCollection()+"");
-            ((InformationListMessage)viewHolder).shoucang.setOnClickListener(new View.OnClickListener() {
+
+
+            Date date1 = new Date();
+            date1.setTime(mInformationListBeans.get(i).getReleaseTime());
+            ((InformationListMessage) viewHolder).time.setText(TimeUtil.getTimeFormatText(date1));
+
+            if (mInformationListBeans.get(i).getWhetherCollection() == 1) {
+                ((InformationListMessage) viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_s);
+            } else {
+                ((InformationListMessage) viewHolder).shoucang.setImageResource(R.mipmap.common_icon_collect_n);
+            }
+            ((InformationListMessage) viewHolder).fenxiangshu.setText(mInformationListBeans.get(i).getShare() + "");
+            ((InformationListMessage) viewHolder).shoucangshu.setText(mInformationListBeans.get(i).getCollection() + "");
+            ((InformationListMessage) viewHolder).shoucang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int whetherCollection = mInformationListBeans.get(i).getWhetherCollection();
-                    mAddcollection.addsuccess(mInformationListBeans.get(i).getId(),whetherCollection);
+                    mAddcollection.addsuccess(mInformationListBeans.get(i).getId(), whetherCollection, i);
 
-                    if (whetherCollection == 2){
+                    if (whetherCollection == 2) {
                         mInformationListBeans.get(i).setWhetherCollection(1);
-                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection()+1);
-                        notifyItemChanged(i);
-                    }else {
+                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection() + 1);
+
+                    } else {
                         mInformationListBeans.get(i).setWhetherCollection(2);
-                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection()-1);
-                        notifyItemChanged(i);
+                        mInformationListBeans.get(i).setCollection(mInformationListBeans.get(i).getCollection() - 1);
+
                     }
 
                 }
             });
-            ((InformationListMessage)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+            ((InformationListMessage) viewHolder).fenxiang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId());
+                    mInformationListBeans.get(i).setShare(mInformationListBeans.get(i).getShare() + 1);
+                    mSharefenxiang.sharessuccess(mInformationListBeans.get(i).getId(), i);
                 }
             });
 
+            ((InformationListMessage) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId(),mInformationListBeans.get(i).getTitle(),mInformationListBeans.get(i).getSummary(),mInformationListBeans.get(i).getSource(),mInformationListBeans.get(i).getThumbnail(),mInformationListBeans.get(i).getReleaseTime(),mInformationListBeans.get(i).getWhetherCollection(),mInformationListBeans.get(i).getCollection(),mInformationListBeans.get(i).getShare());
+                }
+            });
 
 
         }
 
 
-        if (viewHolder instanceof InformationListGuangGao){
-            if (mInformationListBeans.get(i).getInfoAdvertisingVo().getPic().equals("")){
-                ((InformationListGuangGao)viewHolder).simpleview.setImageURI("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550659913819&di=3fb9f9de20a37a9bf1a101983656298f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F05%2F20170805134053_HzALE.png");
-                ((InformationListGuangGao)viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
-            }else {
+        if (viewHolder instanceof InformationListGuangGao) {
+            if (mInformationListBeans.get(i).getInfoAdvertisingVo().getPic().equals("")) {
+                ((InformationListGuangGao) viewHolder).simpleview.setImageURI("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550659913819&di=3fb9f9de20a37a9bf1a101983656298f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F05%2F20170805134053_HzALE.png");
+                ((InformationListGuangGao) viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
+            } else {
                 mPic = mInformationListBeans.get(i).getInfoAdvertisingVo().getPic();
                 mPic2 = mPic.split("\\?");
-                ((InformationListGuangGao)viewHolder).simpleview.setImageURI(mPic2[0]);
-                ((InformationListGuangGao)viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
-                ((InformationListGuangGao)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                ((InformationListGuangGao) viewHolder).simpleview.setImageURI(mPic2[0]);
+                ((InformationListGuangGao) viewHolder).textwenben.setText(mInformationListBeans.get(i).getInfoAdvertisingVo().getContent());
+                ((InformationListGuangGao) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mGuangGaoClick.ggsuccess(mInformationListBeans.get(i).getInfoAdvertisingVo().getUrl());
@@ -132,6 +152,9 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             }
         }
+
+
+
 
 
     }
@@ -147,14 +170,13 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mListBean = mInformationListBeans.get(position);
 //返回条目类型，可以根据需要返回条目类型，我这就随意返回了两种，
         mWhetherAdvertising = mListBean.getWhetherAdvertising();
-        if (mWhetherAdvertising == 2){
+        if (mWhetherAdvertising == 2) {
             return TYPE_RIGHT_IMAGE;
-        }else {
+        } else {
             return TYPE_THREE_IMAGE;
         }
 
     }
-
 
 
     public class InformationListMessage extends RecyclerView.ViewHolder {
@@ -164,8 +186,10 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private TextView zuozhe;
         private TextView time;
         private ImageView shoucang;
+        private ImageView fenxiang;
         private TextView fenxiangshu;
         private TextView shoucangshu;
+        private ImageView qiandai;
 
         public InformationListMessage(@NonNull View itemView) {
             super(itemView);
@@ -177,6 +201,8 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             shoucang = itemView.findViewById(R.id.shoucang);
             fenxiangshu = itemView.findViewById(R.id.fenxiangshu);
             shoucangshu = itemView.findViewById(R.id.shoucangshu);
+            fenxiang = itemView.findViewById(R.id.fenxiang);
+            qiandai = itemView.findViewById(R.id.qiandai);
 
         }
     }
@@ -192,9 +218,10 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public interface GuangGaoClick{
+    public interface GuangGaoClick {
         void ggsuccess(String url);
     }
+
     private GuangGaoClick mGuangGaoClick;
 
     public void setGuangGaoClick(GuangGaoClick guangGaoClick) {
@@ -202,10 +229,10 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-
-    public interface Addcollection{
-        void addsuccess(int id, int whetherCollection);
+    public interface Addcollection {
+        void addsuccess(int id, int whetherCollection, int i);
     }
+
     private Addcollection mAddcollection;
 
     public void setAddgreat(Addcollection addcollection) {
@@ -213,13 +240,25 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-
-    public interface Detailstiao{
-        void detalssuccess(int id);
+    public interface Detailstiao {
+        void detalssuccess(int id,String title,String neirong,String laiyuan,String tupian,long time,int shoucang,int shoucangshu,int shareshu);
     }
+
     private Detailstiao mDetailstiao;
 
     public void setDetailstiao(Detailstiao detailstiao) {
         mDetailstiao = detailstiao;
+    }
+
+
+    public interface Sharefenxiang {
+
+        void sharessuccess(int id, int i);
+    }
+
+    private Sharefenxiang mSharefenxiang;
+
+    public void setSharefenxiang(Sharefenxiang sharefenxiang) {
+        mSharefenxiang = sharefenxiang;
     }
 }
