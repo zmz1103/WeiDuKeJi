@@ -27,7 +27,6 @@ public class WDApplication extends Application {
     /** 主线程Looper */
     private static Looper mMainLooper;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,12 +36,9 @@ public class WDApplication extends Application {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
-
         EaseUI.getInstance().init(this,null);
 
         EMClient.getInstance().setDebugMode(true);
-
-
     }
 
     public static Context getAppContext(){
