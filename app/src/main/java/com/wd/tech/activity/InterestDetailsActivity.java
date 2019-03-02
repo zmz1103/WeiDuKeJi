@@ -116,7 +116,7 @@ public class InterestDetailsActivity extends WDActivity {
         mAddCollectionPresenter = new AddCollectionPresenter(new AddCollectionCall());
         mCancelCollectionPresenter = new CancelCollectionPresenter(new CancelCollectionCall());
 
-        mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
+        /*mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
             @Override
             public void addsuccess(int id, int whetherCollection) {
                 if (userDao.loadAll().size() > 0) {
@@ -132,11 +132,11 @@ public class InterestDetailsActivity extends WDActivity {
                 }
 
             }
-        });
+        });*/
 
         mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
             @Override
-            public void detalssuccess(int id) {
+            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int sharefen) {
                 Log.e("lk","id===id"+id);
                 Intent intent = new Intent(InterestDetailsActivity.this,InformationDetailsActivity.class);
                 intent.putExtra("id",id+"");

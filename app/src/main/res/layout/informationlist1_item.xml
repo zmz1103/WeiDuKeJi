@@ -72,6 +72,15 @@
         android:layout_marginRight="12dp">
 
         <ImageView
+            android:id="@+id/qiandai"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="2dp"
+            android:src="@mipmap/qiandaia"
+            android:layout_toLeftOf="@id/shoucang"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
             android:layout_marginRight="5dp"
             android:id="@+id/shoucang"
             android:layout_width="24dp"

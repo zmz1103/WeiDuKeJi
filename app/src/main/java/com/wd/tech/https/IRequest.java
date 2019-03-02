@@ -5,6 +5,7 @@ import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.Flockformation;
 import com.wd.tech.bean.FriendInform;
 import com.wd.tech.bean.FriendInformation;
@@ -17,6 +18,7 @@ import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
+import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.QueryFriendList;
 import com.wd.tech.bean.NoticeListDAta;
 import com.wd.tech.bean.Result;
@@ -440,4 +442,64 @@ public interface IRequest {
                                                @Header("sessionId") String session,
                                                @Query("searchName") String searchName);
 
+
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：weixin分享
+     */
+    @POST("information/v1/updateInfoShareNum")
+    @FormUrlEncoded
+    Observable<Result> wxshare(@Field("time") long time,
+                               @Field("sign") String sign);
+
+
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：分享shuxiugai
+     */
+    @PUT("information/v1/updateInfoShareNum")
+    Observable<Result> infosharenum(@Query("infoId") String infoId);
+
+
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：findvip
+     */
+    @GET("tool/v1/findVipCommodityList")
+    Observable<Result<List<FindVipBean>>> findvip();
+
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：下单支付
+     */
+    @POST("tool/verify/v1/buyVip")
+    @FormUrlEncoded
+    Observable<Result> buyvip(@Header("userId") long userId,
+                              @Header("sessionId") String sessionId,
+                              @Field("commodityId") int commodityId,
+                              @Field("sign") String sign);
+
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：支付
+     */
+    @POST("tool/verify/v1/pay")
+    @FormUrlEncoded
+    Observable<PayBean> buypay(@Header("userId") long userId,
+                            @Header("sessionId") String sessionId,
+                            @Field("orderId") String orderId,
+                            @Field("payType") String payType);
+
+
+    @POST("information/verify/v1/infoPayByIntegral")
+    @FormUrlEncoded
+    Observable<Result> infopaybyintegral(@Header("userId") long userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("infoId") String infoId,
+                                         @Field("integralCost") int integralCost);
 }
