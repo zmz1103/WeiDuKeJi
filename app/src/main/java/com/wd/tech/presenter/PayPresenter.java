@@ -24,6 +24,6 @@ public class PayPresenter extends WDPresenter {
     @Override
     protected Observable observable(Object... args) {
         mIRequest = NetWorkManager.getInstance().create(IRequest.class);
-        return mIRequest.buypay((long)args[0],(String)args[1],(String)args[2],(String)args[3]);
+        return mIRequest.buypay((long)args[0],(String)args[1],(String)args[2],(int)args[3]);
     }
 }

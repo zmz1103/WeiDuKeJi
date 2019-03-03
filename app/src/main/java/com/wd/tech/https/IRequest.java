@@ -482,7 +482,7 @@ public interface IRequest {
     Observable<PayBean> buypay(@Header("userId") long userId,
                             @Header("sessionId") String sessionId,
                             @Field("orderId") String orderId,
-                            @Field("payType") String payType);
+                            @Field("payType") int payType);
 
 
     @POST("information/verify/v1/infoPayByIntegral")

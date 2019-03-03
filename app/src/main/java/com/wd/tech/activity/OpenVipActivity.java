@@ -1,6 +1,10 @@
 package com.wd.tech.activity;
 
+import android.graphics.Path;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +13,14 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.PayBean;
+import com.wd.tech.bean.PayResult;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
@@ -27,6 +33,7 @@ import com.wd.tech.util.MD5Utils;
 import com.wd.tech.view.DataCall;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +76,63 @@ public class OpenVipActivity extends WDActivity {
     private String mOrderId;
     private IWXAPI api;
     private PayPresenter mPayPresenter;
+    private int mSet;
+
+    public static final String PARTNER = "注册账户的PID";
+    // 商户收款账号
+    public static final String SELLER = "支付宝收款账户";
+    // 商户私钥，pkcs8格式
+    public static final String RSA_PRIVATE = "商户私钥";
+    // 支付宝公钥
+    public static final String RSA_PUBLIC = "支付宝公钥";
+
+    private static final int SDK_PAY_FLAG = 1;
+
+    private static final int SDK_CHECK_FLAG = 2;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    PayResult payResult = new PayResult((Map<String,String>)msg.obj);
+
+                    // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+                    String resultInfo = payResult.getResult();
+
+                    String resultStatus = payResult.getResultStatus();
+
+                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        Toast.makeText(OpenVipActivity.this, "支付成功",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        // 判断resultStatus 为非“9000”则代表可能支付失败
+                        // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                        if (TextUtils.equals(resultStatus, "8000")) {
+                            Toast.makeText(OpenVipActivity.this, "支付结果确认中",
+                                    Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                            Toast.makeText(OpenVipActivity.this, "支付失败",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                    break;
+                }
+                case SDK_CHECK_FLAG: {
+                    Toast.makeText(OpenVipActivity.this, "检查结果为：" + msg.obj,
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                default:
+                    break;
+            }
+        };
+    };
+
 
     @Override
     protected int getLayoutId() {
@@ -79,6 +143,7 @@ public class OpenVipActivity extends WDActivity {
     protected void initView() {
         api = WXAPIFactory.createWXAPI(this, "wx4c96b6b8da494224");//第二个参数为APPID
         api.registerApp("wx4c96b6b8da494224");
+        mPayPresenter = new PayPresenter(new PayCall());
         mFindVipPresenter = new FindVipPresenter(new FindVipCall());
         mFindVipPresenter.reqeust();
 
@@ -198,10 +263,11 @@ public class OpenVipActivity extends WDActivity {
                 mOrderId = result.getOrderId();
                 Log.e("lk","orderid"+mOrderId);
                 if (wxzfbtn.isChecked()) {
-                    mPayPresenter = new PayPresenter(new PayCall());
-                    mPayPresenter.reqeust(mUserId, mSessionId , mOrderId, "1");
+                    mSet = 1;
+                    mPayPresenter.reqeust(mUserId, mSessionId , mOrderId, mSet);
                 }else {
-                    Toast.makeText(OpenVipActivity.this, "暂时不支持！！", Toast.LENGTH_SHORT).show();
+                    mSet = 2;
+                    mPayPresenter.reqeust(mUserId, mSessionId , mOrderId, mSet);
                 }
 
             }else {
@@ -221,18 +287,44 @@ public class OpenVipActivity extends WDActivity {
     private class PayCall implements DataCall<PayBean> {
         @Override
         public void success(PayBean result) {
+            if (mSet == 1){
+                PayReq req = new PayReq();
+                req.appId = result.getAppId();
+                req.partnerId = result.getPartnerId();
+                req.prepayId = result.getPrepayId();
+                req.nonceStr = result.getNonceStr();
+                req.timeStamp = result.getTimeStamp();
+                req.packageValue = result.getPackageValue();
+                req.sign = result.getSign();
+                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                //3.调用微信支付sdk支付方法
+                api.sendReq(req);
+            }else {
+                final String payInfo = mOrderId;   // 订单信息
 
-            PayReq req = new PayReq();
-            req.appId = result.getAppId();
-            req.partnerId = result.getPartnerId();
-            req.prepayId = result.getPrepayId();
-            req.nonceStr = result.getNonceStr();
-            req.timeStamp = result.getTimeStamp();
-            req.packageValue = result.getPackageValue();
-            req.sign = result.getSign();
-            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-            //3.调用微信支付sdk支付方法
-            api.sendReq(req);
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // 构造PayTask 对象
+                        PayTask alipay = new PayTask(OpenVipActivity.this);
+                        // 调用支付接口，获取支付结果
+                        Map<String, String> result = alipay.payV2(payInfo,true);
+
+                        Message msg = new Message();
+                        msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
+
+
+            }
+
         }
 
         @Override

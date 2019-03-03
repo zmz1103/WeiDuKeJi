@@ -21,8 +21,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
 
-
-
     <application
         android:name=".application.WDApplication"
         android:allowBackup="true"
@@ -95,6 +93,20 @@
         <activity android:name=".activity.GroupApplyActivity"/>
         <activity android:name=".activity.SearchMyFriendActivity"/>
         <activity android:name=".activity.AuditFriendActivity"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
     </application>
 
 </manifest>
