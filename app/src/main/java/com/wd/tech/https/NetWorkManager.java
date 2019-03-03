@@ -42,8 +42,8 @@ public class NetWorkManager {
                 .addInterceptor(loggingInterceptor)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
-                .sslSocketFactory(SSLSocketClient.getSSlSocketFactory(SSLSocketClient.getInputStream()))
-                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
+                .sslSocketFactory(TrustAllCerts.createSSLSocketFactory())
+                .hostnameVerifier(new TrustAllCerts.TrustAllHostnameVerifier())
                 .readTimeout(20, TimeUnit.SECONDS).build();
 
 

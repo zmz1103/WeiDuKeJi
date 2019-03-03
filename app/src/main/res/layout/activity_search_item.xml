@@ -14,7 +14,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edi_seach"
-        android:cursorVisible="false"
         android:hint="搜索好友/群"
         android:paddingLeft="50dp"
         android:paddingTop="5dp"

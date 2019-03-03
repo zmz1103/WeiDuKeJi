@@ -77,7 +77,8 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.CheckHolder>
 
     @Override
     public void onBindViewHolder(@NonNull final CheckHolder checkHolder, int i) {
-        Log.e("zmz" + "mList:" + mList.size(), "   mListNotice:" + mListNotice.size() + "    mListProcessed:" + mListProcessed.size());
+        checkHolder.mAdapter.clear();
+        checkHolder.mNoticeAdapter.clear();
 
         if (i == 1 && mListProcessed.size()>0){
                 try {
@@ -88,7 +89,6 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.CheckHolder>
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                checkHolder.mAdapter.clear();
 
                 checkHolder.mRecycleView.setAdapter(checkHolder.mAdapter);
 
@@ -106,7 +106,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.CheckHolder>
                 e.printStackTrace();
             }
 
-            checkHolder.mNoticeAdapter.clear();
+
 
             checkHolder.mRecycleView.setAdapter(checkHolder.mNoticeAdapter);
 

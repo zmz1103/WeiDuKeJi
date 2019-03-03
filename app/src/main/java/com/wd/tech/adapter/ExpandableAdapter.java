@@ -133,7 +133,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter{
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
     public void addAll(List<Group> mGroupList) {

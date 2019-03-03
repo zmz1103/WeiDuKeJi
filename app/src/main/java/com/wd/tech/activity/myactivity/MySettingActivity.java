@@ -198,6 +198,8 @@ public class MySettingActivity extends WDActivity {
                 break;
             case R.id.go_up_sign:
                 //去发布签名页面
+                startActivity(new Intent(MySettingActivity.this,PublishSingActivity.class));
+                finish();
                 break;
             case R.id.bind_faceId:
                 //绑定Face Id

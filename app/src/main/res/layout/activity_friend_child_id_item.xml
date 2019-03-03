@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:fresco="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/friend_head"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            fresco:roundAsCircle="true"/>
-        <TextView
-            android:id="@+id/friend_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            android:layout_toRightOf="@+id/friend_head"
-            android:text="啊哈"
-            android:textColor="@color/colorText"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
-        <TextView
-            android:id="@+id/friend_signature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/friend_nickname"
-            android:layout_marginTop="2dp"
-            android:layout_toRightOf="@+id/friend_head"
-            android:text="啊哈sfsfsf fsfsfsfsfsfsfsfsfsdfsdfsdfsdfsd"
-            android:textColor="@color/colorText"
-            android:textSize="10sp" />
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/friend_head"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    fresco:roundAsCircle="true"/>
+
+                <TextView
+                    android:id="@+id/friend_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/friend_head"
+                    android:textSize="12sp"
+                    android:layout_toRightOf="@+id/friend_head"
+                    android:text="啊哈"
+                    android:textColor="@color/colorText"/>
+
+                <TextView
+                    android:id="@+id/friend_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/friend_head"
+                    android:layout_toRightOf="@+id/friend_head"
+                    android:text="啊哈sfsfsf fsfsfsfsfsfsfsfsfsdfsdfsdfsdfsd"
+                    android:textColor="@color/colorText"
+                    android:textSize="10sp" />
+
+        </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#99dddddd"
-            android:layout_below="@+id/friend_signature"/>
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>

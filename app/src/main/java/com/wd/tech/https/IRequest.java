@@ -9,6 +9,7 @@ import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.Flockformation;
 import com.wd.tech.bean.FriendInform;
 import com.wd.tech.bean.FriendInformation;
+import com.wd.tech.bean.FuzzyQuery;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.CommunitylistData;
@@ -291,6 +292,11 @@ public interface IRequest {
                                      @Header("sessionId") String sessionId,
                                      @Query("oldPwd") String oldPwd,
                                      @Query("newPwd") String newPwd);
+    // 修改用户签名  usererify1/modifySignature
+    @PUT("usererify1/modifySignature")
+    Observable<Result> modifySignature(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("signature") String oldPwd );
 
     /**
      * 按标题搜索(lk)
@@ -431,6 +437,16 @@ public interface IRequest {
                                 @Header("sessionId") String session,
                                 @Field("noticeId") int noticeId,
                                 @Field("flag") int flag);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/1
+     * @method：模糊查询我的好友
+     */
+    @GET("chat/verify/v1/searchFriend")
+    Observable<Result<List<FuzzyQuery>>> query(@Header("userId") int userid,
+                                               @Header("sessionId") String session,
+                                               @Query("searchName") String searchName);
+
 
     /**
      * @作者 李阔
