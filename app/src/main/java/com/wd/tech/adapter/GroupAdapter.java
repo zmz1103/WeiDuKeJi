@@ -135,9 +135,8 @@ public class GroupAdapter extends BaseAdapter {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                        String userName = mGroupList.get(groupPosition).getFriendInfoList().get(childPosition).getUserName();
-                        Toast.makeText(context, ""+userName, Toast.LENGTH_SHORT).show();
-                        onClickChildListenter.onClick(userName);
+                        int mid = mGroupList.get(groupPosition).getFriendInfoList().get(childPosition).getFriendUid();
+                        onClickChildListenter.onClick(mid);
 
                         return true;
                     }
@@ -212,7 +211,7 @@ public class GroupAdapter extends BaseAdapter {
     private OnClickChildListenter onClickChildListenter;
 
     public interface OnClickChildListenter{
-        void onClick(String name);
+        void onClick(int mid);
     }
 
     public void setOnClickChildListenter(OnClickChildListenter onClickChildListenter) {

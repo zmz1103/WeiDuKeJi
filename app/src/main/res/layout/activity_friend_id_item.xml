@@ -40,11 +40,5 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/on_off"
-        android:background="#99dddddd"/>
-
 </RelativeLayout>
 

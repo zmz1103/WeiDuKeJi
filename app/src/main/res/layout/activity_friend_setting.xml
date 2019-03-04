@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/delete_pop"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/bj"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/setting_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:padding="4dp"
+            android:src="@mipmap/common_nav_btn_back_n" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="聊天设置"
+            android:textColor="@color/colorText"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:layout_below="@+id/bj">
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/friend_setting_headpic"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                fresco:roundAsCircle="true"
+                android:layout_margin="12dp"/>
+
+            <TextView
+                android:id="@+id/friend_setting_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/friend_setting_headpic"
+                android:layout_gravity="center_horizontal"
+                android:textSize="10dp"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:text="00000" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/friend_setting_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_below="@+id/head"
+        android:background="@color/white"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/setting_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:textColor="@color/color_Text"
+            android:textSize="14sp"
+            android:text="name"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/grouping"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/white"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/friend_setting_nickname">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12sp"
+            android:textColor="@color/color_Text"
+            android:textSize="14sp"
+            android:text="分组"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/my_icon_next_n"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/query_chat"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/white"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/grouping">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12sp"
+            android:textColor="@color/color_Text"
+            android:textSize="14sp"
+            android:text="查询聊天记录"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/delete_chat"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/white"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/query_chat">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12sp"
+            android:textColor="@color/color_Text"
+            android:textSize="14sp"
+            android:text="清空聊天记录"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/delete_friend"
+        android:layout_width="336dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:text="删除好友"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/delete_friend"/>
+
+</RelativeLayout>
