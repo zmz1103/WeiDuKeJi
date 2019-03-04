@@ -9,6 +9,7 @@ import com.wd.tech.R;
 import com.wd.tech.activity.HomeActivity;
 import com.wd.tech.activity.MainActivity;
 import com.wd.tech.activity.WDActivity;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.ModifyUserPwdPresenter;
@@ -87,7 +88,7 @@ public class UpdatePwdActivity extends WDActivity {
         public void success(Result result) {
             Toast.makeText(UpdatePwdActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                userDao.deleteAll();
+                WDApplication.getAppContext().getUserDao().deleteAll();
                 Intent intent = new Intent(UpdatePwdActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("show", 1);

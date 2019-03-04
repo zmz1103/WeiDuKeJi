@@ -74,6 +74,7 @@ public class SignActivity extends WDActivity {
             mCalendar = (SignCalendar) findViewById(R.id.sc_main);
             mTvMonth = (TextView) findViewById(R.id.tv_sign_year_month);
             mRlGetGiftData = (RelativeLayout) findViewById(R.id.rl_get_gift_view);
+            mRlGetGiftData.setVisibility(View.GONE);
             mTvGetSunValue = (TextView) findViewById(R.id.tv_text_one);
             mIvSun = (ImageView) findViewById(R.id.iv_sun);
             mIvSunBg = (ImageView) findViewById(R.id.iv_sun_bg);
@@ -111,6 +112,7 @@ public class SignActivity extends WDActivity {
                     mRlBtnSign.setVisibility(View.VISIBLE);
                 }
             });
+            mRlBtnSign.setVisibility(View.VISIBLE);
             mCalendar.setCalendarDayBgColor(mDate, R.drawable.jintian);
             //查询用户当月所有签到的日期
             mFindUserSignRecordingPresenter.reqeust(user.getUserId(), user.getSessionId());

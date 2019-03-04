@@ -15,6 +15,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.wd.tech.R;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
@@ -30,6 +31,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
+
+
+
 public class MainActivity extends WDActivity implements CustomAdapt {
 
     private LoginPresenter mLoginPresenter;
@@ -38,7 +42,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -47,7 +51,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onResume() {
         super.onResume();
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -56,7 +60,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onStart() {
         super.onStart();
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -64,7 +68,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
     @Override
     protected int getLayoutId() {
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return R.layout.activity_main;
         }
@@ -176,7 +180,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 user = result.getResult();
                 user.setSole(1);
                 userDao.insertOrReplace(user);
-                Toast.makeText(MainActivity.this, ""+userDao.loadAll().get(0).getUserId(), Toast.LENGTH_SHORT).show();
+
                 finish();
                 Log.v("数据库---",""+userDao.loadAll().get(0).toString());
 

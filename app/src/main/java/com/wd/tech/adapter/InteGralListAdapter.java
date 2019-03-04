@@ -62,6 +62,8 @@ public class InteGralListAdapter extends RecyclerView.Adapter<InteGralListAdapte
             } else if (userInteGralDataList2.getType() == 3) {
                 vh.title.setText("分享成功");
             } else if (userInteGralDataList2.getType() == 4) {
+                vh.title.setText("发帖奖励");
+            } else if (userInteGralDataList2.getType() == 5) {
                 vh.title.setText("抽奖收入");
             } else if (userInteGralDataList2.getType() == 8) {
                 vh.title.setText("完善信息奖励");
@@ -82,7 +84,7 @@ public class InteGralListAdapter extends RecyclerView.Adapter<InteGralListAdapte
             }
             vh.jine.setTextColor(getResources().getColorStateList(R.color.jiancolor)
             );
-            vh.jine.setText("-" + userInteGralDataList2.getAmount());
+            vh.jine.setText(userInteGralDataList2.getAmount() + "");
         }
     }
 

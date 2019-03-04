@@ -219,7 +219,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
             if (result.getStatus().equals("0000")) {
                 mCommunityListAdapter.addAll(result.getResult());
-                mCommunityListAdapter.notifyDataSetChanged();
             }
         }
 
@@ -263,8 +262,8 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
-                mCommunityListAdapter.clear();
-                mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), 1, 10);
+                mCommunityListAdapter.addAll((List<CommunitylistData>) result.getResult());
+//                mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), 1, 10);
                 mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1002);
             }
         }
@@ -300,6 +299,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         mLikePresenter=null;
         mCancelLikePresenter=null;
         mAddCommunityPresenter=null;
+        mDoTheTastPresenter=null;
 
     }
     @Override

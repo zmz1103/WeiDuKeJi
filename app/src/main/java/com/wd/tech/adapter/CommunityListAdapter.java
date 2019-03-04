@@ -39,6 +39,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     private List<CommunitylistData> list;
     private List<communityCommentVoList> mCommunitylist;
     private int mImageCount;
+    private CommentAdapter mCommentAdapter;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -48,6 +49,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     public void addAll(List<CommunitylistData> result) {
         if (result !=null){
             list.addAll(result);
+            notifyDataSetChanged();
         }
     }
 
@@ -127,10 +129,11 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
 
         mCommunitylist = list.get(i).getCommunityCommentVoList();
-        CommentAdapter commentAdapter = new CommentAdapter(context,mCommunitylist);
+        mCommentAdapter = new CommentAdapter(context,mCommunitylist);
         viewHolder.mCommentRecy.setLayoutManager(new LinearLayoutManager(context));
-        viewHolder.mCommentRecy.setAdapter(commentAdapter);
-        commentAdapter.notifyDataSetChanged();
+        viewHolder.mCommentRecy.setAdapter(mCommentAdapter);
+        mCommentAdapter.notifyDataSetChanged();
+
 
         //头像监听
         viewHolder.mHeadPic.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +174,8 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         });
         if (list.get(i).getComment() > 0) {
             viewHolder.mCommentPl.setText("没有更多评论了");
+        }else {
+            viewHolder.mCommentPl.setText("快来评论吧~");
         }
 
     }

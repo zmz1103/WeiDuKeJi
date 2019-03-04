@@ -49,11 +49,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return list.size();
     }
 
+
     public void setAll(List<communityCommentVoList> communitylist) {
         if (communitylist !=null){
             list.addAll(communitylist);
         }
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
