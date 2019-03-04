@@ -10,6 +10,9 @@ import android.os.StrictMode;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseUI;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
 
 /**
  * date:2019/2/18 18:32
@@ -17,14 +20,24 @@ import com.hyphenate.easeui.EaseUI;
  * function:
  */
 public class WDApplication extends Application {
-    private static WDApplication wdApplication ;
-    /** 主线程ID */
+    private static WDApplication wdApplication;
+    /**
+     * 主线程ID
+     */
     private static int mMainThreadId = -1;
-    /** 主线程ID */
+
+    private UserDao userDao = null;
+    /**
+     * 主线程ID
+     */
     private static Thread mMainThread;
-    /** 主线程Handler */
+    /**
+     * 主线程Handler
+     */
     private static Handler mMainThreadHandler;
-    /** 主线程Looper */
+    /**
+     * 主线程Looper
+     */
     private static Looper mMainLooper;
 
 
@@ -39,33 +52,48 @@ public class WDApplication extends Application {
             StrictMode.setVmPolicy(builder.build());
         }
 
-        EaseUI.getInstance().init(this,null);
+        EaseUI.getInstance().init(this, null);
 
         EMClient.getInstance().setDebugMode(true);
 
+        DaoSession daoSession = DaoMaster.newDevSession(this, UserDao.TABLENAME);
+
+        userDao = daoSession.getUserDao();
 
     }
 
-    public static Context getAppContext(){
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public static WDApplication getAppContext() {
         return wdApplication;
     }
 
-    /** 获取主线程ID */
+    /**
+     * 获取主线程ID
+     */
     public static int getMainThreadId() {
         return mMainThreadId;
     }
 
-    /** 获取主线程 */
+    /**
+     * 获取主线程
+     */
     public static Thread getMainThread() {
         return mMainThread;
     }
 
-    /** 获取主线程的handler */
+    /**
+     * 获取主线程的handler
+     */
     public static Handler getMainThreadHandler() {
         return mMainThreadHandler;
     }
 
-    /** 获取主线程的looper */
+    /**
+     * 获取主线程的looper
+     */
     public static Looper getMainThreadLooper() {
         return mMainLooper;
     }

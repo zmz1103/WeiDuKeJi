@@ -18,6 +18,7 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.PayResult;
@@ -196,8 +197,8 @@ public class OpenVipActivity extends WDActivity {
     }
 
     private void xiaDingDan() {
-        if (userDao.loadAll().size()>0){
-            mUsers = userDao.loadAll();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0){
+            mUsers = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = mUsers.get(0).getUserId();
             mSessionId = mUsers.get(0).getSessionId();
             mBuyVipPresenter = new BuyVipPresenter(new BuyVipCall());

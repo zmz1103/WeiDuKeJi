@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
@@ -129,7 +130,7 @@ public class MySettingActivity extends WDActivity {
                 builder.setPositiveButton("确认退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userDao.deleteAll();
+                        WDApplication.getAppContext().getUserDao().deleteAll();
                         finish();
                     }
                 });

@@ -41,6 +41,7 @@ import com.wd.tech.R;
 import com.wd.tech.adapter.AllInfoCommentListAdapter;
 import com.wd.tech.adapter.IfmDtlPlateAdapter;
 import com.wd.tech.adapter.IfmDtlRecommendedAdapter;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.AllInfoCommentListBean;
 import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.Result;
@@ -167,8 +168,8 @@ public class InformationDetailsActivity extends WDActivity {
 
 
         mInformationDetailsPresenter = new InformationDetailsPresenter(new InforDetailsCall());
-        if (userDao.loadAll().size() > 0) {
-            List<User> users = userDao.loadAll();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = users.get(0).getUserId();
             mSessionId = users.get(0).getSessionId();
             mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
@@ -249,7 +250,7 @@ public class InformationDetailsActivity extends WDActivity {
     }
 
     private void requestt(int page) {
-        if (userDao.loadAll().size() > 0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             mAllInfoCommentListPresenter.reqeust(mUserId, mSessionId, mId, page, 10);
         } else {
             mAllInfoCommentListPresenter.reqeust(0L, "", mId, page, 10);
@@ -262,7 +263,7 @@ public class InformationDetailsActivity extends WDActivity {
             Toast.makeText(InformationDetailsActivity.this, "请输入评论内容！", Toast.LENGTH_SHORT).show();
         } else {
             hideKeyboard(editcomment);
-            if (userDao.loadAll().size() > 0) {
+            if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                 mAddInforCommentPresenter.reqeust(mUserId, mSessionId, mComment, mId);
 
 
@@ -296,7 +297,7 @@ public class InformationDetailsActivity extends WDActivity {
      * 购买VIP
      */
     private void goShop() {
-        if (userDao.loadAll().size() == 0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
 
             Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
 
@@ -412,7 +413,7 @@ public class InformationDetailsActivity extends WDActivity {
                 collect.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (userDao.loadAll().size() > 0) {
+                        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                             if (result.getResult().getWhetherCollection() == 2) {
 
                                 mAddCollectionPresenter.reqeust(mUserId, mSessionId, result.getResult().getId());
@@ -429,7 +430,7 @@ public class InformationDetailsActivity extends WDActivity {
                 great.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (userDao.loadAll().size() > 0) {
+                        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                             if (result.getResult().getWhetherGreat() == 2) {
                                 mAddGreatPresenter.reqeust(mUserId, mSessionId, result.getResult().getId());
 
