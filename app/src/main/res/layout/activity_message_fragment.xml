@@ -7,14 +7,15 @@
     <RelativeLayout
         android:id="@+id/rela"
         android:layout_width="match_parent"
-        android:layout_marginTop="38dp"
-        android:layout_height="wrap_content">
+        android:background="@color/white"
+        android:layout_height="80dp">
         <RadioGroup
             android:id="@+id/message_radio"
             android:layout_width="188dp"
             android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/message_btn"
             android:orientation="horizontal">
 
             <RadioButton
@@ -57,8 +58,8 @@
         android:id="@+id/message_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
         android:layout_below="@+id/rela"
+        android:layout_marginTop="1dp"
         android:background="#f2f2f2">
 
     </android.support.v4.view.ViewPager>

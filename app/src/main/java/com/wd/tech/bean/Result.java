@@ -13,6 +13,15 @@ public class Result<T> {
     private Object[] args;
     private int groupId;
     private String orderId;
+    private int flag;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public String getOrderId() {
         return orderId;

@@ -110,7 +110,7 @@
         <activity android:name=".activity.SearchMyFriendActivity"/>
         <activity android:name=".activity.AuditFriendActivity"/>
 
-        <activity android:name=".activity.huanxin.IMActivity"/>
+        <activity android:name=".activity.huanxin.IMActivity" android:windowSoftInputMode="adjustPan"/>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1182180123115181#weixinandqq" /> <!-- 声明SDK所需的service SDK核心功能 -->
@@ -136,6 +136,9 @@
 
 
         <activity android:name=".activity.myactivity.PublishSingActivity"></activity>
+        <activity android:name=".activity.FriendDataActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.GroupsActivity"/>
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

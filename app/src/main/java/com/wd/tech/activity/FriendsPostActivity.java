@@ -38,6 +38,7 @@ import com.wd.tech.presenter.AddFriendPresenter;
 import com.wd.tech.presenter.CancelFollowPresenter;
 import com.wd.tech.presenter.CancelLikePresenter;
 import com.wd.tech.presenter.FriendsPostPresenter;
+import com.wd.tech.presenter.JudgePresenter;
 import com.wd.tech.presenter.LikePresenter;
 import com.wd.tech.view.DataCall;
 
@@ -90,7 +91,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
     private TextView mSend;
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
-
+    JudgePresenter mJudgePresenter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_friends_post;
@@ -231,9 +232,9 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                 if (user == null){
                     Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
-                   Intent intent1  = new Intent(FriendsPostActivity.this,AddFriendActivity.class);
-                   intent1.putExtra("mUserid",mUserid);
-                   startActivity(intent1);
+                    mJudgePresenter = new JudgePresenter(new JudgeCall());
+
+                    mJudgePresenter.reqeust((int)user.getUserId(),user.getSessionId(),mUserid);
                 }
 
                 break;
@@ -406,4 +407,25 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         return 720;
     }
 
+    private class JudgeCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")){
+                if (result.getFlag() == 2){
+                    Intent intent1  = new Intent(FriendsPostActivity.this,AddFriendActivity.class);
+                    intent1.putExtra("mUserid",mUserid);
+                    startActivity(intent1);
+                }else {
+                    Intent intent1  = new Intent(FriendsPostActivity.this,FriendDataActivity.class);
+                    intent1.putExtra("mUserid",String.valueOf(mUserid));
+                    startActivity(intent1);
+                }
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }

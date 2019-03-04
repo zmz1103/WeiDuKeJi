@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="167dp"
+    android:background="#eeeeee">
+
+    <RelativeLayout
+        android:id="@+id/delete_all"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            android:text="将联系人删除，同时删除与聊天人的聊天记录"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/delete_my_friend"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/jiacolor"
+            android:textSize="20sp"
+            android:text="删除好友"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/cancel_delete"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/color_Text"
+            android:textSize="20sp"
+            android:text="取消"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+

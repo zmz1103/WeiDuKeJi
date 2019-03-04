@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.activity.FriendDataActivity;
 import com.wd.tech.activity.huanxin.IMActivity;
 import com.wd.tech.adapter.GroupAdapter;
 import com.wd.tech.bean.Group;
@@ -81,11 +82,9 @@ public class MyMessageFrament extends WDFragment {
 
         mGroupAdapter.setOnClickChildListenter(new GroupAdapter.OnClickChildListenter() {
             @Override
-            public void onClick(String name) {
-                Toast.makeText(getContext(), "00"+name, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(), IMActivity.class);
-                intent.putExtra(EaseConstant.EXTRA_USER_ID,name);
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+            public void onClick(int mid) {
+                Intent intent = new Intent(getContext(), FriendDataActivity.class);
+                intent.putExtra("mUserid",String.valueOf(mid));
                 startActivity(intent);
             }
         });
