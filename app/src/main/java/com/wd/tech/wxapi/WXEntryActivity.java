@@ -13,6 +13,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.activity.WDActivity;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
@@ -96,12 +97,12 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 Toast.makeText(WXEntryActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
                 //将登录信息存入数据库
 
-                userDao.deleteAll();
+                WDApplication.getAppContext().getUserDao().deleteAll();
                 User user = new User();
                 user = data.getResult();
                 user.setSole(1);
-                userDao.insertOrReplace(user);
-                List<User> users = userDao.loadAll();
+                WDApplication.getAppContext().getUserDao().insertOrReplace(user);
+                List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
                 Toast.makeText(WXEntryActivity.this, ""+users.size(), Toast.LENGTH_SHORT).show();
                 finish();
             }

@@ -15,6 +15,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.wd.tech.R;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
@@ -41,7 +42,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -50,7 +51,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onResume() {
         super.onResume();
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -59,7 +60,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onStart() {
         super.onStart();
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return ;
         }
@@ -67,7 +68,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
     @Override
     protected int getLayoutId() {
-        if (userDao.loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
             finish();
             return R.layout.activity_main;
         }

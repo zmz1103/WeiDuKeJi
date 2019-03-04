@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.InformationAdapter;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -66,8 +67,8 @@ public class InterestDetailsActivity extends WDActivity {
 
     @Override
     protected void initView() {
-        if (userDao.loadAll().size() > 0) {
-            List<User> users = userDao.loadAll();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = users.get(0).getUserId();
             mSessionId = users.get(0).getSessionId();
         }
@@ -148,9 +149,9 @@ public class InterestDetailsActivity extends WDActivity {
 
     }
     private void requestt(int page) {
-        if (userDao.loadAll().size()>0){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0){
 
-            List<User> users = userDao.loadAll();
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
             mSessionId = users.get(0).getSessionId();
             mUserId = users.get(0).getUserId();
             Log.e("lk", "有 interid"+mUserId);

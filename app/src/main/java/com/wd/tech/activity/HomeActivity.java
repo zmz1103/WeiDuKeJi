@@ -90,7 +90,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private NoUserFragment mNoUserFragment;
     private HaveUserFragment mHaveUserFragment;
     private int show = 1;
-    private UserDao userDao;
     private RelativeLayout mHave;
     private RelativeLayout mNo;
     private LinearLayout mGoLoginActivity;
@@ -160,8 +159,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
-        UserDao userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
-        users = userDao.loadAll();
+         users = WDApplication.getAppContext().getUserDao().loadAll();
         if (users.size() == 0) {
             noUserLogin();
         } else {
@@ -264,8 +262,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        userDao = DaoMaster.newDevSession(this, UserDao.TABLENAME).getUserDao();
-        if (userDao.loadAll().size() == 0) {
+
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
             noUserLogin();
         } else {
             haveUserLogin();
@@ -304,7 +302,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userDao=null;
+        mGetUserBeanPresenter.unBind();
     }
 
     @Override
