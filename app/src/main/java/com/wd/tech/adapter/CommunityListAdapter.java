@@ -49,6 +49,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     public void addAll(List<CommunitylistData> result) {
         if (result !=null){
             list.addAll(result);
+            notifyDataSetChanged();
         }
     }
 
