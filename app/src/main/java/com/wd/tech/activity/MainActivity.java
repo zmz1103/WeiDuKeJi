@@ -30,6 +30,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
+
+
+
 public class MainActivity extends WDActivity implements CustomAdapt {
 
     private LoginPresenter mLoginPresenter;
@@ -176,7 +179,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 user = result.getResult();
                 user.setSole(1);
                 userDao.insertOrReplace(user);
-                Toast.makeText(MainActivity.this, ""+userDao.loadAll().get(0).getUserId(), Toast.LENGTH_SHORT).show();
+
                 finish();
                 Log.v("数据库---",""+userDao.loadAll().get(0).toString());
 
