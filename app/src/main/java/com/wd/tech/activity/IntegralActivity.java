@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.Transfer;
 import com.wd.tech.bean.User;
@@ -117,8 +118,8 @@ public class IntegralActivity extends WDActivity {
 
         mFindUserIntegralPresenter = new FindUserIntegralPresenter(new FindUserIntegralCall());
 
-        if (userDao.loadAll().size() > 0) {
-            mUsers = userDao.loadAll();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            mUsers = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = mUsers.get(0).getUserId();
             mSessionId = mUsers.get(0).getSessionId();
             mFindUserIntegralPresenter.reqeust(mUserId, mSessionId);
@@ -150,8 +151,8 @@ public class IntegralActivity extends WDActivity {
 
     private void dui() {
         mInfoPayByIntegralPresenter = new InfoPayByIntegralPresenter(new InfoPayByIntegralCall());
-        if (userDao.loadAll().size() > 0) {
-            mUsers = userDao.loadAll();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            mUsers = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = mUsers.get(0).getUserId();
             mSessionId = mUsers.get(0).getSessionId();
             mInfoPayByIntegralPresenter.reqeust(mUserId, mSessionId,mId,10);
