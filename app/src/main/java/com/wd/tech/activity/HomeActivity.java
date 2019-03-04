@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -77,7 +78,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.community)
     RadioButton mCommunity;
     @BindView(R.id.c_frame)
-    FrameLayout mCLayout;
+    LinearLayout mCLayout;
 
     @BindView(R.id.draw)
     DrawerLayout mDraw;
@@ -108,6 +109,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ImageView mImageVip;
     private GetUserBeanPresenter mGetUserBeanPresenter;
     private List<User> users;
+    private boolean isDrawer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,7 +129,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         mImageVip.setVisibility(View.GONE);
 
-        mGetUserBeanPresenter = new GetUserBeanPresenter(new  getUserById());
+        mGetUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
 
         mHomeFragment = new HomeFragment();
         mMessageFragment = new MessageFragment();
@@ -142,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mHave = findViewById(R.id.have_user);
         mNo = findViewById(R.id.no_user);
 
-         findViewById(R.id.goLoginBtn).setOnClickListener(this);
+        findViewById(R.id.goLoginBtn).setOnClickListener(this);
 
         show = 1;
         Intent intent = getIntent();
@@ -159,7 +161,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
-         users = WDApplication.getAppContext().getUserDao().loadAll();
+        users = WDApplication.getAppContext().getUserDao().loadAll();
         if (users.size() == 0) {
             noUserLogin();
         } else {
@@ -199,31 +201,34 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
+//        mDraw.setScrimColor(Color.TRANSPARENT);//去除阴影
+        mCLayout.measure(0, 0);
+        final float width = mCLayout.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
+        mCLayout.setTranslationX(-width);                 //底布局左移
         // 侧拉出的页面
         mDraw.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
+                isDrawer = true;
 
-                //获取屏幕的宽高
-                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
-                mRight.layout(mCLayout.getRight(), 0, mCLayout.getRight() + display.getWidth(), display.getHeight());
+                mCLayout.setTranslationX(-width + width * slideOffset);
+                //底布局跟着移动
+                mRight.setTranslationX(drawerView.getMeasuredWidth() * slideOffset);
+                //主界面布局移动，移动长度等于抽屉的移动长度
+
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                //获取屏幕的宽高
-                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
-                mRight.layout(mCLayout.getRight(), 0, mCLayout.getRight() + display.getWidth(), display.getHeight());
+
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-
+                isDrawer = false;
+                mCLayout.setTranslationX(0F);
+                //底布局跟着移动
+                mRight.setTranslationX(0F);
             }
 
             @Override
@@ -233,6 +238,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
     private class getUserById implements DataCall<Result<GetUserBean>> {
         @Override
         public void success(Result<GetUserBean> result) {
@@ -246,7 +252,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 mMyName.setText(result.getResult().getNickName());
                 if (result.getResult().getSignature().equals("")) {
                     mMySignAture.setText("发表个心情吧！");
-                }else{
+                } else {
                     mMySignAture.setText(result.getResult().getSignature());
                 }
 
@@ -308,29 +314,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart() {
         super.onRestart();
+        final float width = mCLayout.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
         mDraw.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-
 //                //获取屏幕的宽高
-                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
-                mRight.layout(mCLayout.getRight(), 0, mCLayout.getRight() + display.getWidth(), display.getHeight());
+                isDrawer = true;
+
+                mCLayout.setTranslationX(-width + width * slideOffset);
+                //底布局跟着移动
+                mRight.setTranslationX(drawerView.getMeasuredWidth() * slideOffset);
+                //主界面布局移动，移动长度等于抽屉的移动长度
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-//                //获取屏幕的宽高
-                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
-                mRight.layout(mCLayout.getRight(), 0, mCLayout.getRight() + display.getWidth(), display.getHeight());
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-
+                isDrawer = false;
+                mCLayout.setTranslationX(0F);
+                //底布局跟着移动
+                mRight.setTranslationX(0F);
             }
 
             @Override
@@ -342,19 +348,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void haveUserLogin() {
 
-        List<User> users1 = DaoMaster.newDevSession(HomeActivity.this,UserDao.TABLENAME).getUserDao().loadAll();
-        mGetUserBeanPresenter.reqeust( users1.get(0).getUserId(), users1.get(0).getSessionId());
+        List<User> users1 = DaoMaster.newDevSession(HomeActivity.this, UserDao.TABLENAME).getUserDao().loadAll();
+        mGetUserBeanPresenter.reqeust(users1.get(0).getUserId(), users1.get(0).getSessionId());
         mHave.setVisibility(View.VISIBLE);
         mNo.setVisibility(View.GONE);
-
-
     }
 
     private void noUserLogin() {
         mHave.setVisibility(View.GONE);
         mNo.setVisibility(View.VISIBLE);
-
     }
+
     @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
@@ -410,7 +414,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             default:
                 break;
             case R.id.goLoginBtn:

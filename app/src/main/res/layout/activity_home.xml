@@ -73,9 +73,10 @@
             android:background="#55CCCCCC" />
     </RelativeLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/c_frame"
         android:clickable="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start" >
@@ -116,7 +117,6 @@
             android:id="@+id/have_user"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
             >
 
             <RelativeLayout
@@ -415,5 +415,5 @@
                     android:layout_weight="1" />
             </LinearLayout>
         </RelativeLayout>
-    </FrameLayout>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

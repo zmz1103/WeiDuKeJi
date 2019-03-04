@@ -67,7 +67,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
                     int i1 = vh.getLayoutPosition();
                     Log.v("name++",mListData.get(i1).getNickName()+mListData.get(i1).getUserId());
                     Toast.makeText(mContext, ""+mListData.get(i1).getUserId(), Toast.LENGTH_SHORT).show();
-                    onSvcl.onItemClick( mListData.get(i1).getUserId());
+                    onSvcl.onItemClick( mListData.get(i1).getFocusUid());
                 }
             }
         });

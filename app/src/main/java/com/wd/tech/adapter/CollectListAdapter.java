@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.InformationDetailsActivity;
 import com.wd.tech.bean.CollectDataList;
 import com.wd.tech.util.ToDate;
 
@@ -71,6 +73,14 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
             @Override
             public void onClick(View v) {
                 stringBuilder.append(mLists.get(vh.getLayoutPosition()).getInfoId() + ",");
+            }
+        });
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, InformationDetailsActivity.class);
+                intent.putExtra("id",mLists.get(vh.getLayoutPosition()).getInfoId()+"");
+                mContext.startActivity(intent);
             }
         });
     }
