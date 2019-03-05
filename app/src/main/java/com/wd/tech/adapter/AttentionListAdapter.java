@@ -103,7 +103,6 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         private final LinearLayout mLayoutLeft;
         private final TextView mDelete ;
 
-
         public Vh(@NonNull View itemView) {
             super(itemView);
             mIcon = itemView.findViewById(R.id.atten_item_sim);

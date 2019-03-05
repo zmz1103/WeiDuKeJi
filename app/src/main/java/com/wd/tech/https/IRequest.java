@@ -259,7 +259,7 @@ public interface IRequest {
     // 删除帖子 community/verify/v1/deletePost
     @DELETE("community/verify/v1/deletePost")
     Observable<Result> deletePost(@Header("userId") long userid,
-                                  @Header("sessionld") String sessionld,
+                                  @Header("sessionId") String sessionld,
                                   @Query("communityId") String communityId);
 
     // 积分查询 user/verify/v1/findUserIntegral

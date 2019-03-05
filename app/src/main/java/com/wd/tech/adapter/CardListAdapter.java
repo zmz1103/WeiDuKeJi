@@ -99,7 +99,6 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.Vh> {
         vh.mScText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, ""+cardListData.getId(), Toast.LENGTH_SHORT).show();
                 mDeletePostInterface.onclick(cardListData.getId());
             }
         });
