@@ -93,7 +93,6 @@ public class SettingActivity extends WDActivity {
         ViewGroup.LayoutParams layoutParamsthreefilmreview = mView.getLayoutParams();
         layoutParamsthreefilmreview.width = getResources().getDisplayMetrics().widthPixels;
         mView.setLayoutParams(layoutParamsthreefilmreview);
-
         builder.getWindow().setGravity(Gravity.BOTTOM);
         builder.show();
 
