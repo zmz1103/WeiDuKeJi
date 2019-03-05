@@ -48,6 +48,7 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
 
     private CardListAdapter cardListAdapter;
     private DeletePostPresenter mDeletePostPresenter;
+    private PopupWindow popWindow;
 
     @OnClick(R.id.my_back_gz)
     void daA() {
@@ -117,8 +118,8 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
 
 
         View popView = View.inflate(MyCardActivity.this, R.layout.my_icon_update, null);
-        final PopupWindow popWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
+              LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popWindow.setTouchable(true);
         popWindow.setBackgroundDrawable(new BitmapDrawable());
         popWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -169,10 +170,13 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
         @Override
         public void success(Result result) {
             Toast.makeText(MyCardActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
-            if (result.getStatus().equals("9999")) {
-                finish();
+            if (result.getStatus().equals("0000")) {
+                popWindow.dismiss();
+                mPage = 1;
+                requestt(mPage);
+                cardListAdapter.clear();
             }
-            cardListAdapter.notifyDataSetChanged();
+
         }
 
         @Override
