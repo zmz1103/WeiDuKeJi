@@ -64,7 +64,7 @@ public class MessageFragment extends WDFragment {
     public void initView(View view) {
         mList = new ArrayList<Fragment>();
         myMessageFrament = new MyMessageFrament();
-        EaseConversationListFragment conversationListFragment = new ContactsFragment();
+        EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
         mList.add(conversationListFragment);
         mList.add(myMessageFrament);
 

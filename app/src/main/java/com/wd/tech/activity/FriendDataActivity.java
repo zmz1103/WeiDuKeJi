@@ -66,6 +66,7 @@ public class FriendDataActivity extends WDActivity{
 
     private QueryFriendPresenter mQueryFriendPresenter;
     private QueryFriendList mResult;
+    private String mUserName;
 
 
     @Override
@@ -78,6 +79,7 @@ public class FriendDataActivity extends WDActivity{
         mQueryFriendPresenter = new QueryFriendPresenter(new QueryFriend());
         Intent intent = getIntent();
         String mid = intent.getStringExtra("mUserid");
+        mUserName = intent.getStringExtra("mUserName");
 
         int userId = (int) user.getUserId();
         String sessionId = user.getSessionId();
@@ -90,7 +92,7 @@ public class FriendDataActivity extends WDActivity{
     public void onClick(View view){
         if (view.getId() == R.id.send_message){
             Intent intent = new Intent(FriendDataActivity.this, IMActivity.class);
-            intent.putExtra(EaseConstant.EXTRA_USER_ID,mResult.getNickName());
+            intent.putExtra(EaseConstant.EXTRA_USER_ID,mUserName);
             intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
             startActivity(intent);
         }
