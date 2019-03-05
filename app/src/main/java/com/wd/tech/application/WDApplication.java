@@ -45,6 +45,7 @@ public class WDApplication extends Application {
     public void onCreate() {
         super.onCreate();
         wdApplication = this;
+
         Fresco.initialize(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

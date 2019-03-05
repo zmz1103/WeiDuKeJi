@@ -73,19 +73,9 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 finish();
                 break;
             default:
-                // 错误返回
-                switch (baseResp.getType()) {
-                    // 微信分享
-                    case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:
-                        Log.i("WXEntryActivity" , ">>>errCode = " + baseResp.errCode);
-                        finish();
-                        break;
-                    default:
-                        break;
-                }
-                break;
 
         }
+
     }
 
     class WxCall implements DataCall<Result<User>> {

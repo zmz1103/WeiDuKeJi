@@ -495,12 +495,17 @@ public interface IRequest {
      */
     @POST("tool/verify/v1/pay")
     @FormUrlEncoded
-    Observable<PayBean> buypay(@Header("userId") long userId,
+    Observable<Result<String>> buypay(@Header("userId") long userId,
                             @Header("sessionId") String sessionId,
                             @Field("orderId") String orderId,
                             @Field("payType") int payType);
 
 
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：积分兑换
+     */
     @POST("information/verify/v1/infoPayByIntegral")
     @FormUrlEncoded
     Observable<Result> infopaybyintegral(@Header("userId") long userId,

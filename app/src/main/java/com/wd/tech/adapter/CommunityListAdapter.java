@@ -101,7 +101,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         //登录用户是否点过赞
         if (list.get(i).getWhetherGreat()==1){
             viewHolder.mPraise.setImageResource(R.mipmap.common_icon_praise_s);
-        }else {
+        } else {
             viewHolder.mPraise.setImageResource(R.mipmap.common_icon_prise_n);
         }
 

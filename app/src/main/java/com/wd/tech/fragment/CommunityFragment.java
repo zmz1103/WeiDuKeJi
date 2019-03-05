@@ -71,7 +71,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
     private DoTheTastPresenter mDoTheTastPresenter;
-    private List<CommunitylistData> list;
 
     @Override
     public int getContent() {
