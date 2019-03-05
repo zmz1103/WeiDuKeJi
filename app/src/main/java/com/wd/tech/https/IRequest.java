@@ -1,5 +1,6 @@
 package com.wd.tech.https;
 
+import com.wd.tech.bean.AllComment;
 import com.wd.tech.bean.AllInfoCommentListBean;
 import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
@@ -539,4 +540,12 @@ public interface IRequest {
     @GET("chat/verify/v1/findFriendGroupList")
     Observable<Result<List<Group>>> groups(@Header("userId") int userId,
                              @Header("sessionId") String sessionId);
+
+    //全部评论
+    @GET("community/v1/findCommunityUserCommentList")
+    Observable<Result<List<AllComment>>> getAllComment(@Header("userId") int userId,
+                                                       @Header("sessionId") String sessionId,
+                                                       @Query("communityId")int communityId,
+                                                       @Query("page")int page,
+                                                       @Query("count")int count);
 }

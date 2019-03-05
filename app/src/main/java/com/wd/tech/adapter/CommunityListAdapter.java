@@ -1,6 +1,8 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.AllCommentActivity;
+import com.wd.tech.activity.StartActivity;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.communityCommentVoList;
@@ -173,9 +177,23 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             }
         });
         if (list.get(i).getComment() > 0) {
-            viewHolder.mCommentPl.setText("没有更多评论了");
+            viewHolder.mCommentPl.setText("点击查看更多评论");
+            viewHolder.mCommentPl.setTextColor(Color.parseColor("#20affa"));
+            viewHolder.mCommentPl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context,AllCommentActivity.class);
+                    intent.putExtra("communityId",list.get(i).getId());
+                    intent.putExtra("comment",list.get(i).getComment()+"");
+                    intent.putExtra("headPic",list.get(i).getHeadPic());
+                    intent.putExtra("nickName",list.get(i).getNickName());
+                    context.startActivity(intent);
+                }
+            });
+
         }else {
             viewHolder.mCommentPl.setText("快来评论吧~");
+            viewHolder.mCommentPl.setTextColor(Color.parseColor("#999999"));
         }
 
     }
