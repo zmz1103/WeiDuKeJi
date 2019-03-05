@@ -82,9 +82,10 @@ public class MyMessageFrament extends WDFragment {
 
         mGroupAdapter.setOnClickChildListenter(new GroupAdapter.OnClickChildListenter() {
             @Override
-            public void onClick(int mid) {
+            public void onClick(int mid,String name) {
                 Intent intent = new Intent(getContext(), FriendDataActivity.class);
                 intent.putExtra("mUserid",String.valueOf(mid));
+                intent.putExtra("mUserName",name);
                 startActivity(intent);
             }
         });

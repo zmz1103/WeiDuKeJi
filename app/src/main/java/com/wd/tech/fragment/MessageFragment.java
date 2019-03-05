@@ -16,9 +16,15 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.wd.tech.R;
 import com.wd.tech.activity.CreateGroupActivity;
 import com.wd.tech.activity.FridendAddActivity;
+import com.wd.tech.activity.HomeActivity;
+import com.wd.tech.activity.MainActivity;
+import com.wd.tech.activity.huanxin.IMActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,11 +63,20 @@ public class MessageFragment extends WDFragment {
     @Override
     public void initView(View view) {
         mList = new ArrayList<Fragment>();
-        contactsFragment = new ContactsFragment();
         myMessageFrament = new MyMessageFrament();
-
-        mList.add(contactsFragment);
+        EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
+        mList.add(conversationListFragment);
         mList.add(myMessageFrament);
+
+
+
+        conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+
+            @Override
+            public void onListItemClicked(EMConversation conversation) {
+                startActivity(new Intent(getContext(), IMActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId()));
+            }
+        });
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
