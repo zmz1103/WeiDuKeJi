@@ -77,15 +77,7 @@ public class OpenVipActivity extends WDActivity {
     private String mOrderId;
     private IWXAPI api;
     private PayPresenter mPayPresenter;
-    private int mSet;
-
-    public static final String PARTNER = "注册账户的PID";
-    // 商户收款账号
-    public static final String SELLER = "支付宝收款账户";
-    // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "商户私钥";
-    // 支付宝公钥
-    public static final String RSA_PUBLIC = "支付宝公钥";
+    private int mSet = 1;
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -262,12 +254,16 @@ public class OpenVipActivity extends WDActivity {
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 mOrderId = result.getOrderId();
-                Log.e("lk","orderid"+mOrderId);
+
                 if (wxzfbtn.isChecked()) {
                     mSet = 1;
-                    mPayPresenter.reqeust(mUserId, mSessionId , mOrderId, mSet);
-                }else {
+                    Log.e("lk","orderid"+mOrderId);
+                    Log.e("lk", "微信支付: " + mSet);
+
+                    mPayPresenter.reqeust(mUserId, mSessionId, mOrderId, 1);
+                }else if (zfbbtn.isChecked()){
                     mSet = 2;
+                    Log.e("lk", "支付宝支付: "+mSet);
                     mPayPresenter.reqeust(mUserId, mSessionId , mOrderId, mSet);
                 }
 
@@ -285,9 +281,14 @@ public class OpenVipActivity extends WDActivity {
         }
     }
 
-    private class PayCall implements DataCall<PayBean> {
+    private class PayCall implements DataCall<Result<String>> {
+
+        private String payInfo;
+
         @Override
-        public void success(PayBean result) {
+        public void success(Result<String> result) {
+            Log.e("lk", result.getMessage());
+            Log.e("lk","调微信");
             if (mSet == 1){
                 PayReq req = new PayReq();
                 req.appId = result.getAppId();
@@ -301,10 +302,10 @@ public class OpenVipActivity extends WDActivity {
                 //3.调用微信支付sdk支付方法
                 api.sendReq(req);
             }else {
-                final String payInfo = mOrderId;   // 订单信息
 
+                payInfo = result.getResult();
+                //final String payInfo = mOrderId;   // 订单信息
                 Runnable payRunnable = new Runnable() {
-
                     @Override
                     public void run() {
                         // 构造PayTask 对象

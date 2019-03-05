@@ -495,16 +495,48 @@ public interface IRequest {
      */
     @POST("tool/verify/v1/pay")
     @FormUrlEncoded
-    Observable<PayBean> buypay(@Header("userId") long userId,
+    Observable<Result<String>> buypay(@Header("userId") long userId,
                             @Header("sessionId") String sessionId,
                             @Field("orderId") String orderId,
                             @Field("payType") int payType);
 
 
+    /**
+     * @作者 李阔
+     * @date 2019/2/26
+     * @method：积分兑换
+     */
     @POST("information/verify/v1/infoPayByIntegral")
     @FormUrlEncoded
     Observable<Result> infopaybyintegral(@Header("userId") long userId,
                                          @Header("sessionId") String sessionId,
                                          @Field("infoId") String infoId,
                                          @Field("integralCost") int integralCost);
+
+    /**
+     * @作者 啊哈
+     * @date 2019/3/4
+     * @method：删除好友
+     */
+    @DELETE("chat/verify/v1/deleteFriendRelation")
+    Observable<Result> delete(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Query("friendUid") int friendUid);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/4
+     * @method：判断是否是我的好友
+     */
+    @GET("chat/verify/v1/checkMyFriend")
+    Observable<Result> judge(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Query("friendUid") int friendUid);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/4
+     * @method：我的分组
+     */
+    @GET("chat/verify/v1/findFriendGroupList")
+    Observable<Result<List<Group>>> groups(@Header("userId") int userId,
+                             @Header("sessionId") String sessionId);
 }
