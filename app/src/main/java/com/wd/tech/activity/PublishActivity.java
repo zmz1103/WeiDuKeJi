@@ -204,6 +204,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                     if (!StringUtils.isEmpty(picturePath)){
                         mPictureAdapter.add(picturePath);
                         mPictureAdapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
                     }
                 }
                 break;
@@ -214,6 +215,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                     if (!StringUtils.isEmpty(filePath)) {
                         mPictureAdapter.add(filePath);
                         mPictureAdapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
                     }
                 }
                 break;
