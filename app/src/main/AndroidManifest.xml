@@ -154,6 +154,8 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+        <activity android:name=".activity.MyGroupActivity"/>
+        <activity android:name=".activity.huanxin.IMGroupActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

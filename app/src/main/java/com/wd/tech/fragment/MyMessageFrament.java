@@ -1,8 +1,13 @@
 package com.wd.tech.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -55,6 +60,7 @@ public class MyMessageFrament extends WDFragment {
 
     @Override
     public void initView(View view) {
+
         mQueryGroupPresenter = new QueryGroupPresenter(new QueryCall());
 
         mDate = getActivity().getSharedPreferences("date", Context.MODE_PRIVATE);
@@ -108,8 +114,6 @@ public class MyMessageFrament extends WDFragment {
             if (result.getStatus().equals("0000")) {
 
                 List<Group> mGroup = result.getResult();
-
-
 
                 List<Group> groupList = result.getResult();
 

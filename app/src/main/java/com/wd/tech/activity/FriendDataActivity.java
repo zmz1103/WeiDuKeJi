@@ -1,7 +1,12 @@
 package com.wd.tech.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -91,6 +96,8 @@ public class FriendDataActivity extends WDActivity{
     @OnClick({R.id.setting,R.id.send_message})
     public void onClick(View view){
         if (view.getId() == R.id.send_message){
+
+
             Intent intent = new Intent(FriendDataActivity.this, IMActivity.class);
             intent.putExtra(EaseConstant.EXTRA_USER_ID,mUserName);
             intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);

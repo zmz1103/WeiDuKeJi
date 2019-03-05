@@ -18,6 +18,7 @@ import com.wd.tech.bean.InformationDetailsBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InterestListBean;
+import com.wd.tech.bean.MyGroup;
 import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.QueryFriendList;
 import com.wd.tech.bean.NoticeListDAta;
@@ -539,4 +540,12 @@ public interface IRequest {
     @GET("chat/verify/v1/findFriendGroupList")
     Observable<Result<List<Group>>> groups(@Header("userId") int userId,
                              @Header("sessionId") String sessionId);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/5
+     * @method：我加入的群组
+     */
+    @GET("group/verify/v1/findUserJoinedGroup")
+    Observable<Result<List<MyGroup>>> querygroup(@Header("userId") int userId,
+                                                 @Header("sessionId") String sessionId);
 }

@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
 import com.wd.tech.R;
-import com.wd.tech.ad.GroupsAdapter;
+import com.wd.tech.adapter.GroupsAdapter;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
@@ -16,6 +16,7 @@ import com.wd.tech.view.DataCall;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * date:2019/3/4 19:55
@@ -46,7 +47,10 @@ public class GroupsActivity extends WDActivity{
         mGroups.setAdapter(mAdapter);
         mGroupsPresenter.reqeust((int)user.getUserId(),user.getSessionId());
     }
-
+    @OnClick(R.id.choose_group_back)
+    public void onClick(){
+        finish();
+    }
     @Override
     protected void destoryData() {
         mGroupsPresenter.unBind();

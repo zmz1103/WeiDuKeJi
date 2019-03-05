@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.activity.AuditFriendActivity;
+import com.wd.tech.activity.MyGroupActivity;
 import com.wd.tech.activity.SearchMyFriendActivity;
 import com.wd.tech.bean.Group;
 
@@ -107,6 +108,13 @@ public class GroupAdapter extends BaseAdapter {
                 } else {
                     clusterHolder = (ClusterHolder) convertView.getTag();
                 }
+                clusterHolder.cluster.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MyGroupActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
                 break;
 
             default:

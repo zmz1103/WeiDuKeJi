@@ -13,7 +13,7 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:padding="10dp"
             android:src="@mipmap/common_nav_btn_back_n" />
 
