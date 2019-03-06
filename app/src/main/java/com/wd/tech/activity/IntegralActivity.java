@@ -97,8 +97,8 @@ public class IntegralActivity extends WDActivity {
         mTime = mMTransfer.getTime();
         mTitle = mMTransfer.getTitle();
         mTupian = mMTransfer.getTupian();
-        mShoucangshu = mMTransfer.getShoucangshu();
-        mShareshu = mMTransfer.getShareshu();
+        /*mShoucangshu = mMTransfer.getShoucangshu();
+        mShareshu = mMTransfer.getShareshu();*/
         mTu = mTupian.split("\\?");
         title.setText(mTitle);
         details.setText(mNeirong);
@@ -113,8 +113,8 @@ public class IntegralActivity extends WDActivity {
             shoucang.setImageResource(R.mipmap.common_icon_collect_n);
         }
         simpleview.setImageURI(mTu[0]);
-        shoucangshu.setText(mShoucangshu + "");
-        fenxiangshu.setText(mShareshu + "");
+        shoucangshu.setText("");
+        fenxiangshu.setText("");
 
         mFindUserIntegralPresenter = new FindUserIntegralPresenter(new FindUserIntegralCall());
 

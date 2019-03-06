@@ -56,8 +56,10 @@ import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.presenter.InformationDetailsPresenter;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.util.TimeUtil;
 import com.wd.tech.view.DataCall;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -134,6 +136,8 @@ public class InformationDetailsActivity extends WDActivity {
     private AddInforCommentPresenter mAddInforCommentPresenter;
     private int page = 1;
     private Transfer mTransfer;
+    private String[] mTu;
+    private String mThumbnail;
 
     @Override
     protected int getLayoutId() {
@@ -311,10 +315,6 @@ public class InformationDetailsActivity extends WDActivity {
             initData(popView, popWindow);
             View inflate = View.inflate(this, R.layout.activity_information_details, null);
             popWindow.showAtLocation(inflate, Gravity.BOTTOM, 0, 0);
-
-
-
-
         }
 
 
@@ -331,6 +331,18 @@ public class InformationDetailsActivity extends WDActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InformationDetailsActivity.this,IntegralActivity.class);
+                intent.setClass(InformationDetailsActivity.this,IntegralActivity.class);
+                Transfer mTransfer = new Transfer();
+                mTransfer.setTitle(mResult.getTitle());
+                mTransfer.setNeirong(mResult.getSummary());
+                mTransfer.setLaiyuan(mResult.getSource());
+                mThumbnail = mResult.getThumbnail();
+                mTu = mThumbnail.split("\\?");
+                mTransfer.setTupian(mTu[0]);
+                mTransfer.setTime(mResult.getReleaseTime());
+                mTransfer.setShoucang(mResult.getWhetherCollection());
+                //mTransfer.setShoucangshu(1);
+                //mTransfer.setShareshu(mResult.getShare());
                 intent.putExtra("mTransfer",mTransfer);
                 intent.putExtra("id",mId);
                 startActivity(intent);
@@ -359,8 +371,8 @@ public class InformationDetailsActivity extends WDActivity {
      */
     private class InforDetailsCall implements DataCall<Result<InformationDetailsBean>> {
 
-        private String mThumbnail;
-        private String[] mTu;
+
+
 
         @Override
         public void success(final Result<InformationDetailsBean> result) {
@@ -445,6 +457,8 @@ public class InformationDetailsActivity extends WDActivity {
                         }
                     }
                 });
+
+
             }
         }
 
