@@ -220,7 +220,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             @Override
             public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu) {
                 Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
-                intent.setClass(getContext(),InformationDetailsActivity.class);
+                /*intent.setClass(getContext(),InformationDetailsActivity.class);
                 Transfer mTransfer = new Transfer();
                 mTransfer.setTitle(title);
                 mTransfer.setNeirong(neirong);
@@ -229,9 +229,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 mTransfer.setTime(time);
                 mTransfer.setShoucang(shoucang);
                 mTransfer.setShoucangshu(shoucangshu);
-                mTransfer.setShareshu(shareshu);
+                mTransfer.setShareshu(shareshu);*/
                 intent.putExtra("id",id+"");
-                intent.putExtra("mTransfer",mTransfer);
+                /*intent.putExtra("mTransfer",mTransfer);*/
                 startActivity(intent);
             }
         });

@@ -14,10 +14,10 @@ public class Transfer implements Serializable {
     private String tupian;
     private long time;
     private int shoucang;
-    private int shoucangshu;
-    private int shareshu;
+    /*private int shoucangshu;
+    private int shareshu;*/
 
-    public int getShoucangshu() {
+    /*public int getShoucangshu() {
         return shoucangshu;
     }
 
@@ -31,7 +31,7 @@ public class Transfer implements Serializable {
 
     public void setShareshu(int shareshu) {
         this.shareshu = shareshu;
-    }
+    }*/
 
     public String getTitle() {
         return title;
