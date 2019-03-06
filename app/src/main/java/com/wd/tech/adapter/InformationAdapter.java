@@ -7,14 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.tencent.wxop.stat.EasyListActivity;
 import com.wd.tech.R;
 import com.wd.tech.bean.InformationListBean;
-import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.TimeUtil;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -235,7 +231,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Addcollection mAddcollection;
 
-    public void setAddgreat(Addcollection addcollection) {
+    public void setAddcollection(Addcollection addcollection) {
         mAddcollection = addcollection;
     }
 

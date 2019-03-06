@@ -1,6 +1,7 @@
 package com.wd.tech.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -112,6 +113,7 @@ public class SearchActivity extends WDActivity {
                 searchText.setText(s);
             }
         });
+
     }
 
     private void sousuo() {
@@ -135,6 +137,14 @@ public class SearchActivity extends WDActivity {
         searchlist.setAdapter(mSearchByTitleAdapter);
         mSearchByTitlePresenter = new SearchByTitlePresenter(new SearchCall());
         mSearchByTitlePresenter.reqeust(text, 1, 30);
+        mSearchByTitleAdapter.setOncllk(new SearchByTitleAdapter.Oncllk() {
+            @Override
+            public void good(int id) {
+                Intent intent = new Intent(SearchActivity.this,InformationDetailsActivity.class);
+                intent.putExtra("id",id+"");
+                startActivity(intent);
+            }
+        });
     }
 
 
