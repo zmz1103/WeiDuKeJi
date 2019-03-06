@@ -78,8 +78,12 @@ public class AllCommentActivity extends WDActivity implements CustomAdapt {
         mAllCommentAdapter = new AllCommentAdapter(this);
         recyComment.setAdapter(mAllCommentAdapter);
         recyComment.setLayoutManager(new LinearLayoutManager(this));
-        mAllCommentPresenter.reqeust((int)user.getUserId(),user.getSessionId(),mCommunityId,1,10);
+        if (user==null){
+            mAllCommentPresenter.reqeust(0,"",mCommunityId,page,10);
+        }else {
+            mAllCommentPresenter.reqeust((int)user.getUserId(),user.getSessionId(),mCommunityId,page,10);
 
+        }
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         requestt(page);
         refreshLayout.setEnableRefresh(true);//启用刷新
