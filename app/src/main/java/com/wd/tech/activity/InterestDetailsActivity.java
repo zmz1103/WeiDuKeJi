@@ -188,8 +188,8 @@ public class InterestDetailsActivity extends WDActivity {
                 mTransfer.setTupian(tupian);
                 mTransfer.setTime(time);
                 mTransfer.setShoucang(shoucang);
-                mTransfer.setShoucangshu(shoucangshu);
-                mTransfer.setShareshu(shareshu);
+                /*mTransfer.setShoucangshu(shoucangshu);
+                mTransfer.setShareshu(shareshu);*/
                 intent.putExtra("mTransfer",mTransfer);
                 intent.putExtra("id",id+"");
                 startActivity(intent);
