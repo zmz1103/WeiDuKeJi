@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.HomeActivity;
 import com.wd.tech.activity.WDActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.GetUserBean;
@@ -112,7 +113,7 @@ public class MySettingActivity extends WDActivity {
         mModifyHeadPicPresenter.unBind();
     }
 
-    @OnClick({R.id.my_back_setting, R.id.my_tc_t, R.id.my_setting_icon, R.id.go_up_sign, R.id.bind_faceId,  R.id.u_mpwd})
+    @OnClick({R.id.my_back_setting, R.id.my_tc_t, R.id.my_setting_icon, R.id.go_up_sign, R.id.bind_faceId, R.id.u_mpwd})
     void dianJi(View view) {
         switch (view.getId()) {
             case R.id.my_back_setting:
@@ -131,6 +132,10 @@ public class MySettingActivity extends WDActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         WDApplication.getAppContext().getUserDao().deleteAll();
+                        Intent intent = new Intent(MySettingActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("show", 1);
+                        startActivity(intent);
                         finish();
                     }
                 });
@@ -199,7 +204,7 @@ public class MySettingActivity extends WDActivity {
                 break;
             case R.id.go_up_sign:
                 //去发布签名页面
-                startActivity(new Intent(MySettingActivity.this,PublishSingActivity.class));
+                startActivity(new Intent(MySettingActivity.this, PublishSingActivity.class));
                 finish();
                 break;
             case R.id.bind_faceId:
@@ -209,9 +214,8 @@ public class MySettingActivity extends WDActivity {
                 }
                 break;
             case R.id.u_mpwd:
-                startActivity(new Intent(MySettingActivity.this,UpdatePwdActivity.class));
+                startActivity(new Intent(MySettingActivity.this, UpdatePwdActivity.class));
                 break;
-
 
             default:
                 break;
@@ -237,15 +241,14 @@ public class MySettingActivity extends WDActivity {
                     Toast.makeText(MySettingActivity.this, "没有SDCard!", Toast.LENGTH_LONG)
                             .show();
                 }
-                 break;
+                break;
             case CODE_GALLERY_REQUEST:
                 cropRawPhoto(data.getData());
-                 break;
+                break;
             case CODE_RESULT_REQUEST:
                 if (data != null) {
                     setImageToHeadView(data);
                 }
-
                 break;
             default:
                 break;

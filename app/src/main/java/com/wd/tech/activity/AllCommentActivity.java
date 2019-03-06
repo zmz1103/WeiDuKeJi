@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.AllCommentAdapter;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.AllComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.exception.ApiException;
@@ -73,17 +74,19 @@ public class AllCommentActivity extends WDActivity implements CustomAdapt {
         mNickName = intent.getExtras().getString("nickName");
         imageHeadpic.setImageURI(mHeadPic);
         txtName.setText(mNickName);
-        txtNumcomment.setText(mComment+"条评论");
+        txtNumcomment.setText(mComment + "条评论");
         mAllCommentPresenter = new AllCommentPresenter(new AllComment());
         mAllCommentAdapter = new AllCommentAdapter(this);
         recyComment.setAdapter(mAllCommentAdapter);
         recyComment.setLayoutManager(new LinearLayoutManager(this));
-        mAllCommentPresenter.reqeust((int)user.getUserId(),user.getSessionId(),mCommunityId,1,10);
+
 
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         requestt(page);
-        refreshLayout.setEnableRefresh(true);//启用刷新
-        refreshLayout.setEnableLoadmore(true);//启用加载
+        //启用刷新
+        refreshLayout.setEnableRefresh(true);
+        //启用加载
+        refreshLayout.setEnableLoadmore(true);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -106,21 +109,19 @@ public class AllCommentActivity extends WDActivity implements CustomAdapt {
     }
 
     private void requestt(int page) {
-        if (user==null){
-            mAllCommentPresenter.reqeust(0,"",mCommunityId,page,10);
-        }else {
-            mAllCommentPresenter.reqeust((int)user.getUserId(),user.getSessionId(),mCommunityId,page,10);
-
+        if (user == null) {
+            mAllCommentPresenter.reqeust(0, "", mCommunityId, page, 10);
+        } else {
+            mAllCommentPresenter.reqeust((int) WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), mCommunityId, page, 10);
         }
     }
 
 
-
-    class AllComment implements DataCall<Result<List<com.wd.tech.bean.AllComment>>>{
+    class AllComment implements DataCall<Result<List<com.wd.tech.bean.AllComment>>> {
 
         @Override
         public void success(Result<List<com.wd.tech.bean.AllComment>> result) {
-            if (result.getStatus().equals("0000")){
+            if (result.getStatus().equals("0000")) {
                 mAllCommentAdapter.setAll(result.getResult());
                 mAllCommentAdapter.notifyDataSetChanged();
             }
@@ -148,6 +149,7 @@ public class AllCommentActivity extends WDActivity implements CustomAdapt {
     public void onViewClicked() {
         finish();
     }
+
     @Override
     public boolean isBaseOnWidth() {
         return false;

@@ -93,7 +93,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.myactivity.MySettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.myactivity.SignActivity"
