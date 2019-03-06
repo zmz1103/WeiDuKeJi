@@ -33,7 +33,6 @@ import me.jessyan.autosize.internal.CustomAdapt;
 public abstract class WDFragment extends Fragment {
     private Unbinder unbinder;
     public User user;
-    public UserDao userDao;
 
     @Nullable
     @Override
@@ -42,16 +41,12 @@ public abstract class WDFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getAppContext(), UserDao.TABLENAME);
-        userDao = daoSession.getUserDao();
-        List<User> users = userDao.loadAll();
-        if (users.size() > 0) {
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getSole() == 1) {
-                    user = users.get(i);
-                    break;
-                }
-            }
+
+        List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+        if (users.size() == 0) {
+            Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }else{
+            user = users.get(0);
         }
 
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
@@ -72,5 +67,13 @@ public abstract class WDFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
+            user = WDApplication.getAppContext().getUserDao().loadAll().get(0);
+        }
     }
 }

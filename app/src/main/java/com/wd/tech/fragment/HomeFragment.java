@@ -105,8 +105,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private InformationListPresenter mInformationListPresenter;
     private InformationAdapter mInformationAdapter;
 
-    private long userId;
-    private String sessionId;
     private int page = 1;
     private Intent mIntent;
     private AddCollectionPresenter mAddCollectionPresenter;
@@ -123,7 +121,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private String[] mSplit;
     private Dialog mDialog;
     private String mId;
-    private List<User> mUsers;
 
 
     @Override
@@ -135,12 +132,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     public void initView(View view) {
         mWxApi = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", true);
         mWxApi.registerApp("wx4c96b6b8da494224");
-        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
-            mUsers = WDApplication.getAppContext().getUserDao().loadAll();
 
-            userId = mUsers.get(0).getUserId();
-            sessionId = mUsers.get(0).getSessionId();
-        }
 
 
         mIntent = new Intent(getContext(), WebDetailsActivity.class);
@@ -163,6 +155,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         refreshLayout.setEnableRefresh(true);//启用刷新
         refreshLayout.setEnableLoadmore(true);//启用加载
 
+        Toast.makeText(getContext(), "---"+WDApplication.getAppContext().getUserDao().loadAll().size(), Toast.LENGTH_SHORT).show();
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -171,7 +164,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 requestt(page);
                 mInformationAdapter.clear();
                 refreshlayout.finishRefresh();
-
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -203,10 +195,10 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                     mI = i;
                     if (whetherCollection == 2) {
 
-                        mAddCollectionPresenter.reqeust(userId, sessionId, id);
+                        mAddCollectionPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), id);
                     } else {
                         String mid = String.valueOf(id);
-                        mCancelCollectionPresenter.reqeust(userId, sessionId, mid);
+                        mCancelCollectionPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), mid);
                     }
 
                 } else {
@@ -263,12 +255,11 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         mWxSharePresenter = null;
     }
 
+
     private void requestt(int page) {
         if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             mBannerPresenter.reqeust();
-            mInformationListPresenter.reqeust(userId, sessionId, "0", page, 10);
-
-
+            mInformationListPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), "0", page, 10);
         } else {
             Log.e("lk", "无 ");
             mBannerPresenter.reqeust();

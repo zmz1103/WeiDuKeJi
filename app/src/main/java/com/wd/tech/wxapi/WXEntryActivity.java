@@ -93,8 +93,11 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
                 List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
-                Toast.makeText(WXEntryActivity.this, ""+users.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WXEntryActivity.this, "" + users.size(), Toast.LENGTH_SHORT).show();
                 finish();
+            } else if (data.getStatus().equals("1001")) {
+                finish();
+                Toast.makeText(WXEntryActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

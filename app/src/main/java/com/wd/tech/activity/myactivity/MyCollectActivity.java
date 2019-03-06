@@ -68,14 +68,14 @@ public class MyCollectActivity extends WDActivity {
         mXRecyclerView.setEnableRefresh(true);
         //启用刷新
         mXRecyclerView.setEnableLoadmore(true);
-        mCollectListAdapter = new CollectListAdapter(this);
+        mCollectListAdapter = new CollectListAdapter(this, mLists);
         //启用加载
         mXRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 mPage = 1;
                 requestt(mPage);
-                mCollectListAdapter.clear();
+                mLists.clear();
                 refreshlayout.finishRefresh();
             }
         });
@@ -94,7 +94,7 @@ public class MyCollectActivity extends WDActivity {
 
     private void requestt(int page) {
         if (user == null) {
-            mFindAllInfoCillectionPresenter.reqeust(0, "", page, 35);
+            mFindAllInfoCillectionPresenter.reqeust(0L, "", page, 35);
         } else {
             mFindAllInfoCillectionPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 35);
         }
@@ -110,69 +110,45 @@ public class MyCollectActivity extends WDActivity {
     void oDian(View view) {
         switch (view.getId()) {
             case R.id.cancel_image_delete:
-                for (int i = 0; i < mLists.size(); i++) {
-                    CollectDataList collectDataList = mLists.get(i);
-                    collectDataList.setFlag(false);
-                    mCollectListAdapter.clear();
-                    mCollectListAdapter.setmLists(mLists);
-                    mCollectListAdapter.notifyDataSetChanged();
-                }
-                if (mBoolean) {
-                    cancel_image_delete.setVisibility(View.VISIBLE);
-                    cancel_text_collect.setVisibility(View.GONE);
-                    mBoolean = false;
+                cancel_text_collect.setVisibility(View.VISIBLE);
+                cancel_image_delete.setVisibility(View.GONE);
 
-                    for (int i = 0; i < mLists.size(); i++) {
-                        CollectDataList collectDataList = mLists.get(i);
-                        collectDataList.setFlag(false);
-                        mCollectListAdapter.clear();
-                        mCollectListAdapter.setmLists(mLists);
-                        mCollectListAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    cancel_text_collect.setVisibility(View.VISIBLE);
-                    cancel_image_delete.setVisibility(View.GONE);
-                    mBoolean = true;
-                    for (int i = 0; i < mLists.size(); i++) {
-                        CollectDataList collectDataList = mLists.get(i);
-                        collectDataList.setFlag(true);
-                        mCollectListAdapter.clear();
-                        mCollectListAdapter.setmLists(mLists);
-                        mCollectListAdapter.notifyDataSetChanged();
-                    }
+                for (int i = 0; i < mLists.size(); i++) {
+                    mLists.get(i).setKan(true);
                 }
+                mCollectListAdapter.notifyDataSetChanged();
                 break;
             case R.id.cancel_text_collect:
+                cancel_text_collect.setVisibility(View.GONE);
+                cancel_image_delete.setVisibility(View.VISIBLE);
 
-                if (mBoolean) {
-                    cancel_image_delete.setVisibility(View.VISIBLE);
-                    cancel_text_collect.setVisibility(View.GONE);
-                    mBoolean = false;
-                    for (int i = 0; i < mLists.size(); i++) {
-                        CollectDataList collectDataList = mLists.get(i);
-                        collectDataList.setFlag(false);
-                        mCollectListAdapter.clear();
-                        mCollectListAdapter.setmLists(mLists);
-                        mCollectListAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    cancel_text_collect.setVisibility(View.VISIBLE);
-                    cancel_image_delete.setVisibility(View.GONE);
-                    mBoolean = true;
-                    for (int i = 0; i < mLists.size(); i++) {
-                        CollectDataList collectDataList = mLists.get(i);
-                        collectDataList.setFlag(true);
-                        mCollectListAdapter.clear();
-                        mCollectListAdapter.setmLists(mLists);
-                        mCollectListAdapter.notifyDataSetChanged();
+                String id = "";
+
+                for (int i = 0; i < mLists.size(); i++) {
+                    boolean ischeck = mLists.get(i).isFlag();
+                    if (ischeck) {
+                        int infoId1 = mLists.get(i).getInfoId();
+                        id += infoId1 + ",";
                     }
                 }
-                //
-                String id = mCollectListAdapter.getId();
-                if (id.length() >= 1) {
+                if (id.equals("")) {
+
+                } else {
                     cancelCollectionPresenter.reqeust(user.getUserId(), user.getSessionId(), id);
                 }
 
+                //
+//                  id = mCollectListAdapter.getId();
+//                if (id.length() >= 1) {
+//                    cancelCollectionPresenter.reqeust(user.getUserId(), user.getSessionId(), id);
+//                }
+                for (int i = 0; i < mLists.size(); i++) {
+                    mLists.get(i).setKan(false);
+                }
+                for (int i = 0; i < mLists.size(); i++) {
+                    mLists.get(i).setFlag(false);
+                }
+                mCollectListAdapter.notifyDataSetChanged();
                 break;
             case R.id.my_back_sc:
                 finish();
@@ -188,12 +164,11 @@ public class MyCollectActivity extends WDActivity {
         public void success(Result<List<CollectDataList>> result) {
 
             if (result.getStatus().equals("0000")) {
-                mLists.clear();
-                mLists.addAll(result.getResult());
                 for (int i = 0; i < result.getResult().size(); i++) {
-                    result.getResult().get(i).setFlag(false);
+                     result.getResult().get(i).setFlag(false) ;
                 }
-                mCollectListAdapter.setmLists(result.getResult());
+                mLists.addAll(result.getResult());
+
                 mCollectListAdapter.notifyDataSetChanged();
             }
         }

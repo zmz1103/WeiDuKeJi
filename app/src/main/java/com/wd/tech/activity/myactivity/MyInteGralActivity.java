@@ -97,7 +97,7 @@ public class MyInteGralActivity extends WDActivity   {
 
     private void requestt(int page) {
         if (user == null) {
-            findUserIntegralRecordPresenter.reqeust(0, "", page, 10);
+            findUserIntegralRecordPresenter.reqeust(0L, "", page, 10);
         } else {
             findUserIntegralRecordPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 10);
         }

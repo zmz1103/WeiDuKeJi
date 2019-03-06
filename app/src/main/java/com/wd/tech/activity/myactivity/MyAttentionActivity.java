@@ -86,7 +86,7 @@ public class MyAttentionActivity extends WDActivity implements AttentionListAdap
 
     private void requestt(int page) {
         if (user == null) {
-            mFindFollowUserListPresenter.reqeust(0, "", page, 10);
+            mFindFollowUserListPresenter.reqeust(0L, "", page, 10);
         } else {
             mFindFollowUserListPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 10);
         }
