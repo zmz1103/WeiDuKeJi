@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hyphenate.easeui.EaseConstant;
 import com.wd.tech.R;
@@ -57,19 +58,6 @@ public class MyGroupActivity extends WDActivity{
             @Override
             public void onClick(String name) {
 
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (ContextCompat.checkSelfPermission(MyGroupActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MyGroupActivity.this, new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.READ_PHONE_STATE
-                        }, 100);
-                    }
-                }
-
                 Intent intent = new Intent(MyGroupActivity.this,IMGroupActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,name);
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
@@ -78,9 +66,15 @@ public class MyGroupActivity extends WDActivity{
             }
         });
     }
-    @OnClick(R.id.my_group_back)
-    public void onClick(){
-        finish();
+    @OnClick({R.id.my_group_back,R.id.groups_ine})
+    public void onClick(View view){
+        if (view.getId() == R.id.my_group_back){
+            finish();
+        }
+        if(view.getId() == R.id.groups_ine){
+            Intent intent = new Intent(MyGroupActivity.this, GroupNoticeActivity.class);
+            startActivity(intent);
+        }
     }
     @Override
     protected void destoryData() {

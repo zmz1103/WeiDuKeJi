@@ -156,6 +156,7 @@
         <activity android:name=".activity.AllCommentActivity"></activity>
         <activity android:name=".activity.MyGroupActivity"/>
         <activity android:name=".activity.huanxin.IMGroupActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.GroupNoticeActivity"/>
     </application>
 
 </manifest>

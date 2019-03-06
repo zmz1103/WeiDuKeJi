@@ -49,7 +49,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
- * date:2019/2/18 20:28
+ * date:2019/2/27 20:28
  * author:赵明珠(啊哈)
  * function:
  */
@@ -232,21 +232,22 @@ public interface IRequest {
                                                           @Header("sessionId") String sessionId,
                                                           @Query("page") int page,
                                                           @Query("count") int count);
+
     // 上传头像 user/verify/v1/modifyHeadPic
     @POST("user/verify/v1/modifyHeadPic")
     Observable<RequestBody> modifyHeadPic(@Header("userId") long userId,
-                                          @Header("sessionId")String sessionId,
+                                          @Header("sessionId") String sessionId,
                                           @Body MultipartBody body);
 
     // 签到 user/verify/v1/userSign
     @POST("user/verify/v1/userSign")
     Observable<Result> userSign(@Header("userId") long userId,
-                                       @Header("sessionId") String sessionId );
+                                @Header("sessionId") String sessionId);
 
     //user/verify/v1/findUserSignRecording 查询用户当月所有签到的日期
     @GET("user/verify/v1/findUserSignRecording")
     Observable<Result<List<String>>> findUserSignRecording(@Header("userId") long title,
-                                                                         @Header("sessionId") String page );
+                                                           @Header("sessionId") String page);
 
     // user/verify/v1/findUserSignStatus  查询当天签到状态
     @GET("user/verify/v1/findUserSignStatus")
@@ -294,11 +295,12 @@ public interface IRequest {
                                      @Header("sessionId") String sessionId,
                                      @Query("oldPwd") String oldPwd,
                                      @Query("newPwd") String newPwd);
+
     // 修改用户签名  usererify1/modifySignature
     @PUT("usererify1/modifySignature")
     Observable<Result> modifySignature(@Header("userId") int userId,
                                        @Header("sessionId") String sessionId,
-                                       @Query("signature") String oldPwd );
+                                       @Query("signature") String oldPwd);
 
     /**
      * 按标题搜索(lk)
@@ -322,8 +324,8 @@ public interface IRequest {
      */
     @DELETE("information/verify/v1/cancelGreat")
     Observable<Result> cancelGreat(@Header("userId") long userId,
-                                @Header("sessionId")String sessionId,
-                                @Query("infoId") String infoId);
+                                   @Header("sessionId") String sessionId,
+                                   @Query("infoId") String infoId);
 
     /**
      * 资讯收藏（lk)
@@ -348,7 +350,7 @@ public interface IRequest {
      */
     @GET("information/v1/findInformationDetails")
     Observable<Result<InformationDetailsBean>> infordetails(@Header("userId") long userId,
-                                                            @Header("sessionId")String sessionId,
+                                                            @Header("sessionId") String sessionId,
                                                             @Query("id") String id);
 
 
@@ -357,7 +359,7 @@ public interface IRequest {
      */
     @GET("information/v1/findAllInfoCommentList")
     Observable<Result<List<AllInfoCommentListBean>>> infoCommentList(@Header("userId") long userId,
-                                                                     @Header("sessionId")String sessionId,
+                                                                     @Header("sessionId") String sessionId,
                                                                      @Query("infoId") String infoId,
                                                                      @Query("page") int page,
                                                                      @Query("count") int count);
@@ -368,9 +370,9 @@ public interface IRequest {
     @POST("information/verify/v1/addInfoComment")
     @FormUrlEncoded
     Observable<Result> addinforComment(@Header("userId") long userId,
-                                      @Header("sessionId")String sessionId,
-                                      @Field("content") String content,
-                                      @Field("infoId") String infoId);
+                                       @Header("sessionId") String sessionId,
+                                       @Field("content") String content,
+                                       @Field("infoId") String infoId);
 
 
     /**
@@ -395,6 +397,7 @@ public interface IRequest {
                                    @Header("sessionId") String sessionId,
                                    @Field("name") String name,
                                    @Field("description") String description);
+
     /**
      * @作者 啊哈
      * @date 2019/2/26
@@ -439,6 +442,7 @@ public interface IRequest {
                                 @Header("sessionId") String session,
                                 @Field("noticeId") int noticeId,
                                 @Field("flag") int flag);
+
     /**
      * @作者 啊哈
      * @date 2019/3/1
@@ -498,9 +502,9 @@ public interface IRequest {
     @POST("tool/verify/v1/pay")
     @FormUrlEncoded
     Observable<Result<String>> buypay(@Header("userId") long userId,
-                            @Header("sessionId") String sessionId,
-                            @Field("orderId") String orderId,
-                            @Field("payType") int payType);
+                                      @Header("sessionId") String sessionId,
+                                      @Field("orderId") String orderId,
+                                      @Field("payType") int payType);
 
 
     /**
@@ -524,6 +528,7 @@ public interface IRequest {
     Observable<Result> delete(@Header("userId") int userId,
                               @Header("sessionId") String sessionId,
                               @Query("friendUid") int friendUid);
+
     /**
      * @作者 啊哈
      * @date 2019/3/4
@@ -531,8 +536,9 @@ public interface IRequest {
      */
     @GET("chat/verify/v1/checkMyFriend")
     Observable<Result> judge(@Header("userId") int userId,
-                              @Header("sessionId") String sessionId,
-                              @Query("friendUid") int friendUid);
+                             @Header("sessionId") String sessionId,
+                             @Query("friendUid") int friendUid);
+
     /**
      * @作者 啊哈
      * @date 2019/3/4
@@ -540,15 +546,16 @@ public interface IRequest {
      */
     @GET("chat/verify/v1/findFriendGroupList")
     Observable<Result<List<Group>>> groups(@Header("userId") int userId,
-                             @Header("sessionId") String sessionId);
+                                           @Header("sessionId") String sessionId);
 
     //全部评论
     @GET("community/v1/findCommunityUserCommentList")
     Observable<Result<List<AllComment>>> getAllComment(@Header("userId") int userId,
                                                        @Header("sessionId") String sessionId,
-                                                       @Query("communityId")int communityId,
-                                                       @Query("page")int page,
-                                                       @Query("count")int count);
+                                                       @Query("communityId") int communityId,
+                                                       @Query("page") int page,
+                                                       @Query("count") int count);
+
     /**
      * @作者 啊哈
      * @date 2019/3/5
@@ -557,4 +564,26 @@ public interface IRequest {
     @GET("group/verify/v1/findUserJoinedGroup")
     Observable<Result<List<MyGroup>>> querygroup(@Header("userId") int userId,
                                                  @Header("sessionId") String sessionId);
+
+    /**
+     * @作者 啊哈
+     * @date 2019/3/6
+     * @method：群通知
+     */
+    @GET("group/verify/v1/findGroupNoticePageList")
+    Observable<Result<List<FriendInform>>> groupnotice(@Header("userId") int userId,
+                                                  @Header("sessionId") String sessionId,
+                                                  @Query("page") int page,
+                                                  @Query("count") int count);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/6
+     * @method：群审核
+     */
+    @FormUrlEncoded
+    @PUT("group/verify/v1/reviewGroupApply")
+    Observable<Result> groupaudit(@Header("userId") int userid,
+                                @Header("sessionId") String session,
+                                @Field("noticeId") int noticeId,
+                                @Field("flag") int flag);
 }

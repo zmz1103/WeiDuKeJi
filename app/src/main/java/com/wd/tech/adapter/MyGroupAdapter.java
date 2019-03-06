@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -49,7 +50,7 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final MyGroup myGroup = mList.get(i);
-
+        Log.e("zmz","我的群组");
         viewHolder.mSimple.setImageURI(Uri.parse(myGroup.getGroupImage()));
         viewHolder.name.setText(myGroup.getGroupName());
 

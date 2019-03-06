@@ -11,6 +11,9 @@ public class MyGroup {
     private String groupImage;
     private String hxGroupId;
     private int role;
+    private int userId;
+    private String nickName;
+    private String headPic;
 
     public int getGroupId() {
         return groupId;

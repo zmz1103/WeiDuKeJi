@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/ad"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/my_group_back"
@@ -33,11 +34,52 @@
             android:layout_alignParentBottom="true"
             android:background="#eeeeee"/>
     </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/groups_ine"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_below="@+id/ad"
+        android:background="@color/white">
+        <RelativeLayout
+            android:id="@+id/jia"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/message_btn_true">
+            <ImageView
+                android:id="@+id/jiatu"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/add_group_n"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/jia"
+            android:textColor="@color/color_Text"
+            android:text="群通知"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#eeeeee" />
+
+    </RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_group_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ad">
+        android:layout_below="@+id/groups_ine">
 
     </android.support.v7.widget.RecyclerView>
 
