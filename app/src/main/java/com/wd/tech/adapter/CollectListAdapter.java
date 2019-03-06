@@ -31,8 +31,8 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
     private Context mContext;
     public Vh vh;
 
-    public CollectListAdapter(Context context) {
-        this.mLists = new ArrayList<>();
+    public CollectListAdapter(Context context,List<CollectDataList> mlists) {
+        this.mLists = mlists ;
         this.mContext = context;
     }
 
@@ -41,8 +41,6 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
             this.mLists.addAll(mLists);
         }
     }
-
-    StringBuilder stringBuilder = new StringBuilder();
 
     @NonNull
     @Override
@@ -63,16 +61,18 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
 
         vh.mTitle.setText(collectDataList.getTitle());
         vh.mAuther.setText(ToDate.timedate(collectDataList.getCreateTime()));
-        if (collectDataList.isFlag()) {
+        if (collectDataList.isKan()) {
             vh.rb.setVisibility(View.VISIBLE);
         } else {
             vh.rb.setVisibility(View.GONE);
         }
-
+        vh.rb.setChecked(false);
         vh.rb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stringBuilder.append(mLists.get(vh.getLayoutPosition()).getInfoId() + ",");
+                CheckBox checkBox = (CheckBox) v;
+                boolean checked = checkBox.isChecked();
+                mLists.get(vh.getLayoutPosition()).setFlag(checked);
             }
         });
         vh.itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,13 +85,6 @@ public class CollectListAdapter extends RecyclerView.Adapter<CollectListAdapter.
         });
     }
 
-    public String getId() {
-        if (stringBuilder.toString().length()> 1) {
-            StringBuilder st = this.stringBuilder.deleteCharAt(this.stringBuilder.toString().length() - 1);
-            return st.toString();
-        }
-        return "";
-    }
 
     @Override
     public int getItemCount() {

@@ -77,7 +77,7 @@ public class MyNoticeActivity extends WDActivity {
     }
     private void requestt(int page) {
         if (user == null) {
-            mFindSysNoticePresenter.reqeust(0, "", page, 5);
+            mFindSysNoticePresenter.reqeust(0L, "", page, 5);
         } else {
             mFindSysNoticePresenter.reqeust(user.getUserId(), user.getSessionId(), page, 5);
         }

@@ -101,7 +101,7 @@ public class MyCardActivity extends WDActivity implements CardListAdapter.Delete
 
     private void requestt(int page) {
         if (user == null) {
-            mFindMyPostByIdPresenter.reqeust(0, "", page, 10);
+            mFindMyPostByIdPresenter.reqeust(0L, "", page, 10);
         } else {
             mFindMyPostByIdPresenter.reqeust(user.getUserId(), user.getSessionId(), page, 10);
         }

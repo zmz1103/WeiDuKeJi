@@ -41,22 +41,29 @@
         android:theme="@style/TranslucentTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
-        <activity android:name=".activity.StartActivity">
+        <activity android:name=".activity.StartActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop" />
-        <activity android:name=".activity.PublishActivity" />
-        <activity android:name=".activity.FriendsPostActivity" />
-        <activity android:name=".activity.NoNetWorkActivity" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PublishActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.FriendsPostActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.NoNetWorkActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -70,47 +77,76 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".activity.myactivity.MyCollectActivity" />
-        <activity android:name=".activity.myactivity.MyAttentionActivity" />
-        <activity android:name=".activity.myactivity.MyCardActivity" />
-        <activity android:name=".activity.myactivity.MyNoticeActivity" />
-        <activity android:name=".activity.myactivity.MyInteGralActivity" />
-        <activity android:name="com.wd.tech.activity.myactivity.UpdatePwdActivity" />
+        <activity android:name=".activity.myactivity.MyCollectActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.myactivity.MyAttentionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.myactivity.MyCardActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.myactivity.MyNoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.myactivity.MyInteGralActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.wd.tech.activity.myactivity.UpdatePwdActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.myactivity.MyTaskActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.myactivity.MySettingActivity" />
-        <activity android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity" />
-        <activity android:name=".activity.myactivity.SignActivity" />
-        <activity android:name=".activity.InterestActivity" />
-        <activity android:name=".activity.PictureDisplayActivity" />
-        <activity android:name=".activity.WebDetailsActivity" />
-        <activity android:name=".activity.InterestDetailsActivity" />
-        <activity android:name=".activity.AddFriendActivity" />
-        <activity android:name=".activity.AddFriendsActivity" />
-        <activity android:name=".activity.SearchActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.myactivity.MySettingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.myactivity.SignActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.InterestActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PictureDisplayActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WebDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.InterestDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AddFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.AddFriendsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.InformationDetailsActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FridendAddActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5c7d1cbe61f56448cc00012c" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
-        <activity android:name=".activity.CreateGroupActivity" />
-        <activity android:name=".activity.OpenVipActivity" />
-        <activity android:name=".activity.IntegralActivity"></activity>
-        <activity android:name=".activity.LookImageActivity" />
-        <activity android:name=".activity.SendApplyActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.GroupApplyActivity"/>
-        <activity android:name=".activity.SearchMyFriendActivity"/>
-        <activity android:name=".activity.AuditFriendActivity"/>
+        <activity android:name=".activity.CreateGroupActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.OpenVipActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.IntegralActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.LookImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SendApplyActivity" android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GroupApplyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SearchMyFriendActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AuditFriendActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.huanxin.IMActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.huanxin.IMActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1182180123115181#weixinandqq" /> <!-- 声明SDK所需的service SDK核心功能 -->
@@ -135,10 +171,14 @@
         </receiver>
 
 
-        <activity android:name=".activity.myactivity.PublishSingActivity"></activity>
-        <activity android:name=".activity.FriendDataActivity"/>
-        <activity android:name=".activity.SettingActivity"/>
-        <activity android:name=".activity.GroupsActivity"/>
+        <activity android:name=".activity.myactivity.PublishSingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.FriendDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GroupsActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -153,7 +193,8 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity android:name=".activity.AllCommentActivity"></activity>
+        <activity android:name=".activity.AllCommentActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

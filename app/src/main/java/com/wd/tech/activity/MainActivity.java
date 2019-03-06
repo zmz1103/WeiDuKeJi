@@ -174,15 +174,15 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         public void success(Result<User> result) {
             Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                UserDao userDao = DaoMaster.newDevSession(MainActivity.this, UserDao.TABLENAME).getUserDao();
-                userDao.deleteAll();
+
+                WDApplication.getAppContext().getUserDao();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
-                userDao.insertOrReplace(user);
+                WDApplication.getAppContext().getUserDao().insertOrReplace(user);
 
                 finish();
-                Log.v("数据库---",""+userDao.loadAll().get(0).toString());
+                Log.v("数据库---",""+WDApplication.getAppContext().getUserDao().loadAll().get(0).toString());
 
                 EMClient.getInstance().login(result.getResult().getUserName(),result.getResult().getPwd(),new EMCallBack() {//回调
                     @Override
