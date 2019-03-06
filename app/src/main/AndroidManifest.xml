@@ -23,7 +23,6 @@
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <!-- 获取设备唯一标识，用于SDK激活授权 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -170,7 +169,6 @@
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".activity.myactivity.PublishSingActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.FriendDataActivity"
@@ -195,10 +193,13 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name=".activity.AllCommentActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.AllCommentActivity"></activity>
-        <activity android:name=".activity.MyGroupActivity"/>
-        <activity android:name=".activity.huanxin.IMGroupActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.GroupNoticeActivity"/>
+        <activity android:name=".activity.MyGroupActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.huanxin.IMGroupActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GroupNoticeActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

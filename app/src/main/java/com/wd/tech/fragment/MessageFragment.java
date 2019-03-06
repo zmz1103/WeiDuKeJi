@@ -25,6 +25,7 @@ import com.wd.tech.activity.FridendAddActivity;
 import com.wd.tech.activity.HomeActivity;
 import com.wd.tech.activity.MainActivity;
 import com.wd.tech.activity.huanxin.IMActivity;
+import com.wd.tech.application.WDApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +68,6 @@ public class MessageFragment extends WDFragment {
         EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
         mList.add(conversationListFragment);
         mList.add(myMessageFrament);
-
-
 
         conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
 
@@ -138,7 +137,7 @@ public class MessageFragment extends WDFragment {
 
     @OnClick(R.id.add)
     public void OnClick() {
-        if (user != null){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0){
             View inflate = View.inflate(getActivity(), R.layout.activity_pop_window, null);
 
             PopupWindow popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
