@@ -52,6 +52,7 @@ import com.wd.tech.activity.OpenVipActivity;
 import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.activity.WebDetailsActivity;
 import com.wd.tech.adapter.InformationAdapter;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
@@ -122,6 +123,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private String[] mSplit;
     private Dialog mDialog;
     private String mId;
+    private List<User> mUsers;
 
 
     @Override
@@ -133,10 +135,11 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     public void initView(View view) {
         mWxApi = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", true);
         mWxApi.registerApp("wx4c96b6b8da494224");
-        if (userDao.loadAll().size() > 0) {
-            List<User> users = userDao.loadAll();
-            userId = users.get(0).getUserId();
-            sessionId = users.get(0).getSessionId();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            mUsers = WDApplication.getAppContext().getUserDao().loadAll();
+
+            userId = mUsers.get(0).getUserId();
+            sessionId = mUsers.get(0).getSessionId();
         }
 
 
@@ -188,13 +191,15 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 startActivity(mIntent);
             }
         });
+
+
         mAddCollectionPresenter = new AddCollectionPresenter(new AddCollectionCall());
         mCancelCollectionPresenter = new CancelCollectionPresenter(new CancelCollectionCall());
 
-        mInformationAdapter.setAddgreat(new InformationAdapter.Addcollection() {
+        mInformationAdapter.setAddcollection(new InformationAdapter.Addcollection() {
             @Override
             public void addsuccess(int id, int whetherCollection,int i) {
-                if (userDao.loadAll().size() > 0) {
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                     mI = i;
                     if (whetherCollection == 2) {
 
@@ -253,14 +258,13 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         super.onDestroyView();
         mBannerPresenter = null;
         mInformationListPresenter = null;
+        mCancelCollectionPresenter = null;
+        mAddCollectionPresenter = null;
+        mWxSharePresenter = null;
     }
 
     private void requestt(int page) {
-        if (userDao.loadAll().size() > 0) {
-
-            List<User> users = userDao.loadAll();
-            long userId = users.get(0).getUserId();
-            String sessionId = users.get(0).getSessionId();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             mBannerPresenter.reqeust();
             mInformationListPresenter.reqeust(userId, sessionId, "0", page, 10);
 
@@ -472,8 +476,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage();
-        msg.title = mResult.get(mI).getTitle();
-        msg.description = mResult.get(mI).getSummary();
+        msg.title = mResult.get(mInt).getTitle();
+        msg.description = mResult.get(mInt).getSummary();
         msg.mediaObject = webpage;
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("webpage");
@@ -527,5 +531,10 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mInformationAdapter.clear();
+        requestt(page);
+    }
 }

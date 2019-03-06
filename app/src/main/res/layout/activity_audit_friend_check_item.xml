@@ -9,7 +9,7 @@
         android:layout_width="80dp"
         android:layout_height="26dp"
         android:layout_centerHorizontal="true"
-        android:background="#99999999"
+        android:background="#d7d7d7"
         android:gravity="center"
         android:text=""
         android:textColor="@color/color_Text"

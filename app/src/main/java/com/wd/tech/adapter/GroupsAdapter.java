@@ -1,4 +1,4 @@
-package com.wd.tech.ad;
+package com.wd.tech.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wd.tech.R;
-import com.wd.tech.activity.GroupsActivity;
 import com.wd.tech.bean.Group;
 
 import java.util.ArrayList;

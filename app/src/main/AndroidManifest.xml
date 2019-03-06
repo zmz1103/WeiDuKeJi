@@ -195,6 +195,10 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name=".activity.AllCommentActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.AllCommentActivity"></activity>
+        <activity android:name=".activity.MyGroupActivity"/>
+        <activity android:name=".activity.huanxin.IMGroupActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.GroupNoticeActivity"/>
     </application>
 
 </manifest>

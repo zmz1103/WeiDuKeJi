@@ -14,8 +14,43 @@ public class FriendInform {
     private long noticeTime;
     private int receiveUid;
     private String remark;
+    private String nickName;
+    private String groupName;
+    private String headPic;
+    private int type;
     private int status;
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getHeadPic() {
+        return headPic;
+    }
+
+    public void setHeadPic(String headPic) {
+        this.headPic = headPic;
+    }
     public String getFromHeadPic() {
         return fromHeadPic;
     }
