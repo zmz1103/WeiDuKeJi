@@ -39,7 +39,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
     @NonNull
     @Override
     public MyHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(viewGroup.getContext(), R.layout.circle_image_item, null);
+        View view = View.inflate(viewGroup.getContext(), R.layout.picture_image_item, null);
         return new MyHodler(view);
     }
 
