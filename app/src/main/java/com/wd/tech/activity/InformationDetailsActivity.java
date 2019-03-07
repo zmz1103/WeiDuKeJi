@@ -60,6 +60,7 @@ import com.wd.tech.presenter.AddInforCommentPresenter;
 import com.wd.tech.presenter.AllInfoCommentListPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.InfoShareNum;
 import com.wd.tech.presenter.InformationDetailsPresenter;
 import com.wd.tech.util.DateUtils;
@@ -149,6 +150,7 @@ public class InformationDetailsActivity extends WDActivity {
     private InfoShareNum mInfoShareNum;
     private Dialog mDialog;
     private IWXAPI mWxApi;
+    private DoTheTastPresenter mDoTheTastPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -180,11 +182,13 @@ public class InformationDetailsActivity extends WDActivity {
 
         //f分享
         mInfoShareNum = new InfoShareNum(new ShareCall());
-
+//做任务
+        mDoTheTastPresenter = new DoTheTastPresenter(new DotheTaskCall());
 
         mIntent = getIntent();
         mId = mIntent.getStringExtra("id");
         //mBacki = mIntent.getStringExtra("backi");
+
 
 
         mTransfer = (Transfer)mIntent.getSerializableExtra("mTransfer");
@@ -208,6 +212,15 @@ public class InformationDetailsActivity extends WDActivity {
         recommendedlist.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false));
         mIfmDtlRecommendedAdapter = new IfmDtlRecommendedAdapter(this);
         recommendedlist.setAdapter(mIfmDtlRecommendedAdapter);
+        //点击推荐
+        mIfmDtlRecommendedAdapter.setReconment(new IfmDtlRecommendedAdapter.reconment() {
+            @Override
+            public void re(int id) {
+                Intent intent = new Intent(InformationDetailsActivity.this,InformationDetailsActivity.class);
+                intent.putExtra("id",id+"");
+                startActivity(intent);
+            }
+        });
 
         editcomment.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -302,6 +315,14 @@ public class InformationDetailsActivity extends WDActivity {
     @Override
     protected void destoryData() {
         mInformationDetailsPresenter = null;
+        mAddCollectionPresenter = null;
+        mAddGreatPresenter = null;
+        mAddInforCommentPresenter = null;
+        mAllInfoCommentListPresenter = null;
+        mCancelCollectionPresenter = null;
+        mCancelGreatPresenter = null;
+        mDoTheTastPresenter = null;
+        mInfoShareNum = null;
     }
 
 
@@ -316,6 +337,7 @@ public class InformationDetailsActivity extends WDActivity {
                 break;
             case R.id.share:
                 mInfoShareNum.reqeust(mId);
+
                 break;
         }
     }
@@ -666,6 +688,7 @@ public class InformationDetailsActivity extends WDActivity {
         public void success(Result result) {
             if (result.getStatus().equals("0000")) {
                 Toast.makeText(InformationDetailsActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1002);
                 editcomment.setText("");
                 mAllInfoCommentListAdapter.clear();
                 mAllInfoCommentListPresenter.reqeust(mUserId, mSessionId, mId, 1, 100);
@@ -693,8 +716,12 @@ public class InformationDetailsActivity extends WDActivity {
 
                 mShare = mResult.getShare();
                 shareshu.setText(String.valueOf(mShare+1));
-
                 WeChatShare();
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+                    mDoTheTastPresenter.reqeust(mUserId,mSessionId,1004);
+                }
+
+
             }
         }
 
@@ -784,6 +811,19 @@ public class InformationDetailsActivity extends WDActivity {
             mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
         } else {
             mInformationDetailsPresenter.reqeust(0L, "", mId);
+        }
+    }
+
+    //做任务
+    private class DotheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
 }

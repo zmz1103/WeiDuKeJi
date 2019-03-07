@@ -64,6 +64,7 @@ import com.wd.tech.presenter.AddCollectionPresenter;
 import com.wd.tech.presenter.AddGreatPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
+import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.InfoShareNum;
 import com.wd.tech.presenter.InformationListPresenter;
 import com.wd.tech.presenter.WxSharePresenter;
@@ -122,6 +123,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private Dialog mDialog;
     private String mId;
     private String mJumpUrl;
+    private DoTheTastPresenter mDoTheTastPresenter;
 
 
     @Override
@@ -143,7 +145,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
          */
         mWxSharePresenter = new WxSharePresenter(new WxShareCall());
         mInfoShareNum = new InfoShareNum(new ShareCall());
-
+//做任务
+        mDoTheTastPresenter = new DoTheTastPresenter(new DotheTaskCall());
 
         recyclerlist.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.VERTICAL, false));
         mInformationAdapter = new InformationAdapter(getContext());
@@ -252,6 +255,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         mCancelCollectionPresenter = null;
         mAddCollectionPresenter = null;
         mWxSharePresenter = null;
+        mDoTheTastPresenter = null;
+        mInfoShareNum = null;
     }
 
 
@@ -433,6 +438,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 mSplit = thumbnail.split("\\?");
                 if (result.getStatus().equals("0000")){
                     WeChatShare();
+                    mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1004);
                 }else {
 
                 }
@@ -541,6 +547,18 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         } else {
             Log.e("lk", "无 ");
             mInformationListPresenter.reqeust(0L, " ", "0", page, 10);
+
+        }
+    }
+    //做任务
+    private class DotheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
 
         }
     }

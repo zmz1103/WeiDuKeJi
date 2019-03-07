@@ -46,11 +46,18 @@ public class IfmDtlRecommendedAdapter extends RecyclerView.Adapter<IfmDtlRecomme
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         mThumbnail = mInformationListBeans.get(i).getThumbnail();
         mSplit = mThumbnail.split("\\?");
         viewHolder.simpleimage.setImageURI(mSplit[0]);
         viewHolder.title.setText(mInformationListBeans.get(i).getTitle());
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mReconment.re(mInformationListBeans.get(i).getId());
+            }
+        });
     }
 
     @Override
@@ -68,5 +75,15 @@ public class IfmDtlRecommendedAdapter extends RecyclerView.Adapter<IfmDtlRecomme
             simpleimage = itemView.findViewById(R.id.simpleimage);
             title = itemView.findViewById(R.id.title);
         }
+    }
+
+    public interface reconment{
+        void re(int id);
+    }
+
+    private  reconment mReconment;
+
+    public void setReconment(reconment reconment) {
+        mReconment = reconment;
     }
 }

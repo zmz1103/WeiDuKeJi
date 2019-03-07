@@ -14,6 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wd.tech.R;
+import com.wd.tech.application.WDApplication;
+import com.wd.tech.bean.Result;
+import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.DoTheTastPresenter;
+import com.wd.tech.view.DataCall;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +35,7 @@ public class WebDetailsActivity extends WDActivity {
     WebView mWebView;
     private Intent mIntent;
     private String mJumpUrl;
+    private DoTheTastPresenter mDoTheTastPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -40,6 +46,10 @@ public class WebDetailsActivity extends WDActivity {
     protected void initView() {
         mIntent = getIntent();
         mJumpUrl = mIntent.getStringExtra("jumpUrl");
+
+        //做任务
+        mDoTheTastPresenter = new DoTheTastPresenter(new DotheTaskCall());
+        mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1005);
 
         WebSettings mWebSettings = mWebView.getSettings();
         /* 设置支持Js,必须设置的,不然网页基本上不能看 */
@@ -117,7 +127,7 @@ public class WebDetailsActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-
+        mDoTheTastPresenter = null;
     }
 
 
@@ -125,5 +135,18 @@ public class WebDetailsActivity extends WDActivity {
     @OnClick(R.id.back)
     public void onViewClicked() {
         finish();
+    }
+
+    //做任务
+    private class DotheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result result) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }
