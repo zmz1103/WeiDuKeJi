@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.wd.tech.R;
 import com.wd.tech.activity.huanxin.IMGroupActivity;
 import com.wd.tech.adapter.MyGroupAdapter;
@@ -37,6 +38,8 @@ public class MyGroupActivity extends WDActivity{
     RecyclerView mRecyclerView;
     private MyGroupAdapter mAdapter;
     QueryPresenter mQueryPresenter;
+    private List<MyGroup> mResult;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_my_group_item;
@@ -56,11 +59,12 @@ public class MyGroupActivity extends WDActivity{
 
         mAdapter.setOnClickListener(new MyGroupAdapter.OnClickListener() {
             @Override
-            public void onClick(String name) {
+            public void onClick(String name,String groupName) {
 
                 Intent intent = new Intent(MyGroupActivity.this,IMGroupActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,name);
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                intent.putExtra("UserNames",groupName);
                 startActivity(intent);
 
             }
@@ -85,7 +89,7 @@ public class MyGroupActivity extends WDActivity{
         @Override
         public void success(Result<List<MyGroup>> result) {
             if (result.getStatus().equals("0000")){
-                List<MyGroup> mResult = result.getResult();
+                mResult = result.getResult();
                 mAdapter.clear();
                 mAdapter.addAll(mResult);
                 mAdapter.notifyDataSetChanged();

@@ -6,9 +6,38 @@
     android:animateLayoutChanges="true"
     android:background="#f2f0eb">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/TextTure">
+        <ImageView
+            android:id="@+id/chat_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:padding="6dp"
+            android:src="@drawable/common_nav_btn_back_n"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:text="群组"/>
+        <ImageView
+            android:id="@+id/chat_setting"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/nav_btn_setting_n"
+            android:layout_marginRight="18dp"/>
+
+    </RelativeLayout>
     <FrameLayout
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/hx_ok"></FrameLayout>
-
 </RelativeLayout>

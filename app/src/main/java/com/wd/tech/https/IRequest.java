@@ -6,6 +6,7 @@ import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.FindConversationList;
 import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.Flockformation;
 import com.wd.tech.bean.FriendInform;
@@ -586,4 +587,13 @@ public interface IRequest {
                                 @Header("sessionId") String session,
                                 @Field("noticeId") int noticeId,
                                 @Field("flag") int flag);
+    /**
+     * @作者 啊哈
+     * @date 2019/3/6
+     * @method：环信userNames批量查询会话列表需要的用户信息
+     */
+    @GET("user/verify/v1/findConversationList")
+    Observable<Result<List<FindConversationList>>> groupNoticePageList(@Header("userId") int userId,
+                                                                       @Header("sessionId") String sessionId,
+                                                                       @Query("userNames") String userNames);
 }

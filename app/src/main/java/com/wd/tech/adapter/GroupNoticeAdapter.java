@@ -70,7 +70,13 @@ public class GroupNoticeAdapter extends RecyclerView.Adapter<GroupNoticeAdapter.
         if (friendInform.getStatus() != 1){
             viewHolder.mConsent.setVisibility(View.GONE);
             viewHolder.mRefuse.setVisibility(View.GONE);
+            if (friendInform.getStatus() == 2){
+                viewHolder.mText.setText("已通过");
+            }else {
+                viewHolder.mText.setText("已拒绝");
+            }
         }else {
+            viewHolder.mText.setVisibility(View.GONE);
             viewHolder.mConsent.setVisibility(View.VISIBLE);
             viewHolder.mRefuse.setVisibility(View.VISIBLE);
         }
@@ -103,9 +109,10 @@ public class GroupNoticeAdapter extends RecyclerView.Adapter<GroupNoticeAdapter.
         TextView mConsent;
         TextView mRefuse;
         TextView mTime;
-
+        TextView mText;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            mText = itemView.findViewById(R.id.flag);
             mName = itemView.findViewById(R.id.group_notice_name);
             mSimple = itemView.findViewById(R.id.group_notice_headpic);
             mMessage = itemView.findViewById(R.id.group_notice_message);

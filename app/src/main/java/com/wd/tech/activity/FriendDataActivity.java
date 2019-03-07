@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.wd.tech.R;
 import com.wd.tech.activity.huanxin.IMActivity;
 import com.wd.tech.bean.QueryFriendList;
@@ -100,6 +102,7 @@ public class FriendDataActivity extends WDActivity{
 
             Intent intent = new Intent(FriendDataActivity.this, IMActivity.class);
             intent.putExtra(EaseConstant.EXTRA_USER_ID,mUserName);
+            intent.putExtra("UserNames",mUserName);
             intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
             startActivity(intent);
         }

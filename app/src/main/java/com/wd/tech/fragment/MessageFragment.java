@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.wd.tech.R;
 import com.wd.tech.activity.CreateGroupActivity;
 import com.wd.tech.activity.FridendAddActivity;
 import com.wd.tech.activity.HomeActivity;
 import com.wd.tech.activity.MainActivity;
 import com.wd.tech.activity.huanxin.IMActivity;
+import com.wd.tech.activity.huanxin.IMGroupActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,15 +69,34 @@ public class MessageFragment extends WDFragment {
         mList.add(myMessageFrament);
 
 
-
         conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+
+            @Override
+            public void onListItemClicked(EMConversation conversation) {
+                EMConversation.EMConversationType type = conversation.getType();
+                if (type == EMConversation.EMConversationType.Chat) {
+                    Intent intent = new Intent(getContext(), IMActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                    intent.putExtra("UserNames", conversation.conversationId());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getContext(), IMGroupActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                    intent.putExtra("UserNames", conversation.conversationId());
+                    startActivity(intent);
+                }
+            }
+        });
+/*
+*  conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
 
             @Override
             public void onListItemClicked(EMConversation conversation) {
                 startActivity(new Intent(getContext(), IMActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId()));
             }
         });
-
+*
+* */
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -138,7 +157,7 @@ public class MessageFragment extends WDFragment {
 
     @OnClick(R.id.add)
     public void OnClick() {
-        if (user != null){
+        if (user != null) {
             View inflate = View.inflate(getActivity(), R.layout.activity_pop_window, null);
 
             PopupWindow popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -151,14 +170,14 @@ public class MessageFragment extends WDFragment {
             popWindow.showAsDropDown(mAdd);
 
             initPopClick(inflate);
-        }else {
+        } else {
             Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initPopClick(View view) {
         RelativeLayout mFriend = view.findViewById(R.id.add_friend);
-        RelativeLayout mGroup= view.findViewById(R.id.add_group);
+        RelativeLayout mGroup = view.findViewById(R.id.add_group);
         mFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

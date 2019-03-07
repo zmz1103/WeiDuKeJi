@@ -394,7 +394,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         mAddFollowPresenter=null;
         mCancelFollowPresenter=null;
         mAddCommunityPresenter=null;
-
+        mJudgePresenter.unBind();
     }
 
     @Override
@@ -418,6 +418,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                 }else {
                     Intent intent1  = new Intent(FriendsPostActivity.this,FriendDataActivity.class);
                     intent1.putExtra("mUserid",String.valueOf(mUserid));
+                    intent1.putExtra("mUserName",mNickName);
                     startActivity(intent1);
                 }
             }

@@ -57,7 +57,7 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onClick(myGroup.getHxGroupId());
+                onClickListener.onClick(myGroup.getHxGroupId(),myGroup.getGroupName());
             }
         });
 
@@ -80,7 +80,7 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
     }
     public OnClickListener onClickListener;
     public interface OnClickListener{
-        void onClick(String name);
+        void onClick(String name,String groupName);
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {

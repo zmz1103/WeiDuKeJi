@@ -1,86 +1,121 @@
 package com.wd.tech.activity.huanxin;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.widget.TextView;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMMessageListener;
-import com.hyphenate.EMValueCallBack;
-import com.hyphenate.chat.EMChatRoom;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
-import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMImageMessageBody;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.chat.adapter.EMAChatRoomManagerListener;
-import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
-import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.model.EaseAtMessageHelper;
-import com.hyphenate.easeui.model.EaseCompat;
-import com.hyphenate.easeui.model.EaseDingMessageHelper;
-import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.hyphenate.easeui.ui.EaseChatRoomListener;
-import com.hyphenate.easeui.ui.EaseGroupListener;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.hyphenate.easeui.widget.EaseAlertDialog;
-import com.hyphenate.easeui.widget.EaseChatExtendMenu;
-import com.hyphenate.easeui.widget.EaseChatInputMenu;
-import com.hyphenate.easeui.widget.EaseChatMessageList;
-import com.hyphenate.easeui.widget.EaseTitleBar;
-import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
-import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.EMLog;
-import com.hyphenate.util.PathUtil;
 import com.wd.tech.R;
+import com.wd.tech.activity.WDActivity;
+import com.wd.tech.bean.FindConversationList;
+import com.wd.tech.bean.Result;
+import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.FindConversationListPresenter;
+import com.wd.tech.view.DataCall;
 
-import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class IMActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.OnClick;
 
-
+public class IMActivity extends WDActivity {
+    FindConversationListPresenter findConversationListPresenter ;
+    private FindConversationList conversation;
+    @BindView(R.id.chat_name)
+    TextView mName;
+    private EaseChatFragment chatFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_im);
-           EaseChatFragment chatFragment = new EaseChatFragment();
-           chatFragment.setArguments(getIntent().getExtras());
-           getSupportFragmentManager().beginTransaction().add(R.id.hx_ok,chatFragment).commit();
+    protected int getLayoutId() {
+        return R.layout.activity_im;
+    }
+
+    @Override
+    protected void initView() {
+        findConversationListPresenter = new FindConversationListPresenter(new QueryData());
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{
+                    android.Manifest.permission.RECORD_AUDIO,android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        }
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.CAMERA)){
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA},0);
+        }
+
+        Intent intent = getIntent();
+        String UserName = intent.getStringExtra("UserNames");
+
+        chatFragment = new EaseChatFragment();
+
+        chatFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.hx_ok, chatFragment).commit();
+        chatFragment.hideTitleBar();
+
+        findConversationListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),UserName);
 
     }
 
+    @Override
+    protected void destoryData() {
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        chatFragment.hideTitleBar();
+    }
+
+    @OnClick(R.id.chat_back)
+    public void onClick(){
+        finish();
+    }
+    class QueryData implements DataCall<Result<List<FindConversationList>>> {
+
+        @Override
+        public void success(Result<List<FindConversationList>> result) {
+
+            if (result.getStatus().equals("0000")){
+                //Toast.makeText(IMActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                List<FindConversationList> mResult = result.getResult();
+                conversation = mResult.get(0);
+                mName.setText(conversation.getNickName());
+                //Toast.makeText(IMActivity.this, conversation.getNickName(), Toast.LENGTH_SHORT).show();
+                setEaseUser();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+
+    }
+    private void setEaseUser() {
+        EaseUI easeUI = EaseUI.getInstance();
+        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                return getUserInfo(username);
+            }
+        });
+    }
+
+    private EaseUser getUserInfo(String username) {
+        EaseUser easeUser = new EaseUser(username);
+        if (username.equals(user.getUserName().toLowerCase())){
+            easeUser.setNickname(user.getNickName());
+            easeUser.setAvatar(user.getHeadPic());
+        }else {
+            easeUser.setNickname(conversation.getNickName());
+            easeUser.setAvatar(conversation.getHeadPic());
+        }
+        return easeUser;
+    }//即可正常显示头像昵称
 }

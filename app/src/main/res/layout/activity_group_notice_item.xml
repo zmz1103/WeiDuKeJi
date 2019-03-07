@@ -52,6 +52,17 @@
             android:layout_below="@+id/group_notice_headpic"
             android:layout_marginBottom="12dp"
             android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text=""
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_alignBottom="@+id/group_notice_message"
+            android:textColor="@color/color_Text"/>
+
     </RelativeLayout>
 
     <LinearLayout
