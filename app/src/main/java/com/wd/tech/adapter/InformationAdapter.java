@@ -7,14 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.tencent.wxop.stat.EasyListActivity;
 import com.wd.tech.R;
 import com.wd.tech.bean.InformationListBean;
-import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.TimeUtil;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -126,7 +122,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((InformationListMessage) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId(),mInformationListBeans.get(i).getTitle(),mInformationListBeans.get(i).getSummary(),mInformationListBeans.get(i).getSource(),mInformationListBeans.get(i).getThumbnail(),mInformationListBeans.get(i).getReleaseTime(),mInformationListBeans.get(i).getWhetherCollection(),mInformationListBeans.get(i).getCollection(),mInformationListBeans.get(i).getShare());
+                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId(),mInformationListBeans.get(i).getTitle(),mInformationListBeans.get(i).getSummary(),mInformationListBeans.get(i).getSource(),mInformationListBeans.get(i).getThumbnail(),mInformationListBeans.get(i).getReleaseTime(),mInformationListBeans.get(i).getWhetherCollection(),mInformationListBeans.get(i).getCollection(),mInformationListBeans.get(i).getShare(),i);
                 }
             });
 
@@ -235,13 +231,13 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Addcollection mAddcollection;
 
-    public void setAddgreat(Addcollection addcollection) {
+    public void setAddcollection(Addcollection addcollection) {
         mAddcollection = addcollection;
     }
 
 
     public interface Detailstiao {
-        void detalssuccess(int id,String title,String neirong,String laiyuan,String tupian,long time,int shoucang,int shoucangshu,int shareshu);
+        void detalssuccess(int id,String title,String neirong,String laiyuan,String tupian,long time,int shoucang,int shoucangshu,int shareshu,int i);
     }
 
     private Detailstiao mDetailstiao;

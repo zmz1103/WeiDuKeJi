@@ -29,6 +29,7 @@ import com.wd.tech.activity.FriendsPostActivity;
 import com.wd.tech.activity.PublishActivity;
 import com.wd.tech.activity.myactivity.SignActivity;
 import com.wd.tech.adapter.CommunityListAdapter;
+import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.CommunitylistData;
 import com.wd.tech.bean.Result;
 import com.wd.tech.dao.UserDao;
@@ -129,10 +130,10 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
     }
 
     private void requestt(int page) {
-        if (user==null){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
             mCommunityListPresenter.reqeust(0, "", page, 10);
         }else {
-            mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), page, 10);
+            mCommunityListPresenter.reqeust((int)WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), page, 10);
         }
     }
 
@@ -141,7 +142,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
             @Override
             public void onmHeadPicClick(int userid) {
-                if (user==null){
+                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(getActivity(), FriendsPostActivity.class);
@@ -152,7 +153,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
             @Override
             public void onmCommentClick(final int id, String name) {
-                if (user==null){
+                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
                     View inflate = View.inflate(getActivity(), R.layout.pop_comment, null);
@@ -177,6 +178,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                             } else {
                                 mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
                                 builder.dismiss();
+
                             }
                         }
                     });
@@ -185,7 +187,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
             @Override
             public void onmPraiseClick(int id,int whetherGreat) {
-                if (user ==null){
+                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
                 }else {
                     if (whetherGreat == 1) {
@@ -202,7 +204,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
 
     @OnClick(R.id.btn_publish_the_news)
     public void onViewClicked() {
-        if (user==null){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
             Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
         }else {
             Intent intent = new Intent(getActivity(), PublishActivity.class);

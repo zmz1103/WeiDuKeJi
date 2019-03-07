@@ -12,8 +12,18 @@ public class CollectDataList {
     private int infoId;
     private String thumbnail;
     private String title;
+    private boolean isFlag=false;
 
-    private boolean isFlag;
+
+    private boolean kan;
+
+    public void setKan(boolean kan) {
+        this.kan = kan;
+    }
+
+    public boolean isKan() {
+        return kan;
+    }
 
     public void setFlag(boolean flag) {
         isFlag = flag;

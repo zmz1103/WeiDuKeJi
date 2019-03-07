@@ -1,9 +1,12 @@
 package com.wd.tech.activity;
 
 
+import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -21,6 +24,7 @@ import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.face.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RegUtils;
 import com.wd.tech.util.RsaCoder;
@@ -32,43 +36,42 @@ import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
-
-
 public class MainActivity extends WDActivity implements CustomAdapt {
 
     private LoginPresenter mLoginPresenter;
 
+    private static final int REQUEST_CODE_OP = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
-            return ;
+            return;
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
-            return ;
+            return;
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
-            return ;
+            return;
         }
     }
 
     @Override
     protected int getLayoutId() {
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0) {
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
             return R.layout.activity_main;
         }
@@ -143,10 +146,31 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 break;
             case R.id.faseIdLogin:
                 // 人脸登录
+                if (((WDApplication) getApplicationContext()).mFaceDB.mRegister.isEmpty()) {
+                    Toast.makeText(this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setTitle("请选择相机")
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setItems(new String[]{"后置相机", "前置相机"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startDetector(which);
+                                }
+                            })
+                            .show();
+                }
+
                 break;
             default:
                 break;
         }
+    }
+
+    private void startDetector(int camera) {
+        Intent it = new Intent(MainActivity.this, DetecterActivity.class);
+        it.putExtra("Camera", camera);
+        startActivityForResult(it, REQUEST_CODE_OP);
     }
 
     @Override
@@ -174,17 +198,17 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         public void success(Result<User> result) {
             Toast.makeText(MainActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                UserDao userDao = DaoMaster.newDevSession(MainActivity.this, UserDao.TABLENAME).getUserDao();
-                userDao.deleteAll();
+
+                WDApplication.getAppContext().getUserDao();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
-                userDao.insertOrReplace(user);
+                WDApplication.getAppContext().getUserDao().insertOrReplace(user);
 
                 finish();
-                Log.v("数据库---",""+userDao.loadAll().get(0).toString());
 
-                EMClient.getInstance().login(result.getResult().getUserName(),result.getResult().getPwd(),new EMCallBack() {//回调
+
+                EMClient.getInstance().login(result.getResult().getUserName(), result.getResult().getPwd(), new EMCallBack() {//回调
                     @Override
                     public void onSuccess() {
                         EMClient.getInstance().groupManager().loadAllGroups();
@@ -203,7 +227,6 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                         Log.d("main", "登录聊天服务器失败！");
                     }
                 });
-
 
 
             }

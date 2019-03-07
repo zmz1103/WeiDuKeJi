@@ -9,16 +9,15 @@
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="150dp"
         android:background="@mipmap/logo_start" />
 
     <TextView
         android:id="@+id/s_t"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/s_logo"
+        android:layout_above="@id/s_tt"
         android:gravity="center"
-        android:layout_marginTop="236dp"
         android:text="维度科技"
         android:textColor="#fff"
         android:textSize="36sp" />
@@ -27,9 +26,10 @@
         android:id="@+id/s_tt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="weidu keji"
-        android:layout_below="@id/s_t"
+        android:textColor="#fff"
         android:textSize="28sp" />
 </RelativeLayout>

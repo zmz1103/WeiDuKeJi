@@ -6,6 +6,9 @@ import com.wd.tech.bean.AttentionListData;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.CardListData;
 import com.wd.tech.bean.CollectDataList;
+import com.wd.tech.bean.FindGroupInfo;
+import com.wd.tech.bean.FindGroupMemberList;
+import com.wd.tech.bean.FindGroupNoticePageList;
 import com.wd.tech.bean.FindConversationList;
 import com.wd.tech.bean.FindVipBean;
 import com.wd.tech.bean.Flockformation;
@@ -119,6 +122,22 @@ public interface IRequest {
     @FormUrlEncoded
     Observable<Result<User>> getWxlogin(@Header("ak") String ak, @Field("code") String code);
 
+    // 绑定人脸 user/verify/v1/bindingFaceId
+    @PUT("user/verify/v1/bindingFaceId")
+    Observable<Result> bindingFaceId(@Header("userId") long userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Query("featureInfo") String featureInfo);
+
+
+    // 解绑人脸 user/verify/v1/untiedFaceId
+    @DELETE("user/verify/v1/untiedFaceId")
+    Observable<Result> untiedFaceId(@Header("userId") long userId,
+                                    @Header("sessionId") String sessionId );
+
+    // 人脸登录 user/v1/faceLogin
+    @POST("user/v1/faceLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> faceLogin(@Field("faceId") String faceId);
 
     //社区点赞
     @POST("community/verify/v1/addCommunityGreat")
@@ -573,9 +592,10 @@ public interface IRequest {
      */
     @GET("group/verify/v1/findGroupNoticePageList")
     Observable<Result<List<FriendInform>>> groupnotice(@Header("userId") int userId,
-                                                  @Header("sessionId") String sessionId,
-                                                  @Query("page") int page,
-                                                  @Query("count") int count);
+                                                       @Header("sessionId") String sessionId,
+                                                       @Query("page") int page,
+                                                       @Query("count") int count);
+
     /**
      * @作者 啊哈
      * @date 2019/3/6
@@ -596,4 +616,70 @@ public interface IRequest {
     Observable<Result<List<FindConversationList>>> groupNoticePageList(@Header("userId") int userId,
                                                                        @Header("sessionId") String sessionId,
                                                                        @Query("userNames") String userNames);
+                                  @Header("sessionId") String session,
+                                  @Field("noticeId") int noticeId,
+                                  @Field("flag") int flag);
+
+
+    /**
+     * 查询群组详细信息
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupInfo")
+    Observable<Result<FindGroupInfo>> getFindGroupInfo(@Header("userId") int userId,
+                                                       @Header("sessionId") String sessionId,
+                                                       @Query("groupId") int groupId);
+
+    /**
+     * 查询群组内所有用户信息
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupMemberList")
+    Observable<Result<FindGroupMemberList>> getFindGroupMemberList(@Header("userId") int userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("groupId") int groupId);
+
+    /**
+     * 修改群简介
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @PUT("group/verify/v1/modifyGroupDescription")
+    Observable<Result> getModifyGroupDescription(@Header("userId") int userId,
+                                                 @Header("sessionId") String sessionId,
+                                                 @Query("groupId") int groupId,
+                                                 @Query("description")String description);
+
+
+    /**
+     * 解散群组
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @DELETE("group/verify/v1/disbandGroup")
+    Observable<Result> getDisbandGroup(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("groupId") int groupId);
+
+    /**
+     * 查询群通知记录
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupNoticePageList")
+    Observable<Result<FindGroupNoticePageList>> getFindGroupNoticePageList(@Header("userId") int userId,
+                                                                           @Header("sessionId") String sessionId,
+                                                                           @Query("page") int page,
+                                                                           @Query("count") int count);
 }

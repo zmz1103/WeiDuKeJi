@@ -98,6 +98,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private int show = 1;
     private RelativeLayout mHave;
     private RelativeLayout mNo;
+    private int mClickFragmentId;
+    private int mCurrentFragmentId;
     private LinearLayout mGoLoginActivity;
 
 
@@ -194,44 +196,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.Message:
-                        mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
-                        mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        FragmentTransaction transaction1 = mManager.beginTransaction();
-                        transaction1.replace(R.id.frame, mMessageFragment, "message");
-                        transaction1.commit();
-                        break;
-                    case R.id.Information:
-                        mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
-                        FragmentTransaction transaction2 = mManager.beginTransaction();
-                        transaction2.replace(R.id.frame, mHomeFragment, "home");
-                        transaction2.commit();
-                        break;
-                    case R.id.community:
-                        mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        mCommunity.setTextColor(getResources().getColorStateList(R.color.color_Text));
-                        mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        FragmentTransaction transaction3 = mManager.beginTransaction();
-                        transaction3.replace(R.id.frame, mCommunityFragment, "community");
-                        transaction3.commit();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+
+
+
 //        mDraw.setScrimColor(Color.TRANSPARENT);//去除阴影
         mCLayout.measure(0, 0);
-        final float width = mCLayout.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
-        mCLayout.setTranslationX(-width);                 //底布局左移
+        //获取布局宽度，并获得左移大小
+        final float width = mCLayout.getMeasuredWidth() * 0.2f;
+        //底布局左移
+        mCLayout.setTranslationX(-width);
         // 侧拉出的页面
         mDraw.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -379,14 +352,54 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mGetUserBeanPresenter.reqeust(users1.get(0).getUserId(), users1.get(0).getSessionId());
         mHave.setVisibility(View.VISIBLE);
         mNo.setVisibility(View.GONE);
+        if (mClickFragmentId == R.id.Message) {
+            mRadioGroup.check(mClickFragmentId);
+            mCurrentFragmentId = R.id.Message;
+            mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
+            mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+            mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
+            FragmentTransaction transaction1 = mManager.beginTransaction();
+            transaction1.replace(R.id.frame, mMessageFragment, "message");
+            transaction1.commit();
+            mClickFragmentId = 0;
+        }
     }
 
     private void noUserLogin() {
+        if (mClickFragmentId == R.id.Message) {
+            if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+                mRadioGroup.check(mCurrentFragmentId);
+                mCurrentFragmentId = R.id.Message;
+                mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
+                FragmentTransaction transaction1 = mManager.beginTransaction();
+                transaction1.replace(R.id.frame, mMessageFragment, "message");
+                transaction1.commit();
+            } else {
+                mClickFragmentId = R.id.Information;
+                mRadioGroup.check(mClickFragmentId);
+                mCurrentFragmentId = R.id.Information;
+                mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                FragmentTransaction transaction2 = mManager.beginTransaction();
+                transaction2.replace(R.id.frame, mHomeFragment, "home");
+                transaction2.commit();
+            }
+        }
+        mClickFragmentId = 0;
         mHave.setVisibility(View.GONE);
         mNo.setVisibility(View.VISIBLE);
+
     }
 
-    @OnClick({R.id.linear_my_attention, R.id.linear_my_card, R.id.linear_my_collect, R.id.linear_my_integral, R.id.linear_my_notice, R.id.linear_my_setting, R.id.linear_my_task, R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
+    @OnClick({R.id.linear_my_attention,
+            R.id.Message, R.id.Information, R.id.community,
+            R.id.linear_my_card, R.id.linear_my_collect,
+            R.id.linear_my_integral, R.id.linear_my_notice,
+            R.id.linear_my_setting, R.id.linear_my_task,
+            R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
         if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
@@ -432,6 +445,41 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 default:
                     break;
+
+                case R.id.Message:
+                    if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+                        mCurrentFragmentId = R.id.Message;
+                        mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                        mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+                        mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
+                        FragmentTransaction transaction1 = mManager.beginTransaction();
+                        transaction1.replace(R.id.frame, mMessageFragment, "message");
+                        transaction1.commit();
+                    } else {
+                        mClickFragmentId = R.id.Message;
+                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    break;
+                case R.id.Information:
+                    mCurrentFragmentId = R.id.Information;
+                    mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                    mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+                    mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                    FragmentTransaction transaction2 = mManager.beginTransaction();
+                    transaction2.replace(R.id.frame, mHomeFragment, "home");
+                    transaction2.commit();
+                    break;
+                case R.id.community:
+                    mCurrentFragmentId = R.id.community;
+                    mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                    mCommunity.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                    mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
+                    FragmentTransaction transaction3 = mManager.beginTransaction();
+                    transaction3.replace(R.id.frame, mCommunityFragment, "community");
+                    transaction3.commit();
+                    break;
             }
         } else {
             Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
@@ -442,11 +490,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            default:
-                break;
+
             case R.id.goLoginBtn:
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
+
+
+            default:
+                break;
         }
+
     }
 }

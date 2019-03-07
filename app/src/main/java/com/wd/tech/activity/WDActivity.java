@@ -37,7 +37,6 @@ public abstract class WDActivity extends SwipeBackActivity {
     private SwipeBackLayout mSwipeBackLayout;
     public User user;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,5 +139,19 @@ public abstract class WDActivity extends SwipeBackActivity {
             return img_path;
         }
         return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+        if (users != null && users.size() > 0) {
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getSole() == 1) {
+                    user = users.get(i);
+                    break;
+                }
+            }
+        }
     }
 }

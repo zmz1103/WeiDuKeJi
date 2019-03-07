@@ -52,11 +52,17 @@ public class SearchByTitleAdapter extends RecyclerView.Adapter<SearchByTitleAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.title.setText(mSearchByTitleBeans.get(i).getTitle());
         viewHolder.zuozhe.setText(mSearchByTitleBeans.get(i).getSource());
         String date = DateUtils.stampToDate(mSearchByTitleBeans.get(i).getReleaseTime());
         viewHolder.time.setText(date);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOncllk.good(mSearchByTitleBeans.get(i).getId());
+            }
+        });
     }
 
 
@@ -80,5 +86,16 @@ public class SearchByTitleAdapter extends RecyclerView.Adapter<SearchByTitleAdap
             zuozhe = itemView.findViewById(R.id.zuozhe);
             time = itemView.findViewById(R.id.time);
         }
+    }
+
+    public interface Oncllk{
+        void good(int id);
+
+    }
+
+    private Oncllk mOncllk;
+
+    public void setOncllk(Oncllk oncllk) {
+        mOncllk = oncllk;
     }
 }
