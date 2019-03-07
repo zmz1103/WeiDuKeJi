@@ -122,7 +122,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((InformationListMessage) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId(),mInformationListBeans.get(i).getTitle(),mInformationListBeans.get(i).getSummary(),mInformationListBeans.get(i).getSource(),mInformationListBeans.get(i).getThumbnail(),mInformationListBeans.get(i).getReleaseTime(),mInformationListBeans.get(i).getWhetherCollection(),mInformationListBeans.get(i).getCollection(),mInformationListBeans.get(i).getShare());
+                    mDetailstiao.detalssuccess(mInformationListBeans.get(i).getId(),mInformationListBeans.get(i).getTitle(),mInformationListBeans.get(i).getSummary(),mInformationListBeans.get(i).getSource(),mInformationListBeans.get(i).getThumbnail(),mInformationListBeans.get(i).getReleaseTime(),mInformationListBeans.get(i).getWhetherCollection(),mInformationListBeans.get(i).getCollection(),mInformationListBeans.get(i).getShare(),i);
                 }
             });
 
@@ -237,7 +237,7 @@ public class InformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public interface Detailstiao {
-        void detalssuccess(int id,String title,String neirong,String laiyuan,String tupian,long time,int shoucang,int shoucangshu,int shareshu);
+        void detalssuccess(int id,String title,String neirong,String laiyuan,String tupian,long time,int shoucang,int shoucangshu,int shareshu,int i);
     }
 
     private Detailstiao mDetailstiao;

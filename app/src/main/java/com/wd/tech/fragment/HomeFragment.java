@@ -121,6 +121,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private String[] mSplit;
     private Dialog mDialog;
     private String mId;
+    private String mJumpUrl;
 
 
     @Override
@@ -210,7 +211,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
             @Override
-            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu) {
+            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu, int i) {
                 Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
                 /*intent.setClass(getContext(),InformationDetailsActivity.class);
                 Transfer mTransfer = new Transfer();
@@ -345,10 +346,21 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             mMessage.setText(bannnerBean.getTitle());
             mImageView.setOnClickListener(new View.OnClickListener() {
 
+                private String mSubstring;
+
                 @Override
                 public void onClick(View v) {
-                    mIntent.putExtra("jumpUrl", bannnerBean.getJumpUrl());
-                    startActivity(mIntent);
+                    mJumpUrl = bannnerBean.getJumpUrl();
+                    mSubstring = mJumpUrl.substring(0, 2);
+                    if (mSubstring.equals("wd")){
+                        Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
+                        intent.putExtra("id","1");
+                        startActivity(intent);
+                    }else {
+                        mIntent.putExtra("jumpUrl", bannnerBean.getJumpUrl());
+                        startActivity(mIntent);
+                    }
+
                 }
             });
         }
@@ -526,6 +538,12 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     public void onResume() {
         super.onResume();
         mInformationAdapter.clear();
-        requestt(page);
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            mInformationListPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), "0", page, 10);
+        } else {
+            Log.e("lk", "无 ");
+            mInformationListPresenter.reqeust(0L, " ", "0", page, 10);
+
+        }
     }
 }
