@@ -102,6 +102,7 @@ public class MySettingActivity extends WDActivity {
     private static final int REQUEST_CODE_IMAGE_CAMERA = 1;
     private static final int REQUEST_CODE_IMAGE_OP = 2;
     private static final int REQUEST_CODE_OP = 3;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_my_setting;
@@ -232,13 +233,13 @@ public class MySettingActivity extends WDActivity {
                             .setItems(new String[]{"打开图片", "拍摄照片"}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    switch (which){
+                                    switch (which) {
                                         case 1:
                                             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                                             ContentValues values = new ContentValues(1);
                                             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
                                             Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                                            ((WDApplication)(MySettingActivity.this.getApplicationContext())).setCaptureImage(uri);
+                                            ((WDApplication) (MySettingActivity.this.getApplicationContext())).setCaptureImage(uri);
                                             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                                             startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
                                             break;
@@ -254,9 +255,26 @@ public class MySettingActivity extends WDActivity {
                                 }
                             })
                             .show();
-                }else if(mBindFaceId.getText().toString().equals("已绑定")){
-                    UntiedFaceIdPresenter untiedFaceIdPresenter = new UntiedFaceIdPresenter(new und());
-                    untiedFaceIdPresenter.reqeust(user.getUserId(),user.getSessionId());
+                } else if (mBindFaceId.getText().toString().equals("已绑定")) {
+                    final AlertDialog.Builder builder1 = new AlertDialog.Builder(MySettingActivity.this);
+                    //    设置Title的内容
+                    builder1.setTitle("温馨提示");
+                    //    设置Content来显示一个信息
+                    builder1.setMessage("确定取消绑定吗？");
+                    //    设置一个PositiveButton
+                    builder1.setPositiveButton("取消绑定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            UntiedFaceIdPresenter untiedFaceIdPresenter = new UntiedFaceIdPresenter(new und());
+                            untiedFaceIdPresenter.reqeust(user.getUserId(), user.getSessionId());
+                        }
+                    });
+                    //设置一个NegativeButton
+                    builder1.setNegativeButton("朕再想想", null);
+                    //    显示出该对话框
+                    builder1.show();
+
+
                 }
                 break;
             case R.id.u_mpwd:
@@ -277,7 +295,7 @@ public class MySettingActivity extends WDActivity {
             Uri mPath = data.getData();
             String file = getPath(mPath);
             Bitmap bmp = WDApplication.decodeImage(file);
-            if (bmp == null || bmp.getWidth() <= 0 || bmp.getHeight() <= 0 ) {
+            if (bmp == null || bmp.getWidth() <= 0 || bmp.getHeight() <= 0) {
                 Log.e(TAG, "error");
             } else {
                 Log.i(TAG, "bmp [" + bmp.getWidth() + "," + bmp.getHeight());
@@ -290,9 +308,9 @@ public class MySettingActivity extends WDActivity {
             }
             Bundle bundle = data.getExtras();
             String path = bundle.getString("imagePath");
-            Log.i(TAG, "path="+path);
+            Log.i(TAG, "path=" + path);
         } else if (requestCode == REQUEST_CODE_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            Uri mPath = ((WDApplication)(MySettingActivity.this.getApplicationContext())).getCaptureImage();
+            Uri mPath = ((WDApplication) (MySettingActivity.this.getApplicationContext())).getCaptureImage();
             String file = getPath(mPath);
             Bitmap bmp = WDApplication.decodeImage(file);
             startRegister(bmp, file);
@@ -531,7 +549,7 @@ public class MySettingActivity extends WDActivity {
                     }
 
                     final String selection = "_id=?";
-                    final String[] selectionArgs = new String[] {
+                    final String[] selectionArgs = new String[]{
                             split[1]
                     };
 
@@ -539,7 +557,7 @@ public class MySettingActivity extends WDActivity {
                 }
             }
         }
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor actualimagecursor = this.getContentResolver().query(uri, proj, null, null, null);
         int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         actualimagecursor.moveToFirst();
@@ -579,9 +597,9 @@ public class MySettingActivity extends WDActivity {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -602,7 +620,7 @@ public class MySettingActivity extends WDActivity {
                 return cursor.getString(index);
             }
         } finally {
-            if (cursor != null){
+            if (cursor != null) {
                 cursor.close();
             }
         }
@@ -613,7 +631,7 @@ public class MySettingActivity extends WDActivity {
      * @param mBitmap
      */
     private void startRegister(Bitmap mBitmap, String file) {
-        Intent it = new Intent(MySettingActivity.this, PeopleActivity .class);
+        Intent it = new Intent(MySettingActivity.this, PeopleActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("imagePath", file);
         it.putExtras(bundle);

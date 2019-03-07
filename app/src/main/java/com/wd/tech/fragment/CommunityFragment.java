@@ -56,7 +56,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
  * author:王思敏
  * function:社区列表展示
  */
-public class CommunityFragment extends WDFragment implements CustomAdapt{
+public class CommunityFragment extends WDFragment {
     @BindView(R.id.community_recy)
     RecyclerView communityRecy;
     @BindView(R.id.btn_publish_the_news)
@@ -302,15 +302,6 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
         mAddCommunityPresenter=null;
         mDoTheTastPresenter=null;
 
-    }
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 720;
     }
 
 }

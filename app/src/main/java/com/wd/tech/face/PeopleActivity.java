@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -42,6 +43,7 @@ import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.BindingFaceIdPresenter;
+import com.wd.tech.util.RsaCoder;
 import com.wd.tech.view.DataCall;
 
 import java.util.ArrayList;
@@ -80,7 +82,7 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.pople_register);
+        setContentView(R.layout.pople_register);
         //initial data.
         if (!getIntentData(getIntent().getExtras())) {
             Log.e(TAG, "getIntentData fail!");
@@ -185,7 +187,7 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
                     Log.d("com.arcsoft", "FR=" + version.toString() + "," + error1.getCode()); //(210, 178 - 478, 446), degree = 1　780, 2208 - 1942, 3370
                     error1 = engine1.AFR_FSDK_ExtractFRFeature(data, mBitmap.getWidth(), mBitmap.getHeight(), AFR_FSDKEngine.CP_PAF_NV21, new Rect(result.get(0).getRect()), result.get(0).getDegree(), result1);
                     Log.d("com.arcsoft", "Face=" + result1.getFeatureData()[0] + "," + result1.getFeatureData()[1] + "," + result1.getFeatureData()[2] + "," + error1.getCode());
-                    if (error1.getCode() == error1.MOK) {
+                    if (error1.getCode() == AFR_FSDKError.MOK) {
                         mAFR_FSDKFace = result1.clone();
                         int width = result.get(0).getRect().width();
                         int height = result.get(0).getRect().height();
@@ -285,6 +287,8 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
                                     // 调用接口
                                     User user = WDApplication.getAppContext().getUserDao().loadAll().get(0);
                                     bindingFaceIdPresenter.reqeust(user.getUserId(),user.getSessionId(),mAFR_FSDKFace.toString());
+
+                                    finish();
                                 }
                             })
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -394,7 +398,18 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
     private class bingId implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Toast.makeText(PeopleActivity.this, ""+result.getMessage()+result.getFaceId(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(PeopleActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            if (result.getStatus().equals("0000")) {
+                SharedPreferences faceId = getSharedPreferences("saveId", MODE_PRIVATE);
+                try {
+                    String s = RsaCoder.decryptByPublicKey(result.getFaceId());
+                    faceId.edit().putString("faceId",s).commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                view.stop();
+            }
         }
 
         @Override

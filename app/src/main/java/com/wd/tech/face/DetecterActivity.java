@@ -186,12 +186,18 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
                         }
                     });
                     double v = ((int) (max_score * 1000)) / 1000.0;
-                    if (v > 0.8000) {
                         try {
-//                            faceIdLoginPresenter.reqeust(RsaCoder.encryptByPublicKey("dhmanhT5IS7lVd3jbGadny/KGjfRVUXKCzDVSA/92CIkXm0yBrgCmpRt2hwu7/33q8ysfxCAwhzkzba1d2VTzGxgfXpOO4e09uD8emuw/hb7z/EYb9WN+QRBPCv4RG2tJSHxCCETKbzW/vFZwR3zobBFXQUfClZQjdHQbBwp3Lk="));
+                            String string = getSharedPreferences("saveId", MODE_PRIVATE).getString("faceId", "");
+                            if (string.equals("")) {
+
+                            }else{
+                                String s = RsaCoder.encryptByPublicKey(string);
+                                faceIdLoginPresenter.reqeust(s);
+                                finish();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
-                        }
+
                     }
                 } else {
                     final String mNameShow = "未识别";
@@ -232,6 +238,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -398,18 +405,13 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
     private class loginP implements DataCall<Result<User>> {
         @Override
         public void success(Result<User> result) {
-            mHandler.removeCallbacksAndMessages(hide);
-            mHandler.removeCallbacksAndMessages(mHandler);
             Toast.makeText(DetecterActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
-            finish();
             if (result.getStatus().equals("0000")) {
                 WDApplication.getAppContext().getUserDao();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
-
-                finish();
 
             }
         }
