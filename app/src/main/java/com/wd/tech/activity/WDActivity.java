@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.wd.tech.application.WDApplication;
@@ -42,6 +43,12 @@ public abstract class WDActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(getLayoutId());
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         mForegroundActivity = this;
         ButterKnife.bind(this);
         List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
