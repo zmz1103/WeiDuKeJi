@@ -156,8 +156,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         refreshLayout.setEnableRefresh(true);//启用刷新
         refreshLayout.setEnableLoadmore(true);//启用加载
 
-        Toast.makeText(getContext(), "---"+WDApplication.getAppContext().getUserDao().loadAll().size(), Toast.LENGTH_SHORT).show();
-
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

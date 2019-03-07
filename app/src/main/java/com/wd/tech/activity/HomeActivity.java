@@ -169,15 +169,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
-        mRadioGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
+
+
 //        mDraw.setScrimColor(Color.TRANSPARENT);//去除阴影
         mCLayout.measure(0, 0);
-        final float width = mCLayout.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
-        mCLayout.setTranslationX(-width);                 //底布局左移
+        //获取布局宽度，并获得左移大小
+        final float width = mCLayout.getMeasuredWidth() * 0.2f;
+        //底布局左移
+        mCLayout.setTranslationX(-width);
         // 侧拉出的页面
         mDraw.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
