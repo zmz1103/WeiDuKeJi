@@ -19,16 +19,15 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <!-- 获取设备唯一标识，用于SDK激活授权 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:name=".application.WDApplication"
@@ -98,7 +97,7 @@
             android:name=".activity.myactivity.MyInteGralActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.myactivity.UpdatePwdActivity"
+            android:name="com.wd.tech.activity.myactivity.UpdatePwdActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.myactivity.MyTaskActivity"
@@ -109,7 +108,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.myactivity.MyUpdateUserMessageActivity"
+            android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.myactivity.SignActivity"
@@ -159,7 +158,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.IntegralActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.LookImageActivity"
             android:screenOrientation="portrait" />
@@ -176,6 +175,7 @@
         <activity
             android:name=".activity.AuditFriendActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.huanxin.IMActivity"
             android:screenOrientation="portrait"
@@ -206,7 +206,7 @@
 
         <activity
             android:name=".activity.myactivity.PublishSingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.FriendDataActivity"
             android:screenOrientation="portrait" />
@@ -216,6 +216,7 @@
         <activity
             android:name=".activity.GroupsActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
@@ -227,10 +228,10 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".activity.AllCommentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MyGroupActivity"
             android:screenOrientation="portrait" />
@@ -241,7 +242,13 @@
         <activity
             android:name=".activity.GroupNoticeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FindGroupInfoActivity"></activity>
+
+        <activity
+            android:name="com.wd.tech.face.PeopleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wd.tech.face.DetecterActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

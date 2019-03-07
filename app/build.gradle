@@ -32,6 +32,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.tech
+        ndk {
+            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+        }
     }
     buildTypes {
         release {
@@ -44,6 +47,11 @@ android {
         }
     }
     productFlavors {
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
@@ -95,6 +103,12 @@ dependencies {
     implementation 'co.roverlabs:picasso:2.5.2'
     implementation project(':easeui')
     implementation files('libs/alipaySdk-20180601.jar')
+    implementation files('libs/ageestimation.jar')
+    implementation files('libs/facedetection.jar')
+    implementation files('libs/facerecognition.jar')
+    implementation files('libs/facetracking.jar')
+    implementation files('libs/genderestimation.jar')
+    implementation 'com.guo.android_extend:android-extend:1.0.1'
 }
 greendao {
     schemaVersion 1  //版本
