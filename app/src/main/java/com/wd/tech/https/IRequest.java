@@ -616,9 +616,6 @@ public interface IRequest {
     Observable<Result<List<FindConversationList>>> groupNoticePageList(@Header("userId") int userId,
                                                                        @Header("sessionId") String sessionId,
                                                                        @Query("userNames") String userNames);
-                                  @Header("sessionId") String session,
-                                  @Field("noticeId") int noticeId,
-                                  @Field("flag") int flag);
 
 
     /**
