@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,6 +38,11 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.adapter.AllInfoCommentListAdapter;
 import com.wd.tech.adapter.IfmDtlPlateAdapter;
@@ -54,6 +60,7 @@ import com.wd.tech.presenter.AddInforCommentPresenter;
 import com.wd.tech.presenter.AllInfoCommentListPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
+import com.wd.tech.presenter.InfoShareNum;
 import com.wd.tech.presenter.InformationDetailsPresenter;
 import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.TimeUtil;
@@ -138,6 +145,10 @@ public class InformationDetailsActivity extends WDActivity {
     private Transfer mTransfer;
     private String[] mTu;
     private String mThumbnail;
+    private String mBacki;
+    private InfoShareNum mInfoShareNum;
+    private Dialog mDialog;
+    private IWXAPI mWxApi;
 
     @Override
     protected int getLayoutId() {
@@ -146,6 +157,8 @@ public class InformationDetailsActivity extends WDActivity {
 
     @Override
     protected void initView() {
+        mWxApi = WXAPIFactory.createWXAPI(InformationDetailsActivity.this, "wx4c96b6b8da494224", true);
+        mWxApi.registerApp("wx4c96b6b8da494224");
         shopgoods.setVisibility(View.GONE);
         ImageLoader imageLoader = ImageLoader.getInstance();//ImageLoader需要实例化
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -165,8 +178,15 @@ public class InformationDetailsActivity extends WDActivity {
         //用户评论
         mAddInforCommentPresenter = new AddInforCommentPresenter(new AddInforCommentCall());
 
+        //f分享
+        mInfoShareNum = new InfoShareNum(new ShareCall());
+
+
         mIntent = getIntent();
         mId = mIntent.getStringExtra("id");
+        //mBacki = mIntent.getStringExtra("backi");
+
+
         mTransfer = (Transfer)mIntent.getSerializableExtra("mTransfer");
 
 
@@ -285,7 +305,7 @@ public class InformationDetailsActivity extends WDActivity {
     }
 
 
-    @OnClick({R.id.shop, R.id.back})
+    @OnClick({R.id.shop, R.id.back,R.id.share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shop:
@@ -293,6 +313,9 @@ public class InformationDetailsActivity extends WDActivity {
                 break;
             case R.id.back:
                 finish();
+                break;
+            case R.id.share:
+                mInfoShareNum.reqeust(mId);
                 break;
         }
     }
@@ -405,7 +428,6 @@ public class InformationDetailsActivity extends WDActivity {
                     time.setText(s);
                     zuozhe.setText(result.getResult().getSource());
                     Log.e("lk", "title" + result.getResult().getTitle());
-                    Toast.makeText(InformationDetailsActivity.this, "您没有阅读权限！！！", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -656,6 +678,112 @@ public class InformationDetailsActivity extends WDActivity {
         @Override
         public void fail(ApiException e) {
 
+        }
+    }
+
+    //分享
+    private class ShareCall implements DataCall<Result> {
+
+
+        private int mShare;
+
+        @Override
+        public void success(Result result) {
+            if (result.getStatus().equals("0000")) {
+
+                mShare = mResult.getShare();
+                shareshu.setText(String.valueOf(mShare+1));
+
+                WeChatShare();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+
+    //分享链接
+    public void WeChatShare() {
+
+        View mView = View.inflate(InformationDetailsActivity.this, R.layout.share, null);
+        mDialog = new Dialog(InformationDetailsActivity.this, R.style.BottomDialog);
+        mDialog.setContentView(mView);
+        mDialog.setCanceledOnTouchOutside(true);
+        ViewGroup.LayoutParams layoutParamsthreefilmreview = mView.getLayoutParams();
+        layoutParamsthreefilmreview.width = getResources().getDisplayMetrics().widthPixels;
+        mView.setLayoutParams(layoutParamsthreefilmreview);
+        mDialog.getWindow().setGravity(Gravity.BOTTOM);
+        mDialog.show();
+
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://www.baidu.com";
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.title = mResult.getTitle();
+        msg.description = mResult.getSummary();
+        msg.mediaObject = webpage;
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        initSend(req,mView);
+
+    }
+    private void initSend(final SendMessageToWX.Req req, View popView) {
+        /*Button mHaoYou = popView.findViewById(R.id.shareWXSceneSession);
+        Button mCircle = popView.findViewById(R.id.shareWXSceneTimeline);*/
+
+        RelativeLayout mHaoYou = popView.findViewById(R.id.shareWXSceneSessionz);
+        RelativeLayout mCircle = popView.findViewById(R.id.shareWXSceneTimelinez);
+        TextView mCancel = popView.findViewById(R.id.cancelbbb);
+        mHaoYou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("lk", "onClick: 点击了微信分享" );
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+                mWxApi.sendReq(req);
+                mDialog.dismiss();
+            }
+        });
+        mCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("lk", "onClick: 点击了朋友圈" );
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                mWxApi.sendReq(req);
+                mDialog.dismiss();
+            }
+        });
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("lk", "onClick: 点击了关闭了" );
+                mDialog.dismiss();
+            }
+        });
+
+
+        //  req.scene = SendMessageToWX.Req.WXSceneSession;    //设置发送到朋友
+        //       req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+        //req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+            mUserId = users.get(0).getUserId();
+            mSessionId = users.get(0).getSessionId();
+            mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
+        } else {
+            mInformationDetailsPresenter.reqeust(0L, "", mId);
         }
     }
 }

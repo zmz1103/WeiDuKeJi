@@ -83,6 +83,7 @@ public class InterestDetailsActivity extends WDActivity {
     private Dialog mDialog;
     private IWXAPI mWxApi;
     private int mI;
+    private int mBackI;
 
     @Override
     protected int getLayoutId() {
@@ -178,7 +179,8 @@ public class InterestDetailsActivity extends WDActivity {
 
         mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
             @Override
-            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu) {
+            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu,int i) {
+                mBackI = i;
                 Log.e("lk","id===id"+id);
                 Intent intent = new Intent(InterestDetailsActivity.this,InformationDetailsActivity.class);
                 Transfer mTransfer = new Transfer();
@@ -192,6 +194,8 @@ public class InterestDetailsActivity extends WDActivity {
                 mTransfer.setShareshu(shareshu);*/
                 intent.putExtra("mTransfer",mTransfer);
                 intent.putExtra("id",id+"");
+                intent.putExtra("backi",mBackI);
+                Log.e("lk","mBack"+mBackI);
                 startActivity(intent);
             }
         });
@@ -260,6 +264,7 @@ public class InterestDetailsActivity extends WDActivity {
             Log.e("lk", "lk" + result.getStatus());
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.reset(mResult);
+
             }
         }
 
@@ -410,5 +415,25 @@ public class InterestDetailsActivity extends WDActivity {
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+            mInformationAdapter.clear();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size()>0){
+
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+            mSessionId = users.get(0).getSessionId();
+            mUserId = users.get(0).getUserId();
+            mInformationListPresenter.reqeust(mUserId, mSessionId, mId, page, 10);
+        }else {
+            mInformationListPresenter.reqeust(0L, " ", mId, page, 10);
+        }
+        Log.e("lk","mBack"+mBackI);
+
+        //mInformationAdapter.notifyItemInserted();
+        //mInformationAdapter.notifyItemChanged(mBackI);
+
     }
 }
