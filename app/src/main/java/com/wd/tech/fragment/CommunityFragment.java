@@ -178,6 +178,7 @@ public class CommunityFragment extends WDFragment implements CustomAdapt{
                             } else {
                                 mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
                                 builder.dismiss();
+
                             }
                         }
                     });
