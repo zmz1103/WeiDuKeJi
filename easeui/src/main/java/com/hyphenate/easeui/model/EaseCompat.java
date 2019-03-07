@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.BuildConfig;
 import android.support.v4.content.FileProvider;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import java.io.File;
 
 public class EaseCompat {
     private static final String TAG = "EaseCompat";
-
+    private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
     /**
      * open file
      *
@@ -56,7 +57,7 @@ public class EaseCompat {
 
     public static Uri getUriForFile(Context context, File file) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", file);
+            return Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME));
         } else {
             return Uri.fromFile(file);
         }
