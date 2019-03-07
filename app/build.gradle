@@ -19,7 +19,7 @@ android {
         tech {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/SouGouDownload/tech.keystore')
+            storeFile file('C:/Users/xuanlong/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
