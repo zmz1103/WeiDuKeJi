@@ -296,7 +296,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
         // TODO Auto-generated method stub
         super.onDestroy();
         mFRAbsLoop.shutdown();
-        faceIdLoginPresenter.unBind();
+        faceIdLoginPresenter=null;
         AFT_FSDKError err = engine.AFT_FSDK_UninitialFaceEngine();
         Log.d(TAG, "AFT_FSDK_UninitialFaceEngine =" + err.getCode());
 
@@ -407,12 +407,12 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
         public void success(Result<User> result) {
             Toast.makeText(DetecterActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
-                WDApplication.getAppContext().getUserDao();
                 User user = new User();
                 user = result.getResult();
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
-
+                Log.v("ssssss",WDApplication.getAppContext().getUserDao().loadAll().size()+"");
+                finish();
             }
         }
 
