@@ -49,7 +49,10 @@ public class WebDetailsActivity extends WDActivity {
 
         //做任务
         mDoTheTastPresenter = new DoTheTastPresenter(new DotheTaskCall());
-        mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1005);
+        if(WDApplication.getAppContext().getUserDao().loadAll().size()>0){
+            mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1005);
+        }
+
 
         WebSettings mWebSettings = mWebView.getSettings();
         /* 设置支持Js,必须设置的,不然网页基本上不能看 */
