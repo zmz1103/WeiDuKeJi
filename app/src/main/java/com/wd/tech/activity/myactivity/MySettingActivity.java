@@ -222,7 +222,6 @@ public class MySettingActivity extends WDActivity {
             case R.id.go_up_sign:
                 //去发布签名页面
                 startActivity(new Intent(MySettingActivity.this, PublishSingActivity.class));
-                finish();
                 break;
             case R.id.bind_faceId:
                 //绑定Face Id
@@ -335,7 +334,10 @@ public class MySettingActivity extends WDActivity {
                 }
                 break;
             case CODE_GALLERY_REQUEST:
-                cropRawPhoto(data.getData());
+                if (data != null) {
+                    Uri data1 = data.getData();
+                    cropRawPhoto(data1);
+                }
                 break;
             case CODE_RESULT_REQUEST:
                 if (data != null) {
@@ -413,7 +415,7 @@ public class MySettingActivity extends WDActivity {
         if (user == null) {
             Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
         } else {
-            mGetUserBeanPresenter.reqeust(user.getUserId(), user.getSessionId());
+            mGetUserBeanPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0) .getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId());
         }
     }
 
@@ -438,8 +440,6 @@ public class MySettingActivity extends WDActivity {
             intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
                     .fromFile(new File(Environment
                             .getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-
-
         }
 
         startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
@@ -470,7 +470,6 @@ public class MySettingActivity extends WDActivity {
         intent.putExtra("outputX", output_X);
         intent.putExtra("outputY", output_Y);
         intent.putExtra("return-data", true);
-        //  intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(LOGO_ZOOM_FILE_PATH));
         startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
 
@@ -525,8 +524,6 @@ public class MySettingActivity extends WDActivity {
                     if ("primary".equalsIgnoreCase(type)) {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
-
-                    // TODO handle non-primary volumes
                 } else if (isDownloadsDocument(uri)) {
 
                     final String id = DocumentsContract.getDocumentId(uri);
