@@ -52,7 +52,7 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
 
     public interface OnFriendsPostClickListener{
         //评论
-        void onCommentClick(int id);
+        void onCommentClick(int id,int num);
         //点赞
         void onPraiseClick(int id,int whetherGreat);
     }
@@ -106,7 +106,7 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             @Override
             public void onClick(View view) {
                 if (mOnFriendsPostClickListener !=null){
-                    mOnFriendsPostClickListener.onCommentClick(listBean.getId());
+                    mOnFriendsPostClickListener.onCommentClick(listBean.getId(),listBean.getComment());
                 }
 
             }
