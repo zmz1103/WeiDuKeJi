@@ -414,6 +414,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
                 Log.v("ssssss",WDApplication.getAppContext().getUserDao().loadAll().size()+"");
                 finish();
             }
+            finish();
         }
 
         @Override
