@@ -135,8 +135,13 @@ public class MyMessageFrament extends WDFragment {
                     }
                 }
 
-                String substring = userNames.substring(0, userNames.length() - 1);
-                findConversationListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),userNames);
+                if (userNames.equals("")){
+
+                }else {
+                    String substring = userNames.substring(0, userNames.length() - 1);
+                    findConversationListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),userNames);
+                }
+
 
 
                 List<Group> groupList = result.getResult();
