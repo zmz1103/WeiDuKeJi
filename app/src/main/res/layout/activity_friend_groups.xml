@@ -12,7 +12,8 @@
             android:id="@+id/choose_group_back"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:padding="10dp"
             android:src="@mipmap/common_nav_btn_back_n" />
@@ -21,7 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:text="选择分组"
             android:textColor="@color/colorText"
             android:textSize="20sp" />

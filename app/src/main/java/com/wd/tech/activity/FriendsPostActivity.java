@@ -394,7 +394,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         mAddFollowPresenter=null;
         mCancelFollowPresenter=null;
         mAddCommunityPresenter=null;
-        mJudgePresenter.unBind();
+        mJudgePresenter=null;
     }
 
     @Override

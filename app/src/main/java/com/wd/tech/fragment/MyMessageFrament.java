@@ -25,9 +25,14 @@ import com.wd.tech.R;
 import com.wd.tech.activity.FriendDataActivity;
 import com.wd.tech.activity.huanxin.IMActivity;
 import com.wd.tech.adapter.GroupAdapter;
+import com.wd.tech.bean.FindConversationList;
 import com.wd.tech.bean.Group;
 import com.wd.tech.bean.Result;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.FindConversationListDao;
 import com.wd.tech.exception.ApiException;
+import com.wd.tech.presenter.FindConversationListPresenter;
 import com.wd.tech.presenter.QueryGroupPresenter;
 import com.wd.tech.view.DataCall;
 
@@ -45,13 +50,16 @@ public class MyMessageFrament extends WDFragment {
     QueryGroupPresenter mQueryGroupPresenter;
     @BindView(R.id.linkman_pre)
     ListView mLinkman;
-
+    FindConversationListPresenter findConversationListPresenter ;
     @BindView(R.id.message_refreshLayout)
     SmartRefreshLayout mSmart;
     private GroupAdapter mGroupAdapter;
     private String mSessionId;
     private int mUserId;
     private SharedPreferences mDate;
+    String userNames="";
+    private DaoSession daoSession;
+    private FindConversationListDao findConversationListDao;
 
     @Override
     public int getContent() {
@@ -61,6 +69,7 @@ public class MyMessageFrament extends WDFragment {
     @Override
     public void initView(View view) {
 
+        findConversationListPresenter = new FindConversationListPresenter(new QueryData());
         mQueryGroupPresenter = new QueryGroupPresenter(new QueryCall());
 
         mDate = getActivity().getSharedPreferences("date", Context.MODE_PRIVATE);
@@ -106,6 +115,8 @@ public class MyMessageFrament extends WDFragment {
             Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
         }
 
+        daoSession = DaoMaster.newDevSession(getContext(), FindConversationListDao.TABLENAME);
+        findConversationListDao = daoSession.getFindConversationListDao();
     }
 
     private class QueryCall implements DataCall<Result<List<Group>>> {
@@ -115,6 +126,24 @@ public class MyMessageFrament extends WDFragment {
 
                 List<Group> mGroup = result.getResult();
 
+                Log.e("zmz","初始化："+userNames);
+                userNames = "";
+
+                for (int i = 0; i < mGroup.size(); i++) {
+                    for (int j = 0; j < mGroup.get(i).getFriendInfoList().size(); j++) {
+                        userNames = userNames+mGroup.get(i).getFriendInfoList().get(j).getUserName()+",";
+                    }
+                }
+
+                if (userNames.equals("")){
+
+                }else {
+                    String substring = userNames.substring(0, userNames.length() - 1);
+                    findConversationListPresenter.reqeust((int)user.getUserId(),user.getSessionId(),userNames);
+                }
+
+
+
                 List<Group> groupList = result.getResult();
 
                 mGroupAdapter.clear();
@@ -122,6 +151,8 @@ public class MyMessageFrament extends WDFragment {
                 mGroupAdapter.addAll(groupList,mGroup);
 
                 mGroupAdapter.notifyDataSetChanged();
+
+
             }
         }
 
@@ -130,7 +161,35 @@ public class MyMessageFrament extends WDFragment {
 
         }
     }
+    class QueryData implements DataCall<Result<List<FindConversationList>>> {
 
+        @Override
+        public void success(Result<List<FindConversationList>> result) {
+
+            if (result.getStatus().equals("0000")){
+                //Toast.makeText(IMActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                List<FindConversationList> mResult = result.getResult();
+
+                findConversationListDao.deleteAll();
+
+                for (int i = 0; i < mResult.size(); i++) {
+
+                    FindConversationList findConversationList = mResult.get(i);
+
+                    Log.e("zmz","查出来了："+findConversationList.getUserName());
+                    findConversationList.setId(i);
+                    findConversationListDao.insertOrReplace(findConversationList);
+
+                }
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

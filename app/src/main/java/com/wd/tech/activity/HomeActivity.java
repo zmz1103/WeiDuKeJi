@@ -156,6 +156,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         mImageVip.setVisibility(View.GONE);
 
         mGetUserBeanPresenter = new GetUserBeanPresenter(new getUserById());
