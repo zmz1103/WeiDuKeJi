@@ -13,7 +13,8 @@
             android:id="@+id/create_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="15dp"
             android:padding="4dp"
             android:src="@mipmap/common_nav_btn_back_n" />
@@ -22,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:text="创建群聊"
             android:textColor="@color/colorText"
             android:textSize="20sp" />

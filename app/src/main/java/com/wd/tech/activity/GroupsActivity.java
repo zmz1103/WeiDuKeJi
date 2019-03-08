@@ -1,9 +1,14 @@
 package com.wd.tech.activity;
 
+import android.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.adapter.GroupsAdapter;
@@ -33,6 +38,8 @@ public class GroupsActivity extends WDActivity{
 
     GroupsPresenter mGroupsPresenter;
     private GroupsAdapter mAdapter;
+    private String nameGrouping;
+    private AlertDialog alertDialog;
 
     @Override
     protected int getLayoutId() {
@@ -47,10 +54,62 @@ public class GroupsActivity extends WDActivity{
         mGroups.setAdapter(mAdapter);
         mGroupsPresenter.reqeust((int)user.getUserId(),user.getSessionId());
     }
-    @OnClick(R.id.choose_group_back)
-    public void onClick(){
-        finish();
+    @OnClick({R.id.choose_group_back,R.id.new_groups})
+    public void onClick(View view){
+        if (view.getId() == R.id.choose_group_back){
+            finish();
+        }
+        if (view.getId() == R.id.new_groups){
+            newGroup();
+
+
+        }
     }
+
+    private void newGroup() {
+
+        View inflate = View.inflate(this, R.layout.create_grouping, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        builder.setView(inflate);
+        alertDialog = builder.create();
+        EditText editText = inflate.findViewById(R.id.new_groups_name);
+
+        TextView cancel = inflate.findViewById(R.id.new_groups_cancel);
+
+        TextView confirm = inflate.findViewById(R.id.new_groups_confirm);
+
+
+
+        nameGrouping = editText.getText().toString();
+
+
+
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (nameGrouping.isEmpty()){
+                        Toast.makeText(GroupsActivity.this, "分组名", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(GroupsActivity.this, "创建成功", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+    }
+
     @Override
     protected void destoryData() {
         mGroupsPresenter.unBind();
