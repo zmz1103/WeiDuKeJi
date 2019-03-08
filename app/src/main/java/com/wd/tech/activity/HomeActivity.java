@@ -499,8 +499,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.goLoginBtn:
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
-
-
             default:
                 break;
         }
