@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/linear_layout_container"
     tools:context=".activity.PublishActivity"
+    android:clickable="true"
     android:orientation="vertical"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp">

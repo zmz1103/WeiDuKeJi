@@ -163,6 +163,7 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
                     intent.putExtra("headPic",mHeadPic);
                     intent.putExtra("nickName",mNickName);
                     startActivity(intent);
+
                 }
             }
 

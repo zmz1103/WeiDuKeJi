@@ -1,6 +1,7 @@
 package com.wd.tech.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -67,6 +68,8 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
     TextView communityPublishNum;
     @BindView(R.id.community_image)
     RecyclerView communityImage;
+    @BindView(R.id.linear_layout_container)
+    LinearLayout linearLayoutContainer;
     private CommunityPublishPresenter mCommunityPublishPresenter;
     private PictureAdapter mPictureAdapter;
     private int max= 300;//限制的最大字数
@@ -225,7 +228,7 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
 
     }
 
-    @OnClick({R.id.txt_cancel, R.id.txt_publish})
+    @OnClick({R.id.txt_cancel, R.id.txt_publish,R.id.linear_layout_container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_cancel:
@@ -235,10 +238,21 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
                 String trim = communityPublishContent.getText().toString().trim();
                 if (trim!=null){
                     mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(),trim, mPictureAdapter.getList());
+                    Toast.makeText(this, "正在上传", Toast.LENGTH_SHORT).show();
                 }else {
                     mCommunityPublishPresenter.reqeust((int)user.getUserId(), user.getSessionId(),trim, mPictureAdapter.getList());
-
+                    Toast.makeText(this, "正在上传", Toast.LENGTH_SHORT).show();
                 }
+                //点击键盘外部隐藏键盘
+                InputMethodManager imm1 = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                break;
+            case R.id.linear_layout_container:
+                //点击键盘外部隐藏键盘
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 break;
             default:
                 break;
