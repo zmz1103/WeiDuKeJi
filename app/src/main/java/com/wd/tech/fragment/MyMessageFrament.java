@@ -34,6 +34,7 @@ import com.wd.tech.dao.FindConversationListDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.FindConversationListPresenter;
 import com.wd.tech.presenter.QueryGroupPresenter;
+import com.wd.tech.util.DaoUtils;
 import com.wd.tech.view.DataCall;
 
 import java.util.List;
@@ -58,8 +59,6 @@ public class MyMessageFrament extends WDFragment {
     private int mUserId;
     private SharedPreferences mDate;
     String userNames="";
-    private DaoSession daoSession;
-    private FindConversationListDao findConversationListDao;
 
     @Override
     public int getContent() {
@@ -114,9 +113,6 @@ public class MyMessageFrament extends WDFragment {
         } else {
             Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
         }
-
-        daoSession = DaoMaster.newDevSession(getContext(), FindConversationListDao.TABLENAME);
-        findConversationListDao = daoSession.getFindConversationListDao();
     }
 
     private class QueryCall implements DataCall<Result<List<Group>>> {
@@ -168,19 +164,13 @@ public class MyMessageFrament extends WDFragment {
 
             if (result.getStatus().equals("0000")){
                 //Toast.makeText(IMActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
-                List<FindConversationList> mResult = result.getResult();
 
-                findConversationListDao.deleteAll();
-
-                for (int i = 0; i < mResult.size(); i++) {
-
-                    FindConversationList findConversationList = mResult.get(i);
-
-                    Log.e("zmz","查出来了："+findConversationList.getUserName());
-                    findConversationList.setId(i);
-                    findConversationListDao.insertOrReplace(findConversationList);
-
+                List<FindConversationList> conversationList = result.getResult();
+                for(FindConversationList conversation:conversationList){
+                    conversation.setUserName(conversation.getUserName().toLowerCase());
                 }
+                DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversationList);
+
             }
         }
 
