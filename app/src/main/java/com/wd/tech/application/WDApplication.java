@@ -1,7 +1,11 @@
 package com.wd.tech.application;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -11,12 +15,18 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.wd.tech.R;
+import com.wd.tech.activity.huanxin.IMActivity;
 import com.wd.tech.bean.FindConversationList;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
@@ -92,7 +102,71 @@ public class WDApplication extends Application {
         });
 
 
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+                if (list != null){
+                    for (int i = 0; i < list.size(); i++) {
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(wdApplication).setDefaults(Notification.DEFAULT_ALL);
+                        Intent intent = new Intent(wdApplication, IMActivity.class);//将要跳转的界面
+                        intent.putExtra(EaseConstant.EXTRA_USER_ID,list.get(i).getUserName());
+                        intent.putExtra("UserNames",list.get(i).getUserName());
+                        intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                        //Intent intent = new Intent();//只显示通知，无页面跳转
+                        builder.setAutoCancel(true);//点击后消失
+                        builder.setSmallIcon(R.drawable.child_head);//设置通知栏消息标题的头像
+                        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+                        builder.setTicker("状态栏显示的文字");
+                        String from = list.get(i).getFrom();
+                        String name = "";
+                        List<FindConversationList> conversationLists = DaoUtils.getInstance().getConversationDao().loadAll();
 
+                        for (int j = 0; j <conversationLists.size() ; j++) {
+                           if (conversationLists.get(j).getUserName().equals(from)){
+                               name = conversationLists.get(j).getNickName();
+                               builder.setContentTitle(name);
+                               break;
+                           }
+                        }
+
+
+                        String message = list.get(i).getBody().toString().substring(5, list.get(i).getBody().toString().length() - 1);
+
+                        builder.setContentText(message);
+                        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
+                        PendingIntent intentPend = PendingIntent.getActivity(wdApplication, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        builder.setContentIntent(intentPend);
+                        NotificationManager manager = (NotificationManager) wdApplication.getSystemService(wdApplication.NOTIFICATION_SERVICE);
+                        manager.notify(0, builder.build());
+                    }
+                }
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageRecalled(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage emMessage, Object o) {
+
+            }
+        });
 
     }
 

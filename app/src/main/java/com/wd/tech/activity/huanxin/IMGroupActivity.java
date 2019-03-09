@@ -86,40 +86,14 @@ public class IMGroupActivity extends WDActivity {
         public void success(Result<List<FindConversationList>> result) {
 
             if (result.getStatus().equals("0000")){
-                //Toast.makeText(IMActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
                 List<FindConversationList> mResult = result.getResult();
                 conversation = mResult.get(0);
                 mName.setText(conversation.getNickName());
-                //Toast.makeText(IMActivity.this, conversation.getNickName(), Toast.LENGTH_SHORT).show();
-                setEaseUser();
             }
         }
-
         @Override
         public void fail(ApiException e) {
 
         }
-
     }
-    private void setEaseUser() {
-        EaseUI easeUI = EaseUI.getInstance();
-        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
-            @Override
-            public EaseUser getUser(String username) {
-                return getUserInfo(username);
-            }
-        });
-    }
-
-    private EaseUser getUserInfo(String username) {
-        EaseUser easeUser = new EaseUser(username);
-        if (username.equals(user.getUserName().toLowerCase())){
-            easeUser.setNickname(user.getNickName());
-            easeUser.setAvatar(user.getHeadPic());
-        }else {
-            easeUser.setNickname(conversation.getNickName());
-            easeUser.setAvatar(conversation.getHeadPic());
-        }
-        return easeUser;
-    }//即可正常显示头像昵称
 }

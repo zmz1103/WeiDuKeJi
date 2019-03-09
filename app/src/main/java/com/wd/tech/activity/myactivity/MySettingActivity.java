@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
 import com.wd.tech.activity.HomeActivity;
 import com.wd.tech.activity.MainActivity;
@@ -151,6 +152,9 @@ public class MySettingActivity extends WDActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         WDApplication.getAppContext().getUserDao().deleteAll();
                         DaoUtils.getInstance().getConversationDao().deleteAll();
+
+                        EMClient.getInstance().logout(true);
+
                         Intent intent = new Intent(MySettingActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("show", 1);

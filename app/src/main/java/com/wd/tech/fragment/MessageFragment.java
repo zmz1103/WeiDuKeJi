@@ -55,6 +55,7 @@ public class MessageFragment extends WDFragment {
     List<Fragment> mList;
     @BindView(R.id.add)
     ImageView mAdd;
+    private EaseConversationListFragment conversationListFragment;
 
     @Override
     public int getContent() {
@@ -65,7 +66,7 @@ public class MessageFragment extends WDFragment {
     public void initView(View view) {
         mList = new ArrayList<Fragment>();
         myMessageFrament = new MyMessageFrament();
-        EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
+        conversationListFragment = new EaseConversationListFragment();
         mList.add(conversationListFragment);
         mList.add(myMessageFrament);
 
@@ -155,6 +156,8 @@ public class MessageFragment extends WDFragment {
             }
         });
     }
+
+
 
     @OnClick(R.id.add)
     public void OnClick() {
