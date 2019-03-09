@@ -72,7 +72,6 @@ public class CommunityFragment extends WDFragment {
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
     private DoTheTastPresenter mDoTheTastPresenter;
-
     @Override
     public int getContent() {
         return R.layout.activity_community_fragment;

@@ -197,7 +197,6 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
                 viewHolder.mCommentPl.setText("没有更多评论了~");
                 viewHolder.mCommentPl.setTextColor(Color.parseColor("#999999"));
         }
-
     }
 
     @Override
