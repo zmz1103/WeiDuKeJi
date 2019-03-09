@@ -107,6 +107,7 @@ public class FriendsPostAdapter extends RecyclerView.Adapter<FriendsPostAdapter.
             public void onClick(View view) {
                 if (mOnFriendsPostClickListener !=null){
                     mOnFriendsPostClickListener.onCommentClick(listBean.getId(),listBean.getComment());
+
                 }
 
             }

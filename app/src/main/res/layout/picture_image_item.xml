@@ -8,6 +8,7 @@
         android:id="@+id/community_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
         android:adjustViewBounds="true"
         fresco:roundedCornerRadius="8dp"
         />
