@@ -154,35 +154,15 @@ public class FriendsPostActivity extends WDActivity implements CustomAdapt{
         mFriendsPostAdapter.setOnFriendsPostClickListener(new FriendsPostAdapter.OnFriendsPostClickListener() {
 
             @Override
-            public void onCommentClick(final int id) {
-                if (user==null){
-                    Toast.makeText(FriendsPostActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
-                    View inflate = View.inflate(FriendsPostActivity.this, R.layout.pop_comment, null);
-                    mEtContent = inflate.findViewById(R.id.et_content);
-                    mEtContent.setHint("@"+mNickName+"回复：");
-                    final Dialog builder = new Dialog(FriendsPostActivity.this, R.style.BottomDialog);
-                    builder.setContentView(inflate);
-                    builder.setCanceledOnTouchOutside(true);
-                    ViewGroup.LayoutParams layoutParamsthreefilmreview = inflate.getLayoutParams();
-                    layoutParamsthreefilmreview.width = getResources().getDisplayMetrics().widthPixels;
-                    inflate.setLayoutParams(layoutParamsthreefilmreview);
-                    builder.getWindow().setGravity(Gravity.BOTTOM);
-                    builder.show();
-                    mSend = inflate.findViewById(R.id.send);
-                    mSend.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String s = mEtContent.getText().toString().trim();
-
-                            if (s.isEmpty()) {
-                                Toast.makeText(FriendsPostActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
-                            } else {
-                                mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
-                                builder.dismiss();
-                            }
-                        }
-                    });
+            public void onCommentClick(final int id,int num) {
+                if (num>=1){
+                    //查看全部评论
+                    Intent intent = new Intent(FriendsPostActivity.this,AllCommentActivity.class);
+                    intent.putExtra("communityId",id);
+                    intent.putExtra("comment",num+"");
+                    intent.putExtra("headPic",mHeadPic);
+                    intent.putExtra("nickName",mNickName);
+                    startActivity(intent);
                 }
             }
 

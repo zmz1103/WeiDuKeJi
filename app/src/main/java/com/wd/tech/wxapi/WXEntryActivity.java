@@ -52,7 +52,7 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
 
     @Override
     protected void destoryData() {
-
+        mWxLoginPresenter = null;
     }
 
     @Override
@@ -86,18 +86,12 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 //登录成功
                 Toast.makeText(WXEntryActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
                 //将登录信息存入数据库
-
                 WDApplication.getAppContext().getUserDao().deleteAll();
                 User user = new User();
                 user = data.getResult();
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
-                List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
-                Toast.makeText(WXEntryActivity.this, "" + users.size(), Toast.LENGTH_SHORT).show();
                 finish();
-            } else if (data.getStatus().equals("1001")) {
-                finish();
-                Toast.makeText(WXEntryActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

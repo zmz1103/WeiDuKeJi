@@ -70,7 +70,7 @@ public abstract class WDPresenter<T> {
     }
     public void unBind(){
 
-        this.dataCall = null;
+         dataCall = null;
     }
     public boolean Running(){
         return running;

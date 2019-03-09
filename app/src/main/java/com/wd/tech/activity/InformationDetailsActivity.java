@@ -411,13 +411,11 @@ public class InformationDetailsActivity extends WDActivity {
     }
 
 
+
     /**
      * 请求详情数据
      */
     private class InforDetailsCall implements DataCall<Result<InformationDetailsBean>> {
-
-
-
 
         @Override
         public void success(final Result<InformationDetailsBean> result) {
@@ -804,6 +802,19 @@ public class InformationDetailsActivity extends WDActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+            List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+            mUserId = users.get(0).getUserId();
+            mSessionId = users.get(0).getSessionId();
+            mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
+        } else {
+            mInformationDetailsPresenter.reqeust(0L, "", mId);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
             mUserId = users.get(0).getUserId();

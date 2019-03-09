@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -117,13 +118,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private GetUserBeanPresenter mGetUserBeanPresenter;
     private List<User> users;
     private boolean isDrawer;
+    private float width;
+    private Toast toast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{
-                    android.Manifest.permission.RECORD_AUDIO,android.Manifest.permission.CAMERA},1);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.CAMERA}, 1);
         }
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -137,10 +140,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }, 100);
             }
         }
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.CAMERA)){
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
         if (savedInstanceState != null) {
             mManager = getSupportFragmentManager();
@@ -203,11 +206,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-
 //        mDraw.setScrimColor(Color.TRANSPARENT);//去除阴影
         mCLayout.measure(0, 0);
         //获取布局宽度，并获得左移大小
-        final float width = mCLayout.getMeasuredWidth() * 0.2f;
+        width = mCLayout.getMeasuredWidth() * 0.2f;
         //底布局左移
         mCLayout.setTranslationX(-width);
         // 侧拉出的页面
@@ -241,7 +243,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
     }
 
     private class getUserById implements DataCall<Result<GetUserBean>> {
@@ -255,7 +256,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 mMyIcon.setImageURI(result.getResult().getHeadPic());
                 mMyName.setText(result.getResult().getNickName());
-                if (result.getResult().getSignature().equals("")) {
+                if (result.getResult().getSignature() == null || result.getResult().getSignature().equals("")) {
                     mMySignAture.setText("发表个心情吧！");
                 } else {
                     mMySignAture.setText(result.getResult().getSignature());
@@ -279,8 +280,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
-
-
     }
 
     private int mFlag = 0;
@@ -293,18 +292,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             mFlag = 1;
             //获取当前系统时间
             mTime1 = System.currentTimeMillis();
-
-            Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+             toast=Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT);
+             toast.setGravity(Gravity.CENTER,0,0);
+             toast.show();
         } else if (keyCode == KeyEvent.KEYCODE_BACK && mFlag == 1) {
             mTime2 = System.currentTimeMillis();
             if (mTime2 - mTime1 < 2500) {
                 finish();
-            } else {
             }
             mFlag = 0;
             mTime1 = 0;
             mTime2 = 0;
-
         }
 
         return true;
@@ -319,7 +317,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart() {
         super.onRestart();
-        final float width = mCLayout.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
         mDraw.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -487,7 +484,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
         } else {
-            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+            toast = Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             startActivity(new Intent(WDApplication.getAppContext(), NoNetWorkActivity.class));
         }
     }
@@ -499,8 +498,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.goLoginBtn:
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 break;
-
-
             default:
                 break;
         }

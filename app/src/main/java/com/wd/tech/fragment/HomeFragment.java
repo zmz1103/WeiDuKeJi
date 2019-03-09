@@ -124,6 +124,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private String mId;
     private String mJumpUrl;
     private DoTheTastPresenter mDoTheTastPresenter;
+    private Toast toast;
 
 
     @Override
@@ -204,7 +205,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                     }
 
                 } else {
-                    Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
                 }
 
             }
@@ -398,9 +401,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
                 mInformationAdapter.notifyItemChanged(mI);
 
-                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+               toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
+               toast.setGravity(Gravity.CENTER,0,0);
+               toast.show();
             }
         }
 
@@ -415,9 +418,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         public void success(Result result) {
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.notifyItemChanged(mI);
-                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
             }
         }
 
@@ -432,18 +435,14 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 mInformationAdapter.notifyItemChanged(mInt);
-                //Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+
                 Log.e("lk","调用了分享接口");
                 String thumbnail = mResult.get(mInt).getThumbnail();
                 mSplit = thumbnail.split("\\?");
                 if (result.getStatus().equals("0000")){
                     WeChatShare();
                     mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1004);
-                }else {
-
                 }
-            }else {
-                //Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 

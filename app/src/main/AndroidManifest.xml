@@ -27,8 +27,6 @@
     <!-- 获取设备唯一标识，用于SDK激活授权 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
     <application
         android:name=".application.WDApplication"
         android:allowBackup="true"

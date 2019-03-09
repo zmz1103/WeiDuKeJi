@@ -120,8 +120,8 @@ public class PublishSingActivity extends WDActivity {
                 finish();
                 break;
             case R.id.activity_txt_publish:
-                if (mCommunityPublishContent.getText().toString().trim().length() <= 0) {
-
+                if (mCommunityPublishContent.getText().toString().length() <= 0) {
+                    Toast.makeText(this, "不可发布空哦", Toast.LENGTH_SHORT).show();
                 } else {
                     modifySignPresenter.reqeust((int) user.getUserId(), user.getSessionId(), mCommunityPublishContent.getText().toString().trim());
                 }

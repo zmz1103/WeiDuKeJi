@@ -176,24 +176,26 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
                 }
             }
         });
-        if (list.get(i).getComment() > 0) {
+        if (list.get(i).getComment()<1){
+            viewHolder.mCommentPl.setText("快来评论吧~");
+            viewHolder.mCommentPl.setTextColor(Color.parseColor("#999999"));
+        }else if (list.get(i).getComment()>3){
             viewHolder.mCommentPl.setText("点击查看更多评论");
             viewHolder.mCommentPl.setTextColor(Color.parseColor("#20affa"));
             viewHolder.mCommentPl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context,AllCommentActivity.class);
-                    intent.putExtra("communityId",list.get(i).getId());
-                    intent.putExtra("comment",list.get(i).getComment()+"");
-                    intent.putExtra("headPic",list.get(i).getHeadPic());
-                    intent.putExtra("nickName",list.get(i).getNickName());
+                    Intent intent = new Intent(context, AllCommentActivity.class);
+                    intent.putExtra("communityId", list.get(i).getId());
+                    intent.putExtra("comment", list.get(i).getComment() + "");
+                    intent.putExtra("headPic", list.get(i).getHeadPic());
+                    intent.putExtra("nickName", list.get(i).getNickName());
                     context.startActivity(intent);
                 }
             });
-
         }else {
-            viewHolder.mCommentPl.setText("快来评论吧~");
-            viewHolder.mCommentPl.setTextColor(Color.parseColor("#999999"));
+                viewHolder.mCommentPl.setText("没有更多评论了~");
+                viewHolder.mCommentPl.setTextColor(Color.parseColor("#999999"));
         }
 
     }

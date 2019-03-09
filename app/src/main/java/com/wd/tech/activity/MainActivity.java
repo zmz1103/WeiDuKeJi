@@ -65,6 +65,12 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     @Override
     protected void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
             return;
@@ -172,7 +178,8 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     private void startDetector(int camera) {
         Intent it = new Intent(MainActivity.this, DetecterActivity.class);
         it.putExtra("Camera", camera);
-        startActivityForResult(it, REQUEST_CODE_OP);
+        startActivity(it );
+        finish();
     }
 
     @Override

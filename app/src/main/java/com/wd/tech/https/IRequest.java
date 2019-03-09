@@ -316,8 +316,8 @@ public interface IRequest {
                                      @Query("oldPwd") String oldPwd,
                                      @Query("newPwd") String newPwd);
 
-    // 修改用户签名  usererify1/modifySignature
-    @PUT("usererify1/modifySignature")
+    // 修改用户签名
+    @PUT("user/verify/v1/modifySignature")
     Observable<Result> modifySignature(@Header("userId") int userId,
                                        @Header("sessionId") String sessionId,
                                        @Query("signature") String oldPwd);

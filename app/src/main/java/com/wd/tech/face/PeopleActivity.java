@@ -221,6 +221,12 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bindingFaceIdPresenter = null;
+    }
+
     /**
      * @param bundle
      * @note bundle data :
