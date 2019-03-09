@@ -1,6 +1,9 @@
 package com.wd.tech.wxapi;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,19 +26,23 @@ import com.wd.tech.view.DataCall;
 
 import java.util.List;
 
-public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
     private WxLoginPresenter mWxLoginPresenter;
     private String mCode;
     private IWXAPI mWxApi;
 
     @Override
-    protected int getLayoutId() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mWxApi = WXAPIFactory.createWXAPI(this, "wx4c96b6b8da494224", true);
         mWxApi.registerApp("wx4c96b6b8da494224");
         mWxApi.handleIntent(getIntent(), this);
-        return R.layout.activity_wxentry;
+        WeiXinUtil.reg(WXEntryActivity.this).handleIntent(getIntent(), this);
+
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -44,36 +51,42 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
         mWxApi.handleIntent(intent, this);
     }
 
-    @Override
-    protected void initView() {
-
-        WeiXinUtil.reg(WXEntryActivity.this).handleIntent(getIntent(), this);
-    }
 
     @Override
-    protected void destoryData() {
+    protected void onDestroy() {
+        super.onDestroy();
         mWxLoginPresenter = null;
     }
 
     @Override
     public void onReq(BaseReq baseReq) {
-
     }
 
     @Override
     public void onResp(final BaseResp baseResp) {
-        switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                mCode = ((SendAuth.Resp) baseResp).code;
-                mWxLoginPresenter = new WxLoginPresenter(new WxCall());
-                mWxLoginPresenter.reqeust(mCode);
-                break;
-            case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:
-                // 只是做了简单的finish操作
-                finish();
-                break;
-            default:
+        if(baseResp.getType()== ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX){//分享
+            Log.i("ansen","微信分享操作.....");
+//            WeiXin weiXin=new WeiXin(2,resp.errCode,"");
+//            EventBus.getDefault().post(weiXin);
+            finish();
+        }else if(baseResp.getType()==ConstantsAPI.COMMAND_SENDAUTH) {//登陆
+            Log.i("ansen", "微信登录操作.....");
 
+
+            switch (baseResp.errCode) {
+                case BaseResp.ErrCode.ERR_OK:
+                    mCode = ((SendAuth.Resp) baseResp).code;
+                    mWxLoginPresenter = new WxLoginPresenter(new WxCall());
+                    mWxLoginPresenter.reqeust(mCode);
+                    break;
+                case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:
+                    // 只是做了简单的finish操作
+                    finish();
+                    break;
+                default:
+                    break;
+
+            }
         }
 
     }
@@ -99,5 +112,11 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
         public void fail(ApiException a) {
             Toast.makeText(WXEntryActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

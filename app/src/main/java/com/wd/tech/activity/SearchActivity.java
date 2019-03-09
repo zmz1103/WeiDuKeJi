@@ -111,6 +111,7 @@ public class SearchActivity extends WDActivity {
             @Override
             public void hotci(String s) {
                 searchText.setText(s);
+                sousuo();
             }
         });
 
