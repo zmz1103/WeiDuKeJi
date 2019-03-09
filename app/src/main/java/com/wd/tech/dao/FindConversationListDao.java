@@ -24,12 +24,11 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property UserId = new Property(0, long.class, "userId", true, "_id");
         public final static Property HeadPic = new Property(1, String.class, "headPic", false, "HEAD_PIC");
         public final static Property NickName = new Property(2, String.class, "nickName", false, "NICK_NAME");
         public final static Property Pwd = new Property(3, String.class, "pwd", false, "PWD");
-        public final static Property UserId = new Property(4, int.class, "userId", false, "USER_ID");
-        public final static Property UserName = new Property(5, String.class, "userName", false, "USER_NAME");
+        public final static Property UserName = new Property(4, String.class, "userName", false, "USER_NAME");
     }
 
 
@@ -45,12 +44,11 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"FIND_CONVERSATION_LIST\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: userId
                 "\"HEAD_PIC\" TEXT," + // 1: headPic
                 "\"NICK_NAME\" TEXT," + // 2: nickName
                 "\"PWD\" TEXT," + // 3: pwd
-                "\"USER_ID\" INTEGER NOT NULL ," + // 4: userId
-                "\"USER_NAME\" TEXT);"); // 5: userName
+                "\"USER_NAME\" TEXT);"); // 4: userName
     }
 
     /** Drops the underlying database table. */
@@ -62,7 +60,7 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
     @Override
     protected final void bindValues(DatabaseStatement stmt, FindConversationList entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+        stmt.bindLong(1, entity.getUserId());
  
         String headPic = entity.getHeadPic();
         if (headPic != null) {
@@ -78,18 +76,17 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
         if (pwd != null) {
             stmt.bindString(4, pwd);
         }
-        stmt.bindLong(5, entity.getUserId());
  
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(6, userName);
+            stmt.bindString(5, userName);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, FindConversationList entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+        stmt.bindLong(1, entity.getUserId());
  
         String headPic = entity.getHeadPic();
         if (headPic != null) {
@@ -105,11 +102,10 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
         if (pwd != null) {
             stmt.bindString(4, pwd);
         }
-        stmt.bindLong(5, entity.getUserId());
  
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(6, userName);
+            stmt.bindString(5, userName);
         }
     }
 
@@ -121,36 +117,34 @@ public class FindConversationListDao extends AbstractDao<FindConversationList, L
     @Override
     public FindConversationList readEntity(Cursor cursor, int offset) {
         FindConversationList entity = new FindConversationList( //
-            cursor.getLong(offset + 0), // id
+            cursor.getLong(offset + 0), // userId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // headPic
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // nickName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pwd
-            cursor.getInt(offset + 4), // userId
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // userName
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // userName
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, FindConversationList entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setUserId(cursor.getLong(offset + 0));
         entity.setHeadPic(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setNickName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPwd(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setUserId(cursor.getInt(offset + 4));
-        entity.setUserName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setUserName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override
     protected final Long updateKeyAfterInsert(FindConversationList entity, long rowId) {
-        entity.setId(rowId);
+        entity.setUserId(rowId);
         return rowId;
     }
     
     @Override
     public Long getKey(FindConversationList entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getUserId();
         } else {
             return null;
         }

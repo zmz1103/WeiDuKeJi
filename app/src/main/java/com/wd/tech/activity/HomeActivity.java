@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -118,6 +119,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private List<User> users;
     private boolean isDrawer;
     private float width;
+    private Toast toast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -290,7 +292,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             mFlag = 1;
             //获取当前系统时间
             mTime1 = System.currentTimeMillis();
-            Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+             toast=Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT);
+             toast.setGravity(Gravity.CENTER,0,0);
+             toast.show();
         } else if (keyCode == KeyEvent.KEYCODE_BACK && mFlag == 1) {
             mTime2 = System.currentTimeMillis();
             if (mTime2 - mTime1 < 2500) {
@@ -480,7 +484,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
         } else {
-            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+            toast = Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             startActivity(new Intent(WDApplication.getAppContext(), NoNetWorkActivity.class));
         }
     }

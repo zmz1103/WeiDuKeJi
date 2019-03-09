@@ -19,6 +19,7 @@ import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.wd.tech.R;
 import com.wd.tech.application.WDApplication;
+import com.wd.tech.bean.FindConversationList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
@@ -26,6 +27,7 @@ import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.face.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
+import com.wd.tech.util.DaoUtils;
 import com.wd.tech.util.RegUtils;
 import com.wd.tech.util.RsaCoder;
 import com.wd.tech.util.WeiXinUtil;
@@ -212,8 +214,13 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
 
-                finish();
 
+                FindConversationList conversation = new FindConversationList();
+                conversation.setUserName(result.getResult().getUserName().toLowerCase());
+                conversation.setHeadPic(result.getResult().getHeadPic());
+                conversation.setNickName(result.getResult().getNickName());
+                conversation.setUserId((int)result.getResult().getUserId());
+                DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversation);
 
                 EMClient.getInstance().login(result.getResult().getUserName(), result.getResult().getPwd(), new EMCallBack() {//回调
                     @Override
@@ -236,6 +243,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 });
 
 
+                finish();
             }
         }
 

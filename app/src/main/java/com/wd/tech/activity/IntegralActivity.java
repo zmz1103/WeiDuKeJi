@@ -188,6 +188,7 @@ public class IntegralActivity extends WDActivity {
         public void success(Result result) {
             if (result.getStatus().equals("0000")){
                 Toast.makeText(IntegralActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
                 /*mBuilder.setView(R.layout.dlog_success_layout);
                 WindowManager m = getWindowManager();
                 Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用

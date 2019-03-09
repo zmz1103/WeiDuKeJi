@@ -48,6 +48,7 @@ import com.wd.tech.presenter.GetUserBeanPresenter;
 import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.PerFectUserInfoPresenter;
 import com.wd.tech.presenter.UntiedFaceIdPresenter;
+import com.wd.tech.util.DaoUtils;
 import com.wd.tech.util.JavaUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.util.ToDate;
@@ -149,6 +150,7 @@ public class MySettingActivity extends WDActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         WDApplication.getAppContext().getUserDao().deleteAll();
+                        DaoUtils.getInstance().getConversationDao().deleteAll();
                         Intent intent = new Intent(MySettingActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("show", 1);
