@@ -1,9 +1,11 @@
 package com.wd.tech.application;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -47,6 +49,7 @@ public class WDApplication extends Application {
     private final String TAG = this.getClass().toString();
     public FaceDB mFaceDB;
     Uri mImage;
+    String CurrentUserName="";
     /**
      * 主线程ID
      */
@@ -89,6 +92,7 @@ public class WDApplication extends Application {
         EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
             @Override
             public EaseUser getUser(String username) {
+                CurrentUserName = username;
                 username = username.toLowerCase();
                 EaseUser easeUser = new EaseUser(username);
                 List<FindConversationList> aa = DaoUtils.getInstance().getConversationDao().loadAll();
@@ -105,37 +109,53 @@ public class WDApplication extends Application {
         EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
             @Override
             public void onMessageReceived(List<EMMessage> list) {
+
+                boolean foreground = isAppRunningForeground(wdApplication);
+
                 if (list != null){
                     for (int i = 0; i < list.size(); i++) {
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(wdApplication).setDefaults(Notification.DEFAULT_ALL);
-                        Intent intent = new Intent(wdApplication, IMActivity.class);//将要跳转的界面
-                        intent.putExtra(EaseConstant.EXTRA_USER_ID,list.get(i).getUserName());
-                        intent.putExtra("UserNames",list.get(i).getUserName());
-                        intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                        //Intent intent = new Intent();//只显示通知，无页面跳转
-                        builder.setAutoCancel(true);//点击后消失
-                        builder.setSmallIcon(R.drawable.child_head);//设置通知栏消息标题的头像
-                        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-                        builder.setTicker("状态栏显示的文字");
-                        String from = list.get(i).getFrom();
-                        String name = "";
-                        List<FindConversationList> conversationLists = DaoUtils.getInstance().getConversationDao().loadAll();
 
-                        for (int j = 0; j <conversationLists.size() ; j++) {
-                           if (conversationLists.get(j).getUserName().equals(from)){
-                               name = conversationLists.get(j).getNickName();
-                               builder.setContentTitle(name);
-                               break;
-                           }
+                        if (foreground && CurrentUserName.equals(list.get(i).getUserName())){
+
+                        }else {
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(wdApplication).setDefaults(Notification.DEFAULT_ALL);
+                            NotificationManager manager = (NotificationManager) wdApplication.getSystemService(wdApplication.NOTIFICATION_SERVICE);
+                            Intent intent = new Intent(wdApplication, IMActivity.class);//将要跳转的界面
+
+                            intent.setAction(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);//关键的一步，设置启动模式
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID,list.get(i).getUserName());
+                            intent.putExtra("UserNames",list.get(i).getUserName());
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                            //Intent intent = new Intent();//只显示通知，无页面跳转
+                            builder.setAutoCancel(true);//点击后消失
+                            builder.setSmallIcon(R.drawable.child_head);//设置通知栏消息标题的头像
+                            builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+                            builder.setTicker("状态栏显示的文字");
+                            String from = list.get(i).getFrom();
+                            String name = "";
+                            List<FindConversationList> conversationLists = DaoUtils.getInstance().getConversationDao().loadAll();
+
+                            for (int j = 0; j <conversationLists.size() ; j++) {
+                                if (conversationLists.get(j).getUserName().equals(from)){
+                                    name = conversationLists.get(j).getNickName();
+                                    builder.setContentTitle(name);
+                                    break;
+                                }
+                            }
+                            String message = list.get(i).getBody().toString().substring(5, list.get(i).getBody().toString().length() - 1);
+
+                            builder.setContentText(message);
+
+                            //利用PendingIntent来包装我们的intent对象,使其延迟跳转
+                            PendingIntent pendingIntent = PendingIntent.getActivity(wdApplication, 0, intent,
+                                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+                            builder.setContentIntent(pendingIntent);
+
+                            manager.notify(0,builder.build());
                         }
-                        String message = list.get(i).getBody().toString().substring(5, list.get(i).getBody().toString().length() - 1);
-
-                        builder.setContentText(message);
-                        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
-                        PendingIntent intentPend = PendingIntent.getActivity(wdApplication, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        builder.setContentIntent(intentPend);
-                        NotificationManager manager = (NotificationManager) wdApplication.getSystemService(wdApplication.NOTIFICATION_SERVICE);
-                        manager.notify(0, builder.build());
                     }
                 }
             }
@@ -168,6 +188,20 @@ public class WDApplication extends Application {
 
     }
 
+    public static boolean isAppRunningForeground(Context context){
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Service.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList = activityManager.getRunningAppProcesses();
+        if (runningAppProcessInfoList==null){
+            return false;
+        }
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
+            if (processInfo.processName.equals(context.getPackageName())
+                    && processInfo.importance==ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+                return true;
+            }
+        }
+        return false;
+    }
     public UserDao getUserDao() {
         return userDao;
     }

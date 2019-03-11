@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.hyphenate.EMMessageListener;
@@ -68,13 +69,25 @@ public class IMActivity extends WDActivity {
     }
 
     @Override
-    protected void destoryData() {
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
 
+        if(intent != null){
+            Log.e("zmz","跳转了");
+            setIntent(intent);
+            getLayoutId();
+            initView();
+
+        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void destoryData() {
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
         chatFragment.hideTitleBar();
     }
 
