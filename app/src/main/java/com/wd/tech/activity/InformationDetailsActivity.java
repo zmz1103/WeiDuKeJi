@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.platform.comapi.map.C;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -336,7 +337,8 @@ public class InformationDetailsActivity extends WDActivity {
                 finish();
                 break;
             case R.id.share:
-                mInfoShareNum.reqeust(mId);
+                WeChatShare();
+
 
                 break;
         }
@@ -714,7 +716,7 @@ public class InformationDetailsActivity extends WDActivity {
 
                 mShare = mResult.getShare();
                 shareshu.setText(String.valueOf(mShare+1));
-                WeChatShare();
+
                 if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                     mDoTheTastPresenter.reqeust(mUserId,mSessionId,1004);
                 }
@@ -768,6 +770,7 @@ public class InformationDetailsActivity extends WDActivity {
                 Log.e("lk", "onClick: 点击了微信分享" );
                 req.scene = SendMessageToWX.Req.WXSceneSession;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });
@@ -777,6 +780,7 @@ public class InformationDetailsActivity extends WDActivity {
                 Log.e("lk", "onClick: 点击了朋友圈" );
                 req.scene = SendMessageToWX.Req.WXSceneTimeline;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });
@@ -807,12 +811,14 @@ public class InformationDetailsActivity extends WDActivity {
             mUserId = users.get(0).getUserId();
             mSessionId = users.get(0).getSessionId();
             mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
+            message.setVisibility(View.VISIBLE);
+            recommend.setVisibility(View.VISIBLE);
         } else {
             mInformationDetailsPresenter.reqeust(0L, "", mId);
         }
     }
 
-    @Override
+    /*@Override
     protected void onRestart() {
         super.onRestart();
         if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
@@ -820,10 +826,12 @@ public class InformationDetailsActivity extends WDActivity {
             mUserId = users.get(0).getUserId();
             mSessionId = users.get(0).getSessionId();
             mInformationDetailsPresenter.reqeust(mUserId, mSessionId, mId);
+            message.setVisibility(View.VISIBLE);
+            recommend.setVisibility(View.VISIBLE);
         } else {
             mInformationDetailsPresenter.reqeust(0L, "", mId);
         }
-    }
+    }*/
 
     //做任务
     private class DotheTaskCall implements DataCall<Result> {
