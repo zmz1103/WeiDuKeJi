@@ -14,7 +14,7 @@
             android:layout_width="188dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
@@ -49,6 +49,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignBottom="@+id/message_radio"
             android:src="@mipmap/common_nav_btn_add_n"/>
 
     </RelativeLayout>

@@ -128,8 +128,6 @@ public class WDApplication extends Application {
                                break;
                            }
                         }
-
-
                         String message = list.get(i).getBody().toString().substring(5, list.get(i).getBody().toString().length() - 1);
 
                         builder.setContentText(message);
