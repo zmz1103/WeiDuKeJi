@@ -98,8 +98,8 @@ public class AuditFriendActivity extends WDActivity{
 
     @Override
     protected void destoryData() {
-        mAuditPresenter.unBind();
-        mVerifierPresenter.unBind();
+        mAuditPresenter=null;
+        mVerifierPresenter=null;
     }
 
     @OnClick(R.id.aduit_back)

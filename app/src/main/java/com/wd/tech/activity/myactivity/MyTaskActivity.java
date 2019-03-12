@@ -60,7 +60,7 @@ public class MyTaskActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        findUserTaskListPresenter.unBind();
+        findUserTaskListPresenter=null;
     }
 
     @Override

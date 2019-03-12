@@ -184,7 +184,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
 
     @Override
     protected void destoryData() {
-        mLoginPresenter.unBind();
+        mLoginPresenter=null;
     }
 
     @Override
@@ -240,6 +240,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                     @Override
                     public void onError(int code, String message) {
                         Log.d("main", "登录聊天服务器失败！");
+                        finish();
                     }
                 });
 

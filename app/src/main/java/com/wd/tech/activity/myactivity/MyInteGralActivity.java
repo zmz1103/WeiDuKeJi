@@ -105,9 +105,9 @@ public class MyInteGralActivity extends WDActivity   {
 
     @Override
     protected void destoryData() {
-        findUserIntegralPresenter.unBind();
-        findUserIntegralRecordPresenter.unBind();
-        findContinuosSignDaysPresenter.unBind();
+        findUserIntegralPresenter=null;
+        findUserIntegralRecordPresenter=null;
+        findContinuosSignDaysPresenter=null;
     }
 
 

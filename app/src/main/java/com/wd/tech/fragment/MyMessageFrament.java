@@ -183,6 +183,6 @@ public class MyMessageFrament extends WDFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mQueryGroupPresenter.unBind();
+        mQueryGroupPresenter=null;
     }
 }
