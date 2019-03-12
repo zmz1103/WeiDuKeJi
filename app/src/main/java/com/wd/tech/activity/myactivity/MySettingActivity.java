@@ -127,9 +127,9 @@ public class MySettingActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mGetUserBeanPresenter.unBind();
-        mPerFectUserInfoPresenter.unBind();
-        mModifyHeadPicPresenter.unBind();
+        mGetUserBeanPresenter=null;
+        mPerFectUserInfoPresenter=null;
+        mModifyHeadPicPresenter=null;
     }
 
     @OnClick({R.id.my_back_setting, R.id.my_tc_t, R.id.my_setting_icon, R.id.go_up_sign, R.id.bind_faceId, R.id.u_mpwd})

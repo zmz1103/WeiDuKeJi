@@ -244,7 +244,8 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 mJIA = mLong + "wxShare" + "tech";
                 mMD5 = MD5Utils.MD5(mJIA);
                 mWxSharePresenter.reqeust(mLong,mMD5);
-                mInfoShareNum.reqeust(mId);
+                WeChatShare();
+
             }
         });
 
@@ -439,10 +440,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 Log.e("lk","调用了分享接口");
                 String thumbnail = mResult.get(mInt).getThumbnail();
                 mSplit = thumbnail.split("\\?");
-                if (result.getStatus().equals("0000")){
-                    WeChatShare();
-                    mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1004);
-                }
+                mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1004);
             }
         }
 
@@ -506,6 +504,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 Log.e("lk", "onClick: 点击了微信分享" );
                 req.scene = SendMessageToWX.Req.WXSceneSession;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });
@@ -515,6 +514,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 Log.e("lk", "onClick: 点击了朋友圈" );
                 req.scene = SendMessageToWX.Req.WXSceneTimeline;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });

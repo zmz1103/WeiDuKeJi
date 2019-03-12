@@ -63,8 +63,8 @@ public class GroupNoticeActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mGroupNoticePresenter.unBind();
-        mGroupAuditPresenter.unBind();
+        mGroupNoticePresenter=null;
+        mGroupAuditPresenter=null;
     }
 
     private class GroupCall implements DataCall<Result<List<FriendInform>>> {

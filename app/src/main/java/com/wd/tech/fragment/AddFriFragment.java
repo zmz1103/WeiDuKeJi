@@ -148,6 +148,6 @@ public class AddFriFragment extends WDFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mFriendPresenter.unBind();
+        mFriendPresenter=null;
     }
 }

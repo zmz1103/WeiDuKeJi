@@ -94,7 +94,7 @@ public class MyUpdateUserMessageActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mPerFectUserInfoPresenter.unBind();
+        mPerFectUserInfoPresenter=null;
     }
 
     private class perCall implements DataCall<Result> {

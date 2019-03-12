@@ -50,7 +50,7 @@ public abstract class WDPresenter<T> {
                 })
                 .subscribe(new Consumer<Result>() {
                     @Override
-                    public void accept(Result result) throws Exception {
+                    public void accept(Result result)  {
                         running = false;
                         if (result.getStatus().equals("9999")) {
                             DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getAppContext(), UserDao.TABLENAME);
@@ -68,10 +68,7 @@ public abstract class WDPresenter<T> {
                 });
 
     }
-    public void unBind(){
 
-         dataCall = null;
-    }
     public boolean Running(){
         return running;
     }

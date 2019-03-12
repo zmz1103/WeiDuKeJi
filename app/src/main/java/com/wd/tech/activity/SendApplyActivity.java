@@ -61,7 +61,7 @@ public class SendApplyActivity extends WDActivity {
     }
     @Override
     protected void destoryData() {
-        mApplyPresenter.unBind();
+        mApplyPresenter=null;
     }
 
     private class ApplyCall implements DataCall<Result> {

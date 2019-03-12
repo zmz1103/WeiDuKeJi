@@ -106,8 +106,8 @@ public class MyAttentionActivity extends WDActivity implements AttentionListAdap
 
     @Override
     protected void destoryData() {
-        mFindFollowUserListPresenter.unBind();
-        cancelFollowPresenter.unBind();
+        mFindFollowUserListPresenter=null;
+        cancelFollowPresenter=null;
     }
 
     @Override
