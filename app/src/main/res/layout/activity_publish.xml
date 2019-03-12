@@ -46,6 +46,7 @@
             android:layout_height="120dp"
             android:padding="12dp"
             android:minLines="5"
+            android:maxLength="300"
             android:gravity="top"
             android:background="@drawable/community_edt_note_bg"
             android:textColor="#181818"
