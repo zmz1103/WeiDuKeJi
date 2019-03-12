@@ -214,6 +214,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
 
+//                new XToas
 
                 FindConversationList conversation = new FindConversationList();
                 conversation.setUserName(result.getResult().getUserName().toLowerCase());
