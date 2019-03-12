@@ -291,8 +291,10 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
                                     dialog.dismiss();
 
                                     // 调用接口
-                                    User user = WDApplication.getAppContext().getUserDao().loadAll().get(0);
-                                    bindingFaceIdPresenter.reqeust(user.getUserId(),user.getSessionId(),mAFR_FSDKFace.toString());
+                                    if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+                                        User user = WDApplication.getAppContext().getUserDao().loadAll().get(0);
+                                        bindingFaceIdPresenter.reqeust(user.getUserId(), user.getSessionId(), mAFR_FSDKFace.toString());
+                                    }
 
                                     finish();
                                 }
@@ -404,12 +406,12 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
     private class bingId implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Toast.makeText(PeopleActivity.this, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(PeopleActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
             if (result.getStatus().equals("0000")) {
                 SharedPreferences faceId = getSharedPreferences("saveId", MODE_PRIVATE);
                 try {
                     String s = RsaCoder.decryptByPublicKey(result.getFaceId());
-                    faceId.edit().putString("faceId",s).commit();
+                    faceId.edit().putString("faceId", s).commit();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
