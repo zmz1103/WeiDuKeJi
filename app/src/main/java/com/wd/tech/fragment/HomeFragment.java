@@ -345,6 +345,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             Type type = new TypeToken<List<BannnerBean>>() {
             }.getType();
             List<BannnerBean> o = gson.fromJson(homeData, type);
+            if (o.size() == 0) {
+                return;
+            }
             banner.setIndicatorVisible(false);
             banner.setPages(o, new MZHolderCreator<BannerViewHolder>() {
                 @Override
@@ -424,6 +427,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             Type type = new TypeToken<List<InformationListBean>>() {
             }.getType();
             List<InformationListBean> o = gson.fromJson(homeData, type);
+            if (o.size() == 0) {
+                return;
+            }
             mInformationAdapter.reset(o);
         }
     }
