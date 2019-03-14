@@ -61,11 +61,11 @@ public abstract class WDActivity extends SwipeBackActivity {
             }
         }
 
-        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
-        } else {
-            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(WDActivity.this, NoNetWorkActivity.class));
-        }
+//        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
+//        } else {
+//            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(WDActivity.this, NoNetWorkActivity.class));
+//        }
         initView();
         //  初始化右滑退出
         initSwipeBack();

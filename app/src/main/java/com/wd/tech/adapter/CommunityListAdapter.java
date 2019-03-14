@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -149,7 +150,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             }
         });
         //评论监听
-        viewHolder.mComment.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnCommunityListClickListener !=null){
@@ -158,7 +159,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             }
         });
         //点赞监听
-        viewHolder.mPraise.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mPraises.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int whetherGreat = list.get(i).getWhetherGreat();
@@ -214,8 +215,10 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final ExpandableTextView mContent;
         private final RecyclerGridView mGridView;
         private final ImageView mComment;
+        private final RelativeLayout mComments;
         private final TextView mCommentNum;
         private final ImageView mPraise;
+        private final RelativeLayout mPraises;
         private final TextView mPraiseNum;
         private final ImageAdapter imageAdapter;
         private final RecyclerView mCommentRecy;
@@ -229,9 +232,11 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             mSignature = itemView.findViewById(R.id.community_list_signature);
             mContent = itemView.findViewById(R.id.community_list_content);
             mGridView = itemView.findViewById(R.id.community_list_grid_view);
+            mComments = itemView.findViewById(R.id.community_list_comments);
             mComment = itemView.findViewById(R.id.community_list_comment);
             mCommentNum = itemView.findViewById(R.id.community_list_comment_num);
             mPraise = itemView.findViewById(R.id.community_list_praise);
+            mPraises = itemView.findViewById(R.id.community_list_praises);
             mPraiseNum = itemView.findViewById(R.id.community_list_praise_num);
             mCommentRecy = itemView.findViewById(R.id.comment_recy);
             mCommentPl = itemView.findViewById(R.id.comment_pl);

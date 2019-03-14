@@ -3,42 +3,29 @@ package com.wd.tech.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.transition.Transition;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.tencent.mm.opensdk.modelmsg.GetMessageFromWX;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -46,9 +33,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.activity.InformationDetailsActivity;
-import com.wd.tech.activity.IntegralActivity;
 import com.wd.tech.activity.InterestActivity;
-import com.wd.tech.activity.OpenVipActivity;
+import com.wd.tech.activity.MainActivity;
 import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.activity.WebDetailsActivity;
 import com.wd.tech.adapter.InformationAdapter;
@@ -56,33 +42,27 @@ import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.BannnerBean;
 import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
-import com.wd.tech.bean.Transfer;
-import com.wd.tech.bean.User;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.presenter.AddCollectionPresenter;
-import com.wd.tech.presenter.AddGreatPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.InfoShareNum;
 import com.wd.tech.presenter.InformationListPresenter;
 import com.wd.tech.presenter.WxSharePresenter;
+import com.wd.tech.util.FileUtils;
 import com.wd.tech.util.MD5Utils;
-import com.wd.tech.util.Util;
-import com.wd.tech.util.WxShareUtils;
+import com.wd.tech.util.SnackbarUtils;
 import com.wd.tech.view.DataCall;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
-import io.reactivex.annotations.Nullable;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
@@ -133,10 +113,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     }
 
     @Override
-    public void initView(View view) {
+    public void initView(final View view) {
         mWxApi = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", true);
         mWxApi.registerApp("wx4c96b6b8da494224");
-
 
 
         mIntent = new Intent(getContext(), WebDetailsActivity.class);
@@ -193,7 +172,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         mInformationAdapter.setAddcollection(new InformationAdapter.Addcollection() {
             @Override
-            public void addsuccess(int id, int whetherCollection,int i) {
+            public void addsuccess(int id, int whetherCollection, int i) {
                 if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                     mI = i;
                     if (whetherCollection == 2) {
@@ -205,18 +184,24 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                     }
 
                 } else {
-                    toast = Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
+                    SnackbarUtils.Short(view,"未登录").setAction("去登陆", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                        }
+                    }).show();
+
                 }
+
 
             }
         });
 
+
         mInformationAdapter.setDetailstiao(new InformationAdapter.Detailstiao() {
             @Override
-            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang,int shoucangshu,int shareshu, int i) {
-                Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
+            public void detalssuccess(int id, String title, String neirong, String laiyuan, String tupian, long time, int shoucang, int shoucangshu, int shareshu, int i) {
+                Intent intent = new Intent(getContext(), InformationDetailsActivity.class);
                 /*intent.setClass(getContext(),InformationDetailsActivity.class);
                 Transfer mTransfer = new Transfer();
                 mTransfer.setTitle(title);
@@ -227,7 +212,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 mTransfer.setShoucang(shoucang);
                 mTransfer.setShoucangshu(shoucangshu);
                 mTransfer.setShareshu(shareshu);*/
-                intent.putExtra("id",id+"");
+                intent.putExtra("id", id + "");
                 /*intent.putExtra("mTransfer",mTransfer);*/
                 startActivity(intent);
             }
@@ -236,17 +221,22 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         mInformationAdapter.setSharefenxiang(new InformationAdapter.Sharefenxiang() {
             @Override
-            public void sharessuccess(int id,int i) {
+            public void sharessuccess(int id, int i) {
                 mInt = i;
                 mId = String.valueOf(id);
 
                 mLong = System.currentTimeMillis();
                 mJIA = mLong + "wxShare" + "tech";
                 mMD5 = MD5Utils.MD5(mJIA);
-                mWxSharePresenter.reqeust(mLong,mMD5);
-                mInfoShareNum.reqeust(mId);
+                mWxSharePresenter.reqeust(mLong, mMD5);
+                WeChatShare();
+
             }
         });
+
+
+
+
 
     }
 
@@ -323,13 +313,35 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                     }
                 });
                 banner.start();
+
+                Gson gson = new Gson();
+                String s = gson.toJson(mResult);
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), "", "HomeData");
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), s, "BannerData");
+
             }
 
         }
 
         @Override
         public void fail(ApiException e) {
-
+//取
+            String homeData = FileUtils.loadDataFromFile(WDApplication.getAppContext(), "BannerData");
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<BannnerBean>>() {
+            }.getType();
+            List<BannnerBean> o = gson.fromJson(homeData, type);
+            if (o.size() == 0) {
+                return;
+            }
+            banner.setIndicatorVisible(false);
+            banner.setPages(o, new MZHolderCreator<BannerViewHolder>() {
+                @Override
+                public BannerViewHolder createViewHolder() {
+                    return new BannerViewHolder();
+                }
+            });
+            banner.start();
         }
     }
 
@@ -358,11 +370,11 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
                 public void onClick(View v) {
                     mJumpUrl = bannnerBean.getJumpUrl();
                     mSubstring = mJumpUrl.substring(0, 2);
-                    if (mSubstring.equals("wd")){
-                        Intent intent = new Intent(getContext(),InformationDetailsActivity.class);
-                        intent.putExtra("id","1");
+                    if (mSubstring.equals("wd")) {
+                        Intent intent = new Intent(getContext(), InformationDetailsActivity.class);
+                        intent.putExtra("id", "1");
                         startActivity(intent);
-                    }else {
+                    } else {
                         mIntent.putExtra("jumpUrl", bannnerBean.getJumpUrl());
                         startActivity(mIntent);
                     }
@@ -377,19 +389,34 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private class showListCall implements DataCall<Result<List<InformationListBean>>> {
 
 
-
         @Override
         public void success(Result<List<InformationListBean>> result) {
             mResult = result.getResult();
             Log.e("lk", "lk" + result.getStatus());
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.reset(mResult);
+
+                // 保存至文件
+                Gson gson = new Gson();
+                String s = gson.toJson(mResult);
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), "", "HomeData");
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), s, "HomeData");
             }
         }
 
         @Override
         public void fail(ApiException e) {
 
+            //取
+            String homeData = FileUtils.loadDataFromFile(WDApplication.getAppContext(), "HomeData");
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<InformationListBean>>() {
+            }.getType();
+            List<InformationListBean> o = gson.fromJson(homeData, type);
+            if (o.size() == 0) {
+                return;
+            }
+            mInformationAdapter.reset(o);
         }
     }
 
@@ -401,9 +428,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
                 mInformationAdapter.notifyItemChanged(mI);
 
-               toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
-               toast.setGravity(Gravity.CENTER,0,0);
-               toast.show();
+                toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         }
 
@@ -419,7 +446,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.notifyItemChanged(mI);
                 toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER,0,0);
+                toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
         }
@@ -433,16 +460,13 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
     private class ShareCall implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            if (result.getStatus().equals("0000")){
+            if (result.getStatus().equals("0000")) {
                 mInformationAdapter.notifyItemChanged(mInt);
 
-                Log.e("lk","调用了分享接口");
+                Log.e("lk", "调用了分享接口");
                 String thumbnail = mResult.get(mInt).getThumbnail();
                 mSplit = thumbnail.split("\\?");
-                if (result.getStatus().equals("0000")){
-                    WeChatShare();
-                    mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1004);
-                }
+                mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), 1004);
             }
         }
 
@@ -457,8 +481,6 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         public void success(Result result) {
 
 
-
-
         }
 
         @Override
@@ -466,6 +488,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         }
     }
+
     //分享链接
     public void WeChatShare() {
 
@@ -488,7 +511,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("webpage");
         req.message = msg;
-        initSend(req,mView);
+        initSend(req, mView);
 
     }
 
@@ -503,32 +526,34 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         mHaoYou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("lk", "onClick: 点击了微信分享" );
+                Log.e("lk", "onClick: 点击了微信分享");
                 req.scene = SendMessageToWX.Req.WXSceneSession;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });
         mCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("lk", "onClick: 点击了朋友圈" );
+                Log.e("lk", "onClick: 点击了朋友圈");
                 req.scene = SendMessageToWX.Req.WXSceneTimeline;
                 mWxApi.sendReq(req);
+                mInfoShareNum.reqeust(mId);
                 mDialog.dismiss();
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("lk", "onClick: 点击了关闭了" );
+                Log.e("lk", "onClick: 点击了关闭了");
                 mDialog.dismiss();
             }
         });
 
 
-      //  req.scene = SendMessageToWX.Req.WXSceneSession;    //设置发送到朋友
- //       req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+        //  req.scene = SendMessageToWX.Req.WXSceneSession;    //设置发送到朋友
+        //       req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
         //req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
 
     }
@@ -549,6 +574,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
         }
     }
+
     //做任务
     private class DotheTaskCall implements DataCall<Result> {
         @Override

@@ -109,7 +109,7 @@ public class GroupsActivity extends WDActivity{
 
     @Override
     protected void destoryData() {
-        mGroupsPresenter.unBind();
+        mGroupsPresenter=null;
     }
 
     private class GroupsCall implements DataCall<Result<List<Group>>> {

@@ -128,6 +128,6 @@ public class AddFlockFragment extends WDFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mFlockPresenter.unBind();
+        mFlockPresenter=null;
     }
 }

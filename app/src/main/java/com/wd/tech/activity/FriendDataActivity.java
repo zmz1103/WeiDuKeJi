@@ -167,6 +167,6 @@ public class FriendDataActivity extends WDActivity{
     
     @Override
     protected void destoryData() {
-        mQueryFriendPresenter.unBind();
+        mQueryFriendPresenter=null;
     }
 }

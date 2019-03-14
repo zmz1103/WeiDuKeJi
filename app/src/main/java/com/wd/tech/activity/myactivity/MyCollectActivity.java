@@ -102,8 +102,8 @@ public class MyCollectActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mFindAllInfoCillectionPresenter.unBind();
-        cancelCollectionPresenter.unBind();
+        mFindAllInfoCillectionPresenter=null;
+        cancelCollectionPresenter=null;
     }
 
     @OnClick({R.id.cancel_text_collect, R.id.cancel_image_delete, R.id.my_back_sc})

@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
@@ -44,7 +47,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHodler myHodler, final int i) {
+    public void onBindViewHolder(@NonNull final MyHodler myHodler, final int i) {
         if (mList.get(i) instanceof String) {
             String imageUrl = (String) mList.get(i);
             if (imageUrl.contains("http:")) {//加载http
@@ -67,16 +70,35 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
                 }
             }
         });
+        myHodler.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (i!=0){
+                    if (myHodler.mLongress.getVisibility()==View.GONE){
+                        myHodler.mLongress.setVisibility(View.VISIBLE);
+                        myHodler.mLongress.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                notifyItemChanged(i);
+                                del(i);
+                                Toast.makeText(content, "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }else {
+                    Log.i("相册选择","相机选择");
+                }
+
+                return false;
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
-//        if(mList == null){
-//            return 0;
-//        }
-//        return mList.size() >= 9 ? 9 : mList.size();
+
     }
 
     public void add(Object image) {
@@ -84,17 +106,25 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyHodler
             mList.add(image);
         }
     }
+
+    public void del(int position){
+            mList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+    }
     public List<Object> getList() {
         return mList;
     }
 
 
     public class MyHodler extends RecyclerView.ViewHolder {
+        private final ImageView mLongress;
         SimpleDraweeView image;
 
         public MyHodler(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.community_image);
+            mLongress = itemView.findViewById(R.id.long_ress);
         }
     }
     public interface OnImageClickListener{

@@ -88,58 +88,68 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/community_list_grid_view"
             android:layout_marginTop="24dp">
-            <ImageView
-                android:id="@+id/community_list_comment"
-                android:layout_width="16dp"
-                android:layout_toLeftOf="@id/community_list_comment_num"
-                android:layout_height="16dp"
-                android:src="@mipmap/common_icon_comment_n"
-                android:layout_marginLeft="10dp"/>
-            <TextView
-                android:id="@+id/community_list_comment_num"
+            <RelativeLayout
+                android:id="@+id/community_list_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_toLeftOf="@id/community_list_praise"
-                android:textColor="#666666"
-                android:layout_marginLeft="6dp"
-                android:text="234"/>
-            <ImageView
-                android:id="@+id/community_list_praise"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toLeftOf="@id/community_list_praise_num"
-                android:src="@mipmap/common_icon_prise_n"/>
-            <TextView
-                android:id="@+id/community_list_praise_num"
+                android:layout_toLeftOf="@id/community_list_praises"
+                android:layout_marginRight="10dp">
+                <ImageView
+                    android:id="@+id/community_list_comment"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@mipmap/common_icon_comment_n"
+                    android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:id="@+id/community_list_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_toRightOf="@id/community_list_comment"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="6dp"
+                    android:text="234"/>
+                <ImageView
+                    android:id="@+id/xiaosanjiao"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/community_list_comment"
+                    android:layout_toLeftOf="@id/community_list_comment_num"
+                    android:src="@drawable/xiaosanjiao"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/community_list_praises"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666666"
-                android:layout_alignParentRight="true"
-                android:textSize="12sp"
-                android:layout_marginLeft="6dp"
-                android:text="234"/>
-            <ImageView
-                android:id="@+id/xiaosanjiao"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/community_list_comment"
-                android:layout_toLeftOf="@id/community_list_comment_num"
-                android:src="@drawable/xiaosanjiao"/>
+                android:layout_alignParentRight="true">
+                <ImageView
+                    android:id="@+id/community_list_praise"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@mipmap/common_icon_prise_n"/>
+                <TextView
+                    android:id="@+id/community_list_praise_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:layout_toRightOf="@id/community_list_praise"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="6dp"
+                    android:text="234"/>
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/lin_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_below="@+id/community_list_praises"
                 android:layout_marginTop="15dp"
-                android:layout_below="@+id/community_list_praise_num"
                 android:background="@drawable/shape_linear">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/comment_recy"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:paddingTop="20dp"
                     android:paddingLeft="20dp"
                     android:layout_weight="1"/>
                 <TextView

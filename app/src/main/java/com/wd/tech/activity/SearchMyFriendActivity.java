@@ -90,7 +90,7 @@ public class SearchMyFriendActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mFuzzyQueryPresenter.unBind();
+        mFuzzyQueryPresenter=null;
     }
 
     private class QueryCall implements DataCall<Result<List<FuzzyQuery>>> {

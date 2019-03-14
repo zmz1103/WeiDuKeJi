@@ -44,6 +44,7 @@ import com.wd.tech.view.DataCall;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -154,6 +155,8 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         //输入框字数限制
         InputFilter[] filters={chineseFilter()};
         communityPublishContent.addTextChangedListener(passwordListener());
+        communityPublishContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max)});
+
     }
 
     @Override
@@ -301,8 +304,14 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.length();
-                communityPublishNum.setText(length + "/" + max);
+                if (length>max){
+                    Toast.makeText(PublishActivity.this, "最多可输入"+max+"个字", Toast.LENGTH_SHORT).show();
+                }else {
+                    communityPublishNum.setText(length + "/" + max);
+
+                }
             }
+
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
@@ -315,7 +324,6 @@ public class PublishActivity extends WDActivity implements View.OnClickListener,
         };
 
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -84,7 +84,7 @@ public class MyNoticeActivity extends WDActivity {
     }
     @Override
     protected void destoryData() {
-        mFindSysNoticePresenter.unBind();
+        mFindSysNoticePresenter=null;
     }
     @OnClick(R.id.my_back_notice)
     void iD(){

@@ -49,7 +49,7 @@ public class UpdatePwdActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        modifyUserPwdPresenter.unBind();
+        modifyUserPwdPresenter=null;
     }
 
     @OnClick({R.id.my_back_u_pwd, R.id.upw_btn})

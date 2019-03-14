@@ -108,7 +108,7 @@ public class PublishSingActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        modifySignPresenter.unBind();
+        modifySignPresenter=null;
         mCommunityPublishContent = null;
         mCommunityPublishNum = null;
     }

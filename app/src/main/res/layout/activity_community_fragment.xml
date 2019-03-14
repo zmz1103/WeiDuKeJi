@@ -16,31 +16,26 @@
         <com.scwang.smartrefresh.header.WaveSwipeHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <RelativeLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/community_recy"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/community_recy"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="32dp"
-                />
-            <LinearLayout
-                android:id="@+id/btn_publish_the_news"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/publishnews"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="40dp"
-                android:gravity="center"
-                android:layout_marginRight="12dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/community_btn_publish_n"/>
-            </LinearLayout>
-        </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
+            />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+    <LinearLayout
+        android:id="@+id/btn_publish_the_news"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/publishnews"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:layout_marginRight="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/community_btn_publish_n"/>
+    </LinearLayout>
 </RelativeLayout>

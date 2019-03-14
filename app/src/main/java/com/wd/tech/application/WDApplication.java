@@ -14,13 +14,16 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -76,7 +79,18 @@ public class WDApplication extends Application {
         wdApplication = this;
         mFaceDB = new FaceDB(this.getExternalCacheDir().getPath());
         mImage = null;
-        Fresco.initialize(this);
+
+
+        DiskCacheConfig config = DiskCacheConfig.newBuilder(this)
+                .setBaseDirectoryName("WDcache/image")
+                .setBaseDirectoryPath(Environment.getExternalStorageDirectory())
+                .build();
+        ImagePipelineConfig build = ImagePipelineConfig.newBuilder(this)
+                .setMainDiskCacheConfig(config)
+                .build();
+        Fresco.initialize(this,build);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());

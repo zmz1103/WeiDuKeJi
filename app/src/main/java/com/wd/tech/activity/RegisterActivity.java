@@ -74,7 +74,7 @@ public class RegisterActivity extends WDActivity   {
 
     @Override
     protected void destoryData() {
-        mRegisterPresenter.unBind();
+        mRegisterPresenter=null;
     }
 
 

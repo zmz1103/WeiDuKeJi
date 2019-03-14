@@ -119,7 +119,7 @@ public class SettingActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-        mDeletePresenter.unBind();
+        mDeletePresenter=null;
     }
 
     private class DeleteCall implements DataCall<Result> {
