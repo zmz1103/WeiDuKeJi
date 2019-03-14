@@ -53,6 +53,7 @@ public class WebDetailsActivity extends WDActivity {
             mDoTheTastPresenter.reqeust(WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(),WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(),1005);
         }
 
+        mWebView.setWebChromeClient(new WebChromeClient());
 
         WebSettings mWebSettings = mWebView.getSettings();
         /* 设置支持Js,必须设置的,不然网页基本上不能看 */

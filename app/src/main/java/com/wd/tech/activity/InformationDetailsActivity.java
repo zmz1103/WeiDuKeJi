@@ -65,6 +65,7 @@ import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.InfoShareNum;
 import com.wd.tech.presenter.InformationDetailsPresenter;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.util.SnackbarUtils;
 import com.wd.tech.util.TimeUtil;
 import com.wd.tech.view.DataCall;
 
@@ -306,7 +307,12 @@ public class InformationDetailsActivity extends WDActivity {
 
 
             } else {
-                Toast.makeText(InformationDetailsActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                SnackbarUtils.Short(getCurrentFocus(),"未登录").setAction("去登陆", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(InformationDetailsActivity.this, MainActivity.class));
+                    }
+                }).show();
             }
 
         }
@@ -350,7 +356,12 @@ public class InformationDetailsActivity extends WDActivity {
     private void goShop() {
         if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
 
-            Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+            SnackbarUtils.Short(getCurrentFocus(),"未登录").setAction("去登陆", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(InformationDetailsActivity.this, MainActivity.class));
+                }
+            }).show();
 
         } else {
 
@@ -479,7 +490,12 @@ public class InformationDetailsActivity extends WDActivity {
                             }
 
                         } else {
-                            Toast.makeText(InformationDetailsActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                            SnackbarUtils.Short(getCurrentFocus(),"未登录").setAction("去登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(InformationDetailsActivity.this, MainActivity.class));
+                                }
+                            }).show();
                         }
                     }
                 });
@@ -497,7 +513,12 @@ public class InformationDetailsActivity extends WDActivity {
                             }
 
                         } else {
-                            Toast.makeText(InformationDetailsActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                            SnackbarUtils.Short(getCurrentFocus(),"未登录").setAction("去登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(InformationDetailsActivity.this, MainActivity.class));
+                                }
+                            }).show();
                         }
                     }
                 });
