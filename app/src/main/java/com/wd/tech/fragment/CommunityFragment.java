@@ -219,6 +219,7 @@ public class CommunityFragment extends WDFragment {
 
             if (result.getStatus().equals("0000")) {
                 mCommunityListAdapter.addAll(result.getResult());
+
             }
         }
 
