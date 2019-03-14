@@ -43,6 +43,7 @@ import com.wd.tech.activity.WDActivity;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.GetUserBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.exception.ApiException;
 import com.wd.tech.face.PeopleActivity;
 import com.wd.tech.presenter.GetUserBeanPresenter;
@@ -348,6 +349,10 @@ public class MySettingActivity extends WDActivity {
             case CODE_RESULT_REQUEST:
                 if (data != null) {
                     setImageToHeadView(data);
+                    String path = StringUtils.getRealPathFromUri(MySettingActivity.this, data.getData());
+                    // 改头像
+                    mModifyHeadPicPresenter.reqeust(user.getUserId(), user.getSessionId(), path);
+
                 }
                 break;
             default:
@@ -372,7 +377,8 @@ public class MySettingActivity extends WDActivity {
                 } else {
                     mBirthday.setText(ToDate.timedate(result.getResult().getBirthday()));
                 }
-                mSettingIcon.setImageURI(result.getResult().getHeadPic());
+
+                mSettingIcon.setImageURI(WDApplication.getAppContext().getUserDao().loadAll().get(0).getHeadPic());
                 mSettingNickName.setText(result.getResult().getNickName());
                 if (result.getResult().getSex() == 1) {
                     mSettingSex.setText("男");
@@ -457,9 +463,6 @@ public class MySettingActivity extends WDActivity {
      */
     public void cropRawPhoto(Uri uri) {
 
-        String path = StringUtils.getRealPathFromUri(MySettingActivity.this, uri);
-        // 改头像
-        mModifyHeadPicPresenter.reqeust(user.getUserId(), user.getSessionId(), path);
         Bitmap map = null;
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -505,10 +508,14 @@ public class MySettingActivity extends WDActivity {
         }
     }
 
-    private class uImage implements DataCall<Result<String>> {
+    class uImage implements DataCall<Result<String>> {
         @Override
         public void success(Result<String> result) {
             Toast.makeText(MySettingActivity.this, "" + result.getMessage() + result.getResult(), Toast.LENGTH_SHORT).show();
+            User user = WDApplication.getAppContext().getUserDao().loadAll().get(0);
+            user.setHeadPic(result.getResult());
+            long l = WDApplication.getAppContext().getUserDao().insertOrReplace(user);
+            Log.v("ddddd",l+"");
         }
 
         @Override

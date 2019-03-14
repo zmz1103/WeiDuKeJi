@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,6 +69,17 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
     private CameraSurfaceView mSurfaceView;
     private CameraGLSurfaceView mGLSurfaceView;
     private Camera mCamera;
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        if (keyCode == KeyEvent.KEYCODE_BACK
+//                && event.getRepeatCount() == 0) {
+//            //do something...
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     AFT_FSDKVersion version = new AFT_FSDKVersion();
     AFT_FSDKEngine engine = new AFT_FSDKEngine();
@@ -185,20 +197,19 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 
                         }
                     });
-                    double v = ((int) (max_score * 1000)) / 1000.0;
-                        try {
-                            String string = getSharedPreferences("saveId", MODE_PRIVATE).getString("faceId", "");
-                            if (string.equals("")) {
+                    try {
+                        String string = getSharedPreferences("saveId", MODE_PRIVATE).getString("faceId", "");
+                        if (string.equals("")) {
 
-                            }else{
-                                String s = RsaCoder.encryptByPublicKey(string);
-                                faceIdLoginPresenter.reqeust(s);
-                                finish();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
+                        } else {
+                            String s = RsaCoder.encryptByPublicKey(string);
+                            faceIdLoginPresenter.reqeust(s);
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    finish();
                 } else {
                     final String mNameShow = "未识别";
                     DetecterActivity.this.runOnUiThread(new Runnable() {
@@ -262,12 +273,12 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
         mSurfaceView.debug_print_fps(true, false);
 
         //snap
-        mTextView = (TextView) findViewById(R.id.textView);
+        mTextView = findViewById(R.id.textView);
         mTextView.setText("");
-        mTextView1 = (TextView) findViewById(R.id.textView1);
+        mTextView1 = findViewById(R.id.textView1);
         mTextView1.setText("");
 
-        mImageView = (ImageView) findViewById(R.id.imageView);
+        mImageView = findViewById(R.id.imageView);
 
         AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key, AFT_FSDKEngine.AFT_OPF_0_HIGHER_EXT, 16, 5);
         Log.d(TAG, "AFT_FSDK_InitialFaceEngine =" + err.getCode());
@@ -296,7 +307,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
         // TODO Auto-generated method stub
         super.onDestroy();
         mFRAbsLoop.shutdown();
-        faceIdLoginPresenter=null;
+        faceIdLoginPresenter = null;
         AFT_FSDKError err = engine.AFT_FSDK_UninitialFaceEngine();
         Log.d(TAG, "AFT_FSDK_UninitialFaceEngine =" + err.getCode());
 
@@ -411,10 +422,10 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
                 user = result.getResult();
                 user.setSole(1);
                 WDApplication.getAppContext().getUserDao().insertOrReplace(user);
-                Log.v("ssssss",WDApplication.getAppContext().getUserDao().loadAll().size()+"");
+                Log.v("ssssss", WDApplication.getAppContext().getUserDao().loadAll().size() + "");
                 finish();
             }
-            finish();
+//            finish();
         }
 
         @Override

@@ -7,23 +7,23 @@
 
     <CheckBox
         android:id="@+id/rb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:checked="false"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         android:layout_marginRight="10dp"
-        />
+        android:button="@null"
+        android:background="@drawable/checkbox_style"
+        android:gravity="center_vertical" />
+
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/collect_ite_simpleview"
         android:layout_width="140dp"
         android:layout_height="92dp"
-        android:layout_toRightOf="@id/rb"
         android:layout_marginTop="10dp"
-
         android:layout_marginRight="10dp"
+
         android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/rb"
         fresco:roundedCornerRadius="8dp" />
 
     <TextView
