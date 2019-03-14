@@ -123,7 +123,6 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 boolean mobile = RegUtils.isMobile(s);
                 boolean b = RegUtils.rexCheckPassword(s1);
                 if (mobile) {
-
                     if (b && mEpwd.length() >= 8) {
                         try {
                             mLoginPresenter.reqeust(mEtel.getText().toString(), RsaCoder.encryptByPublicKey(mEpwd.getText().toString()));
