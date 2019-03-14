@@ -49,12 +49,12 @@ public abstract class WDFragment extends Fragment {
             user = users.get(0);
         }
 
-        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
-
-        } else {
-            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
-
-        }
+//        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
+//
+//        } else {
+//            Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT).show();
+//
+//        }
         initView(view);
         return view;
     }

@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -121,6 +123,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private float width;
     private Toast toast;
 
+
+    private int i=3;
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                if (i == 1) {
+                    return;
+                }else{
+                    i--;
+                    onResume();
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
@@ -182,6 +200,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mNo = findViewById(R.id.no_user);
 
         findViewById(R.id.goLoginBtn).setOnClickListener(this);
+
 
         show = 1;
         Intent intent = getIntent();
@@ -280,6 +299,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
+        handler.sendEmptyMessageDelayed(1,10000);
     }
 
     private int mFlag = 0;
@@ -312,6 +332,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         mGetUserBeanPresenter=null;
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -346,6 +367,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
+            noUserLogin();
+        } else {
+            haveUserLogin();
+        }
     }
 
     private void haveUserLogin() {
@@ -404,7 +430,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
-        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
             switch (view.getId()) {
                 case R.id.my_icon:
                     startActivity(new Intent(HomeActivity.this, MyUpdateUserMessageActivity.class));
@@ -483,12 +508,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     transaction3.commit();
                     break;
             }
-        } else {
-            toast = Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            startActivity(new Intent(WDApplication.getAppContext(), NoNetWorkActivity.class));
-        }
+
     }
 
     @Override

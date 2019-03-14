@@ -16,6 +16,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,6 +33,7 @@ import com.wd.tech.activity.myactivity.SignActivity;
 import com.wd.tech.adapter.CommunityListAdapter;
 import com.wd.tech.application.WDApplication;
 import com.wd.tech.bean.CommunitylistData;
+import com.wd.tech.bean.InformationListBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.exception.ApiException;
@@ -39,10 +42,12 @@ import com.wd.tech.presenter.CancelLikePresenter;
 import com.wd.tech.presenter.CommunityListPresenter;
 import com.wd.tech.presenter.DoTheTastPresenter;
 import com.wd.tech.presenter.LikePresenter;
+import com.wd.tech.util.FileUtils;
 import com.wd.tech.view.DataCall;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,6 +77,7 @@ public class CommunityFragment extends WDFragment {
     private EditText mEtContent;
     private AddCommunityPresenter mAddCommunityPresenter;
     private DoTheTastPresenter mDoTheTastPresenter;
+
     @Override
     public int getContent() {
         return R.layout.activity_community_fragment;
@@ -129,10 +135,10 @@ public class CommunityFragment extends WDFragment {
     }
 
     private void requestt(int page) {
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
             mCommunityListPresenter.reqeust(0, "", page, 10);
-        }else {
-            mCommunityListPresenter.reqeust((int)WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), page, 10);
+        } else {
+            mCommunityListPresenter.reqeust((int) WDApplication.getAppContext().getUserDao().loadAll().get(0).getUserId(), WDApplication.getAppContext().getUserDao().loadAll().get(0).getSessionId(), page, 10);
         }
     }
 
@@ -141,9 +147,9 @@ public class CommunityFragment extends WDFragment {
 
             @Override
             public void onmHeadPicClick(int userid) {
-                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), FriendsPostActivity.class);
                     intent.putExtra("userid", userid);
                     startActivity(intent);
@@ -152,11 +158,11 @@ public class CommunityFragment extends WDFragment {
 
             @Override
             public void onmCommentClick(final int id, String name) {
-                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     View inflate = View.inflate(getActivity(), R.layout.pop_comment, null);
-                   mEtContent= inflate.findViewById(R.id.et_content);
+                    mEtContent = inflate.findViewById(R.id.et_content);
                     mEtContent.setHint(name);
                     final Dialog builder = new Dialog(getActivity(), R.style.BottomDialog);
                     builder.setContentView(inflate);
@@ -166,7 +172,7 @@ public class CommunityFragment extends WDFragment {
                     inflate.setLayoutParams(layoutParamsthreefilmreview);
                     builder.getWindow().setGravity(Gravity.BOTTOM);
                     builder.show();
-                   mSend =  inflate.findViewById(R.id.send);
+                    mSend = inflate.findViewById(R.id.send);
                     mSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -175,7 +181,7 @@ public class CommunityFragment extends WDFragment {
                             if (s.isEmpty()) {
                                 Toast.makeText(getContext(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
                             } else {
-                                mAddCommunityPresenter.reqeust((int)user.getUserId(),user.getSessionId(),id,s);
+                                mAddCommunityPresenter.reqeust((int) user.getUserId(), user.getSessionId(), id, s);
                                 builder.dismiss();
 
                             }
@@ -185,14 +191,14 @@ public class CommunityFragment extends WDFragment {
             }
 
             @Override
-            public void onmPraiseClick(int id,int whetherGreat) {
-                if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
+            public void onmPraiseClick(int id, int whetherGreat) {
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     if (whetherGreat == 1) {
-                        mCancelLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
+                        mCancelLikePresenter.reqeust((int) user.getUserId(), user.getSessionId(), id);
                     } else {
-                        mLikePresenter.reqeust((int)user.getUserId(),user.getSessionId(),id);
+                        mLikePresenter.reqeust((int) user.getUserId(), user.getSessionId(), id);
                     }
                 }
             }
@@ -200,12 +206,11 @@ public class CommunityFragment extends WDFragment {
     }
 
 
-
     @OnClick(R.id.btn_publish_the_news)
     public void onViewClicked() {
-        if (WDApplication.getAppContext().getUserDao().loadAll().size()==0){
+        if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
             Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Intent intent = new Intent(getActivity(), PublishActivity.class);
             startActivity(intent);
         }
@@ -219,20 +224,36 @@ public class CommunityFragment extends WDFragment {
 
             if (result.getStatus().equals("0000")) {
                 mCommunityListAdapter.addAll(result.getResult());
+
+                // 保存至文件
+                Gson gson = new Gson();
+                String s = gson.toJson(result.getResult());
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), "", "CommunityListData");
+                FileUtils.saveDataToFile(WDApplication.getAppContext(), s, "CommunityListData");
             }
         }
 
         @Override
         public void fail(ApiException e) {
+            String homeData = FileUtils.loadDataFromFile(WDApplication.getAppContext(), "CommunityListData");
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<CommunitylistData>>() {
+            }.getType();
+            List<CommunitylistData> o = gson.fromJson(homeData, type);
+            if (o.size() == 0) {
+                return;
+            }
+            mCommunityListAdapter.addAll(o);
         }
     }
+
     //评论点赞
     class LikeCall implements DataCall<Result> {
 
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                Log.i("success",data.getMessage());
+                Log.i("success", data.getMessage());
             }
         }
 
@@ -240,13 +261,14 @@ public class CommunityFragment extends WDFragment {
         public void fail(ApiException a) {
         }
     }
+
     //取消点赞
-    class CancelLike implements DataCall<Result>{
+    class CancelLike implements DataCall<Result> {
 
         @Override
         public void success(Result result) {
-            if (result.getStatus().equals("0000")){
-                Log.i("success",result.getMessage());
+            if (result.getStatus().equals("0000")) {
+                Log.i("success", result.getMessage());
             }
         }
 
@@ -256,15 +278,15 @@ public class CommunityFragment extends WDFragment {
     }
 
     //评论
-    class AddCommunity implements DataCall<Result>{
+    class AddCommunity implements DataCall<Result> {
 
         @Override
         public void success(Result result) {
-            if (result.getStatus().equals("0000")){
-                Toast.makeText(getActivity(), ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+            if (result.getStatus().equals("0000")) {
+                Toast.makeText(getActivity(), "" + result.getMessage(), Toast.LENGTH_SHORT).show();
                 mCommunityListAdapter.clear();
-                mCommunityListPresenter.reqeust((int)user.getUserId(), user.getSessionId(), 1, 10);
-                mDoTheTastPresenter.reqeust(user.getUserId(),user.getSessionId(),1002);
+                mCommunityListPresenter.reqeust((int) user.getUserId(), user.getSessionId(), 1, 10);
+                mDoTheTastPresenter.reqeust(user.getUserId(), user.getSessionId(), 1002);
             }
         }
 
@@ -277,7 +299,7 @@ public class CommunityFragment extends WDFragment {
     private class doTheTask implements DataCall<Result> {
         @Override
         public void success(Result result) {
-            Log.i("success",result.getMessage());
+            Log.i("success", result.getMessage());
         }
 
         @Override
@@ -285,6 +307,7 @@ public class CommunityFragment extends WDFragment {
 
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -295,11 +318,11 @@ public class CommunityFragment extends WDFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mCommunityListPresenter=null;
-        mLikePresenter=null;
-        mCancelLikePresenter=null;
-        mAddCommunityPresenter=null;
-        mDoTheTastPresenter=null;
+        mCommunityListPresenter = null;
+        mLikePresenter = null;
+        mCancelLikePresenter = null;
+        mAddCommunityPresenter = null;
+        mDoTheTastPresenter = null;
 
     }
 
