@@ -82,7 +82,7 @@ public class MyGroupActivity extends WDActivity{
     }
     @Override
     protected void destoryData() {
-        mQueryPresenter.unBind();
+        mQueryPresenter = null;
     }
 
     private class QueryCall implements DataCall<Result<List<MyGroup>>> {

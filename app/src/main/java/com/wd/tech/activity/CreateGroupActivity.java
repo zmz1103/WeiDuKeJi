@@ -54,8 +54,14 @@ public class CreateGroupActivity extends WDActivity{
             if (!groupName.isEmpty()){
                 Log.e("zmz","群名："+groupName);
                 Log.e("zmz","介绍："+groupIntroduce);
-                mCreateGroup.reqeust(userId,sessionId,groupName,groupIntroduce);
-
+                int length = groupName.length();
+                
+                if (length >=2){
+                    mCreateGroup.reqeust(userId,sessionId,groupName,groupIntroduce);
+                }else {
+                    Toast.makeText(this, "群名不能少于两个字", Toast.LENGTH_SHORT).show();
+                }
+                
             }else {
                 Toast.makeText(this, "群名不能为空", Toast.LENGTH_SHORT).show();
             }

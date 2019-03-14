@@ -74,12 +74,13 @@ public class AddFriFragment extends WDFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String phone = mFindSearch.getText().toString();
-
+                int length = phone.length();
                 if (!phone.isEmpty()) {
                     int userId = (int) user.getUserId();
                     String sessionId = user.getSessionId();
-
-                    mFriendPresenter.reqeust(userId, sessionId, phone);
+                    if (length == 11) {
+                        mFriendPresenter.reqeust(userId, sessionId, phone);
+                    }
                 } else {
                     mFriend.setVisibility(View.GONE);
                     mFruitless.setVisibility(View.GONE);

@@ -55,6 +55,7 @@ public class MessageFragment extends WDFragment {
     List<Fragment> mList;
     @BindView(R.id.add)
     ImageView mAdd;
+    PopupWindow popWindow;
     private EaseConversationListFragment conversationListFragment;
 
     @Override
@@ -164,7 +165,7 @@ public class MessageFragment extends WDFragment {
         if (WDApplication.getAppContext().getUserDao().loadAll().size()>0){
             View inflate = View.inflate(getActivity(), R.layout.activity_pop_window, null);
 
-            PopupWindow popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
+            popWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT, true);
 
             popWindow.setTouchable(true);
@@ -187,6 +188,7 @@ public class MessageFragment extends WDFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FridendAddActivity.class);
                 startActivity(intent);
+                popWindow.dismiss();
             }
         });
         mGroup.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +196,7 @@ public class MessageFragment extends WDFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateGroupActivity.class);
                 startActivity(intent);
+                popWindow.dismiss();
             }
         });
     }

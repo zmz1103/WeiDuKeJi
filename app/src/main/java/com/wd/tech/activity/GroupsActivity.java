@@ -38,7 +38,7 @@ public class GroupsActivity extends WDActivity{
 
     GroupsPresenter mGroupsPresenter;
     private GroupsAdapter mAdapter;
-    private String nameGrouping;
+
     private AlertDialog alertDialog;
 
     @Override
@@ -74,26 +74,23 @@ public class GroupsActivity extends WDActivity{
 
 
         builder.setView(inflate);
+
         alertDialog = builder.create();
-        EditText editText = inflate.findViewById(R.id.new_groups_name);
+
+        final EditText editText = inflate.findViewById(R.id.new_groups_name);
 
         TextView cancel = inflate.findViewById(R.id.new_groups_cancel);
 
         TextView confirm = inflate.findViewById(R.id.new_groups_confirm);
 
-
-
-        nameGrouping = editText.getText().toString();
-
-
-
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String nameGrouping = editText.getText().toString();
                     if (nameGrouping.isEmpty()){
-                        Toast.makeText(GroupsActivity.this, "分组名", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupsActivity.this, "分组名"+nameGrouping, Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(GroupsActivity.this, "创建成功", Toast.LENGTH_SHORT).show();
+
                     }
 
                 }

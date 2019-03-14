@@ -10,12 +10,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -123,6 +125,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
@@ -159,6 +164,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        Snack();
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
@@ -198,8 +204,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
-        users = WDApplication.getAppContext().getUserDao().loadAll();
-        if (users.size() == 0) {
+        this.users = WDApplication.getAppContext().getUserDao().loadAll();
+        if (this.users.size() == 0) {
             noUserLogin();
         } else {
             haveUserLogin();
@@ -222,12 +228,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 //底布局跟着移动
                 mRight.setTranslationX(drawerView.getMeasuredWidth() * slideOffset);
                 //主界面布局移动，移动长度等于抽屉的移动长度
-
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-
             }
 
             @Override
@@ -236,6 +240,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 mCLayout.setTranslationX(0F);
                 //底布局跟着移动
                 mRight.setTranslationX(0F);
+
             }
 
             @Override
@@ -243,6 +248,27 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
+
+    private void Snack() {
+        List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
+        Log.e("zmz",users+""+users.size());
+        if (users.size()==0){
+            View cv = getWindow().getDecorView();
+            Snackbar sb = Snackbar.make(cv, "未登录", Snackbar.LENGTH_LONG)
+                    .setAction("去登录", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            sb.setActionTextColor(Color.YELLOW);
+            View sna = sb.getView();
+            TextView tv = (TextView) sna.findViewById(R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            sb.show();
+        }
     }
 
     private class getUserById implements DataCall<Result<GetUserBean>> {
@@ -280,6 +306,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
+        Snack();
     }
 
     private int mFlag = 0;
@@ -472,6 +499,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     FragmentTransaction transaction2 = mManager.beginTransaction();
                     transaction2.replace(R.id.frame, mHomeFragment, "home");
                     transaction2.commit();
+                    Snack();
                     break;
                 case R.id.community:
                     mCurrentFragmentId = R.id.community;
@@ -481,6 +509,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     FragmentTransaction transaction3 = mManager.beginTransaction();
                     transaction3.replace(R.id.frame, mCommunityFragment, "community");
                     transaction3.commit();
+                    Snack();
                     break;
             }
         } else {

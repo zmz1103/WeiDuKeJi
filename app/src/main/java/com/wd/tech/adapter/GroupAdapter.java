@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wd.tech.R;
@@ -117,7 +118,7 @@ public class GroupAdapter extends BaseAdapter {
                 });
                 break;
 
-            default:
+            case 3:
 
                 FriendHolder friendHolder;
 
@@ -147,7 +148,7 @@ public class GroupAdapter extends BaseAdapter {
 
                         String name = mGroupList.get(groupPosition).getFriendInfoList().get(childPosition).getUserName();
 
-                        onClickChildListenter.onClick(mid,name);
+                        onClickChildListenter.onClick(mid, name);
 
                         return true;
                     }
@@ -156,6 +157,19 @@ public class GroupAdapter extends BaseAdapter {
                 expandableAdapter.addAll(mGroupList);
                 expandableAdapter.notifyDataSetChanged();
                 break;
+                default:
+                    ViewHolder holde;
+                    if (convertView == null) {
+                        holde = new ViewHolder();
+                        convertView = View.inflate(context, R.layout.activity_search_item, null);
+                        holde.relative = convertView.findViewById(R.id.relative);
+                        convertView.setTag(holde);
+                    } else {
+                        holde = (ViewHolder) convertView.getTag();
+                    }
+                    holde.relative.setVisibility(View.GONE);
+
+                    break;
         }
 
         return convertView;
@@ -164,23 +178,22 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        if (mList.get(position).getGroupName() != null) {
+        if (mGroupList.get(0).getGroupName() != null && position == 3) {
             return 3;
-        }
-        if (position == 1) {
+        } else if (position == 1) {
             return 1;
-        }
-        if (position == 2) {
+        } else if (position == 0) {
+            return 0;
+        }else if (position == 2){
             return 2;
         }
-        return 0;
-
+        return 4;
     }
 
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return 5;
     }
 
     public void addAll(List<Group> groupList, List<Group> mGroup) {
@@ -205,7 +218,8 @@ public class GroupAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        EditText editText;
+        TextView editText;
+        RelativeLayout relative;
     }
 
     class ClusterHolder {
@@ -219,10 +233,11 @@ public class GroupAdapter extends BaseAdapter {
     class FriendHolder {
         ExpandableListView expandableListView;
     }
+
     private OnClickChildListenter onClickChildListenter;
 
-    public interface OnClickChildListenter{
-        void onClick(int mid,String name);
+    public interface OnClickChildListenter {
+        void onClick(int mid, String name);
     }
 
     public void setOnClickChildListenter(OnClickChildListenter onClickChildListenter) {
