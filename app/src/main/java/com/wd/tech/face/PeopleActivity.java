@@ -290,6 +290,8 @@ public class PeopleActivity extends Activity implements SurfaceHolder.Callback {
                                     mRegisterViewAdapter.notifyDataSetChanged();
                                     dialog.dismiss();
 
+                                    Log.v("faceIDdddddddddd",""+mAFR_FSDKFace.getFeatureData());
+                                    Log.v("faceIDdddddddddd",""+mAFR_FSDKFace.getFeatureData().toString());
                                     // 调用接口
                                     if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
                                         User user = WDApplication.getAppContext().getUserDao().loadAll().get(0);

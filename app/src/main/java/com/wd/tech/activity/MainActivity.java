@@ -169,34 +169,34 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                 // 人脸登录
                 if (((WDApplication) getApplicationContext()).mFaceDB.mRegister.isEmpty()) {
                     Toast.makeText(this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
-                    new AlertDialog.Builder(this)
-                            .setTitle("请选择注册方式")
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .setItems(new String[]{"打开图片", "拍摄照片"}, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case 1:
-                                            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                                            ContentValues values = new ContentValues(1);
-                                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                                            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                                            ((WDApplication) (MainActivity.this.getApplicationContext())).setCaptureImage(uri);
-                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                            startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
-                                            break;
-                                        case 0:
-                                            Intent getImageByalbum = new Intent(Intent.ACTION_GET_CONTENT);
-                                            getImageByalbum.addCategory(Intent.CATEGORY_OPENABLE);
-                                            getImageByalbum.setType("image/jpeg");
-                                            startActivityForResult(getImageByalbum, REQUEST_CODE_IMAGE_OP);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                            })
-                            .show();
+//                    new AlertDialog.Builder(this)
+//                            .setTitle("请选择注册方式")
+//                            .setIcon(android.R.drawable.ic_dialog_info)
+//                            .setItems(new String[]{"打开图片", "拍摄照片"}, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    switch (which) {
+//                                        case 1:
+//                                            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//                                            ContentValues values = new ContentValues(1);
+//                                            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//                                            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//                                            ((WDApplication) (MainActivity.this.getApplicationContext())).setCaptureImage(uri);
+//                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//                                            startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
+//                                            break;
+//                                        case 0:
+//                                            Intent getImageByalbum = new Intent(Intent.ACTION_GET_CONTENT);
+//                                            getImageByalbum.addCategory(Intent.CATEGORY_OPENABLE);
+//                                            getImageByalbum.setType("image/jpeg");
+//                                            startActivityForResult(getImageByalbum, REQUEST_CODE_IMAGE_OP);
+//                                            break;
+//                                        default:
+//                                            break;
+//                                    }
+//                                }
+//                            })
+//                            .show();
                 } else {
                     new AlertDialog.Builder(this)
                             .setTitle("请选择相机")
@@ -219,7 +219,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     private void startDetector(int camera) {
         Intent it = new Intent(MainActivity.this, DetecterActivity.class);
         it.putExtra("Camera", camera);
-        startActivity(it );
+        startActivity(it);
         finish();
     }
 
