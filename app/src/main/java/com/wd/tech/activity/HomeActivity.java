@@ -430,7 +430,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
-        if (NetWorkUtils.isNetworkAvailable(WDApplication.getAppContext())) {
             switch (view.getId()) {
                 case R.id.my_icon:
                     startActivity(new Intent(HomeActivity.this, MyUpdateUserMessageActivity.class));
@@ -509,12 +508,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     transaction3.commit();
                     break;
             }
-        } else {
-            toast = Toast.makeText(WDApplication.getAppContext(), "ffff请检查网络", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-            startActivity(new Intent(WDApplication.getAppContext(), NoNetWorkActivity.class));
-        }
+
     }
 
     @Override
