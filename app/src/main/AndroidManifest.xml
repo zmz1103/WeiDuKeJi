@@ -53,7 +53,7 @@
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.wd.tech.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HomeActivity"
@@ -112,7 +112,7 @@
             android:name="com.wd.tech.activity.myactivity.MyUpdateUserMessageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.myactivity.SignActivity"
+            android:name="com.wd.tech.activity.myactivity.SignActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.InterestActivity"

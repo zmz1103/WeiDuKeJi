@@ -126,14 +126,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Toast toast;
 
 
-    private int i=3;
-    Handler handler = new Handler(){
+    private int i = 3;
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (i == 1) {
                     return;
-                }else{
+                } else {
                     i--;
                     onResume();
                 }
@@ -271,8 +271,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void Snack() {
         List<User> users = WDApplication.getAppContext().getUserDao().loadAll();
-        Log.e("zmz",users+""+users.size());
-        if (users.size()==0){
+        Log.e("zmz", users + "" + users.size());
+        if (users.size() == 0) {
             View cv = getWindow().getDecorView();
             Snackbar sb = Snackbar.make(cv, "未登录", Snackbar.LENGTH_LONG)
                     .setAction("去登录", new View.OnClickListener() {
@@ -325,7 +325,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             haveUserLogin();
         }
-        handler.sendEmptyMessageDelayed(1,10000);
+        handler.sendEmptyMessageDelayed(1, 10000);
         Snack();
     }
 
@@ -339,9 +339,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             mFlag = 1;
             //获取当前系统时间
             mTime1 = System.currentTimeMillis();
-             toast=Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT);
-             toast.setGravity(Gravity.CENTER,0,0);
-             toast.show();
+            toast = Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         } else if (keyCode == KeyEvent.KEYCODE_BACK && mFlag == 1) {
             mTime2 = System.currentTimeMillis();
             if (mTime2 - mTime1 < 2500) {
@@ -358,7 +358,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mGetUserBeanPresenter=null;
+        mGetUserBeanPresenter = null;
         handler.removeCallbacksAndMessages(null);
     }
 
@@ -457,86 +457,87 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             R.id.my_image_sign, R.id.qdtext, R.id.my_icon, R.id.my_signature})
     void dian(View view) {
         // 判断是否有网
-            switch (view.getId()) {
-                case R.id.my_icon:
-                    startActivity(new Intent(HomeActivity.this, MyUpdateUserMessageActivity.class));
-                    break;
-                case R.id.my_image_sign:
-                    // 签到
-                    startActivity(new Intent(HomeActivity.this, SignActivity.class));
-                    break;
-                case R.id.linear_my_attention:
-                    // 关注
-                    startActivity(new Intent(HomeActivity.this, MyAttentionActivity.class));
-                    break;
-                case R.id.linear_my_collect:
-                    // 收藏
-                    startActivity(new Intent(HomeActivity.this, MyCollectActivity.class));
-                    break;
-                case R.id.linear_my_card:
-                    // 我的帖子
-                    startActivity(new Intent(HomeActivity.this, MyCardActivity.class));
-                    break;
-                case R.id.linear_my_notice:
-                    // 通知
-                    startActivity(new Intent(HomeActivity.this, MyNoticeActivity.class));
-                    break;
-                case R.id.linear_my_integral:
-                    // 我的积分
-                    startActivity(new Intent(HomeActivity.this, MyInteGralActivity.class));
-                    break;
-                case R.id.linear_my_task:
-                    // 任务
-                    startActivity(new Intent(HomeActivity.this, MyTaskActivity.class));
-                    break;
-                case R.id.linear_my_setting:
-                    // 设置
-                    startActivity(new Intent(HomeActivity.this, MySettingActivity.class));
-                    break;
-                case R.id.my_signature:
-                    // 更换签名
-                    startActivity(new Intent(HomeActivity.this, PublishSingActivity.class));
-                    break;
-                default:
-                    break;
+        switch (view.getId()) {
+            case R.id.my_icon:
+                startActivity(new Intent(HomeActivity.this, MyUpdateUserMessageActivity.class));
+                break;
+            case R.id.my_image_sign:
+                // 签到
+                startActivity(new Intent(HomeActivity.this, SignActivity.class));
+                break;
+            case R.id.linear_my_attention:
+                // 关注
+                startActivity(new Intent(HomeActivity.this, MyAttentionActivity.class));
+                break;
+            case R.id.linear_my_collect:
+                // 收藏
+                startActivity(new Intent(HomeActivity.this, MyCollectActivity.class));
+                break;
+            case R.id.linear_my_card:
+                // 我的帖子
+                startActivity(new Intent(HomeActivity.this, MyCardActivity.class));
+                break;
+            case R.id.linear_my_notice:
+                // 通知
+                startActivity(new Intent(HomeActivity.this, MyNoticeActivity.class));
+                break;
+            case R.id.linear_my_integral:
+                // 我的积分
+                startActivity(new Intent(HomeActivity.this, MyInteGralActivity.class));
+                break;
+            case R.id.linear_my_task:
+                // 任务
+                startActivity(new Intent(HomeActivity.this, MyTaskActivity.class));
+                break;
+            case R.id.linear_my_setting:
+                // 设置
+                startActivity(new Intent(HomeActivity.this, MySettingActivity.class));
+                break;
+            case R.id.my_signature:
+                // 更换签名
+                startActivity(new Intent(HomeActivity.this, PublishSingActivity.class));
+                break;
+            default:
+                break;
 
-                case R.id.Message:
-                    if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
-                        mCurrentFragmentId = R.id.Message;
-                        mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
-                        mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
-                        FragmentTransaction transaction1 = mManager.beginTransaction();
-                        transaction1.replace(R.id.frame, mMessageFragment, "message");
-                        transaction1.commit();
-                    } else {
-                        mClickFragmentId = R.id.Message;
-                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
+            case R.id.Message:
 
-                    break;
-                case R.id.Information:
-                    mCurrentFragmentId = R.id.Information;
-                    mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
+                    mCurrentFragmentId = R.id.Message;
+                    mMessage.setTextColor(getResources().getColorStateList(R.color.color_Text));
                     mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
-                    mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
-                    FragmentTransaction transaction2 = mManager.beginTransaction();
-                    transaction2.replace(R.id.frame, mHomeFragment, "home");
-                    transaction2.commit();
-                    Snack();
-                    break;
-                case R.id.community:
-                    mCurrentFragmentId = R.id.community;
-                    mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
-                    mCommunity.setTextColor(getResources().getColorStateList(R.color.color_Text));
                     mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
-                    FragmentTransaction transaction3 = mManager.beginTransaction();
-                    transaction3.replace(R.id.frame, mCommunityFragment, "community");
-                    transaction3.commit();
-                    Snack();
-                    break;
-            }
+                    FragmentTransaction transaction1 = mManager.beginTransaction();
+                    transaction1.replace(R.id.frame, mMessageFragment, "message");
+                    transaction1.commit();
+                } else {
+                    mClickFragmentId = R.id.Message;
+                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+                break;
+            case R.id.Information:
+                mCurrentFragmentId = R.id.Information;
+                mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mCommunity.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mInformation.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                FragmentTransaction transaction2 = mManager.beginTransaction();
+                transaction2.replace(R.id.frame, mHomeFragment, "home");
+                transaction2.commit();
+                Snack();
+                break;
+            case R.id.community:
+                mCurrentFragmentId = R.id.community;
+                mMessage.setTextColor(getResources().getColorStateList(R.color.colorText));
+                mCommunity.setTextColor(getResources().getColorStateList(R.color.color_Text));
+                mInformation.setTextColor(getResources().getColorStateList(R.color.colorText));
+                FragmentTransaction transaction3 = mManager.beginTransaction();
+                transaction3.replace(R.id.frame, mCommunityFragment, "community");
+                transaction3.commit();
+                Snack();
+                break;
+        }
 
     }
 
