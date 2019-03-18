@@ -17,6 +17,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -46,24 +47,17 @@ import com.wd.tech.util.WeiXinUtil;
 import com.wd.tech.view.DataCall;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
-public class MainActivity extends WDActivity implements CustomAdapt {
+public class MainActivity extends AppCompatActivity implements CustomAdapt {
 
     private LoginPresenter mLoginPresenter;
 
     private static final int REQUEST_CODE_OP = 3;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
-            finish();
-            return;
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -74,11 +68,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-    }
 
     @Override
     protected void onRestart() {
@@ -90,13 +80,20 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     }
 
     @Override
-    protected int getLayoutId() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (WDApplication.getAppContext().getUserDao().loadAll().size() > 0) {
             finish();
-            return R.layout.activity_main;
+            return;
         }
-        return R.layout.activity_main;
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        mEpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        isHide = true;
+        mLoginPresenter = new LoginPresenter(new loginCall());
     }
+
+
 
     @BindView(R.id.et_pwd_number)
     EditText mEpwd;
@@ -104,13 +101,7 @@ public class MainActivity extends WDActivity implements CustomAdapt {
     EditText mEtel;
     boolean isHide;
 
-    @Override
-    protected void initView() {
-        // 设置密码不可见
-        mEpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        isHide = true;
-        mLoginPresenter = new LoginPresenter(new loginCall());
-    }
+
     private static final int REQUEST_CODE_IMAGE_CAMERA = 1;
     private static final int REQUEST_CODE_IMAGE_OP = 2;
     @OnClick({R.id.eye, R.id.toReagist, R.id.weixinLogin, R.id.faseIdLogin, R.id.login_btn})
@@ -208,7 +199,6 @@ public class MainActivity extends WDActivity implements CustomAdapt {
                             })
                             .show();
                 }
-
                 break;
             default:
                 break;
@@ -220,11 +210,6 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         it.putExtra("Camera", camera);
         startActivity(it);
         finish();
-    }
-
-    @Override
-    protected void destoryData() {
-        mLoginPresenter=null;
     }
 
     private final String TAG = this.getClass().toString();
@@ -426,5 +411,11 @@ public class MainActivity extends WDActivity implements CustomAdapt {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginPresenter=null;
     }
 }

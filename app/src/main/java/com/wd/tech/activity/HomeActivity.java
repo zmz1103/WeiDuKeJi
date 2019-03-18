@@ -168,15 +168,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mManager = getSupportFragmentManager();
             mHomeFragment = (HomeFragment) mManager.findFragmentByTag("home");
             mMessageFragment = (MessageFragment) mManager.findFragmentByTag("message");
             mCommunityFragment = (CommunityFragment) mManager.findFragmentByTag("community");
-            mNoUserFragment = (NoUserFragment) mManager.findFragmentByTag("nouser");
-            mHaveUserFragment = (HaveUserFragment) mManager.findFragmentByTag("haveuser");
+//            mNoUserFragment = (NoUserFragment) mManager.findFragmentByTag("nouser");
+//            mHaveUserFragment = (HaveUserFragment) mManager.findFragmentByTag("haveuser");
         }
-        super.onCreate(savedInstanceState);
+
         if (mTime2 > 0) {
             finish();
         }
@@ -318,7 +319,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        super.onResume();
+
 
         if (WDApplication.getAppContext().getUserDao().loadAll().size() == 0) {
             noUserLogin();
@@ -327,6 +328,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         handler.sendEmptyMessageDelayed(1, 10000);
         Snack();
+        super.onResume();
     }
 
     private int mFlag = 0;
