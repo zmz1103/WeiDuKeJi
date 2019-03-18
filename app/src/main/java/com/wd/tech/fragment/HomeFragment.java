@@ -428,9 +428,7 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
 
                 mInformationAdapter.notifyItemChanged(mI);
 
-                toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                SnackbarUtils.Short(getView(),result.getMessage()).show();
             }
         }
 
@@ -445,9 +443,9 @@ public class HomeFragment extends WDFragment implements CustomAdapt {
         public void success(Result result) {
             if (result.getStatus().equals("0000")) {
                 mInformationAdapter.notifyItemChanged(mI);
-                toast = Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                SnackbarUtils.Short(getView(),result.getMessage()).show();
+
+
             }
         }
 
