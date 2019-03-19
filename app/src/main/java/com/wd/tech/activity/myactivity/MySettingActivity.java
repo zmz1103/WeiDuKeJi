@@ -378,7 +378,7 @@ public class MySettingActivity extends WDActivity {
                     mBirthday.setText(ToDate.timedate(result.getResult().getBirthday()));
                 }
 
-                mSettingIcon.setImageURI(WDApplication.getAppContext().getUserDao().loadAll().get(0).getHeadPic());
+                mSettingIcon.setImageURI(result.getResult().getHeadPic());
                 mSettingNickName.setText(result.getResult().getNickName());
                 if (result.getResult().getSex() == 1) {
                     mSettingSex.setText("男");
